@@ -53,7 +53,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .banner-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:14px;padding-block:16px 14px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
 .banner .org{font-size:11px;opacity:.85;letter-spacing:.4px;}
-.banner .tit{font-family:var(--serif);font-size:25px;font-weight:700;letter-spacing:7px;line-height:1.25;}
+.banner .tit{font-family:var(--sans);font-size:25px;font-weight:700;letter-spacing:7px;line-height:1.25;}
 .banner .sub{font-size:11px;opacity:.8;margin-top:2px;}
 .vtag{display:inline-block;background:rgba(255,255,255,.22);border-radius:4px;padding:1px 6px;
   font-size:10px;font-weight:700;letter-spacing:.5px;margin-left:4px;}
@@ -305,6 +305,16 @@ a.lname:hover{text-decoration:underline;}
   background:var(--ink);color:var(--paper);padding:10px 20px;border-radius:99px;font-size:12.5px;font-weight:500;
   z-index:90;transition:transform .25s;pointer-events:none;max-width:88vw;text-align:center;}
 #toast.on{transform:translateX(-50%) translateY(0);}
+/* 화면 선택 (모바일 / PC) */
+.vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
+.vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
+.vsel button[aria-pressed="true"]{background:var(--red);color:#fff;}
+body.vm .nav-inner,body.vm .banner-inner,body.vm .wire,body.vm .wrap{max-width:430px;}
+body.vm .grid2{grid-template-columns:1fr;}
+body.vm .stats4{grid-template-columns:repeat(2,1fr);}
+body.vm .pgrid{grid-template-columns:repeat(3,1fr);}
+body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-width:1100px;}
+@media (min-width:900px){ body.vpc .pgrid{grid-template-columns:repeat(6,1fr);} }
 @media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
 </style>
 </head>
@@ -363,7 +373,7 @@ a.lname:hover{text-decoration:underline;}
     <div>
       <div class="org">대한적십자사 서울특별지사 재난대응봉사회</div>
       <div class="tit" style="letter-spacing:.5px;font-size:21px">RCSEOUL NDRT 포털</div>
-      <div class="sub">현황 · 일정 · 사진 · 위임장<span class="vtag">v3.2</span></div>
+      <div class="sub">현황 · 일정 · 사진 · 위임장<span class="vtag">v3.3</span></div>
     </div>
     <div class="who-chip" id="whoChip" hidden>
       <span class="who-name" id="whoName"></span>
@@ -373,7 +383,8 @@ a.lname:hover{text-decoration:underline;}
 </header>
 
 <div class="wire"><span class="dot" id="dot"></span><span id="wire">접속 확인 중…</span>
-  <button class="btn btn-s" type="button" id="btnRetry" style="margin-left:auto;padding:4px 10px;font-size:11px;" hidden>다시 시도</button>
+  <span class="vsel" role="group" aria-label="화면 선택"><button type="button" id="vM" aria-pressed="true">모바일</button><button type="button" id="vP" aria-pressed="false">PC</button></span>
+  <button class="btn btn-s" type="button" id="btnRetry" style="padding:4px 10px;font-size:11px;" hidden>다시 시도</button>
 </div>
 
 <main class="wrap">
@@ -1814,6 +1825,19 @@ function renderPortal(){
 
   renderLogs();
 }
+
+/* 화면 선택: 처음은 모바일, 고른 값은 이 기기에 기억 */
+function setView(v){
+  v=(v==="pc")?"pc":"m";
+  document.body.classList.toggle("vm",v==="m");
+  document.body.classList.toggle("vpc",v==="pc");
+  $("vM").setAttribute("aria-pressed",v==="m"?"true":"false");
+  $("vP").setAttribute("aria-pressed",v==="pc"?"true":"false");
+  try{ localStorage.setItem("ndrt_view",v); }catch(e){}
+}
+$("vM").addEventListener("click",function(){ setView("m"); });
+$("vP").addEventListener("click",function(){ setView("pc"); });
+(function(){ var v="m"; try{ v=localStorage.getItem("ndrt_view")||"m"; }catch(e){} setView(v); })();
 
 (function boot(){ render(); renderMembers(); updateGateNote(); renderPortal(); connect(); })();
 })();
