@@ -313,12 +313,12 @@ a.lname:hover{text-decoration:underline;}
 <div class="gate" id="gate">
   <div class="gate-card">
     <svg width="52" height="52" viewBox="0 0 90 90" aria-hidden="true">
-      <rect width="90" height="90" rx="6" fill="#CE1126"/>
-      <rect x="33" y="13" width="24" height="24" fill="#fff"/>
-      <rect x="13" y="33" width="24" height="24" fill="#fff"/>
-      <rect x="33" y="33" width="24" height="24" fill="#fff"/>
-      <rect x="53" y="33" width="24" height="24" fill="#fff"/>
-      <rect x="33" y="53" width="24" height="24" fill="#fff"/>
+      <rect x="1" y="1" width="88" height="88" rx="6" fill="#fff" stroke="#E3C4C9" stroke-width="2"/>
+      <rect x="33" y="13" width="24" height="24" fill="#CE1126"/>
+      <rect x="13" y="33" width="24" height="24" fill="#CE1126"/>
+      <rect x="33" y="33" width="24" height="24" fill="#CE1126"/>
+      <rect x="53" y="33" width="24" height="24" fill="#CE1126"/>
+      <rect x="33" y="53" width="24" height="24" fill="#CE1126"/>
     </svg>
     <div class="gate-org">대한적십자사 서울특별지사 재난대응봉사회</div>
     <div class="gate-tit" style="letter-spacing:1px">RCSEOUL NDRT 포털</div>
@@ -363,7 +363,7 @@ a.lname:hover{text-decoration:underline;}
     <div>
       <div class="org">대한적십자사 서울특별지사 재난대응봉사회</div>
       <div class="tit" style="letter-spacing:.5px;font-size:21px">RCSEOUL NDRT 포털</div>
-      <div class="sub">현황 · 일정 · 사진 · 위임장<span class="vtag">v3.0</span></div>
+      <div class="sub">현황 · 일정 · 사진 · 위임장<span class="vtag">v3.1</span></div>
     </div>
     <div class="who-chip" id="whoChip" hidden>
       <span class="who-name" id="whoName"></span>
@@ -675,18 +675,18 @@ a.lname:hover{text-decoration:underline;}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script type="module">
-/* Firebase 연결 (재난대응봉사회 전용 프로젝트 rcnet-328bf) */
+/* Firebase 연결 (재난대응봉사회 전용 프로젝트 hl0frc-ai) */
 import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, doc, getDocs, addDoc, setDoc, deleteDoc, onSnapshot }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig = {
-  apiKey:            "AIzaSyA1CEI2LCYvc629Vb4DtWIufh2rScWoHoo",
-  authDomain:        "rcnet-328bf.firebaseapp.com",
-  projectId:         "rcnet-328bf",
-  storageBucket:     "rcnet-328bf.firebasestorage.app",
-  messagingSenderId: "916875307536",
-  appId:             "1:916875307536:web:0ecac6ac47079a13ce7895"
+  apiKey:            "AIzaSyDub2cXK5h08LuAYq0Qk6I_KkfzgSMwnI4",
+  authDomain:        "hl0frc-ai.firebaseapp.com",
+  projectId:         "hl0frc-ai",
+  storageBucket:     "hl0frc-ai.firebasestorage.app",
+  messagingSenderId: "227854541265",
+  appId:             "1:227854541265:web:0385884dff3b47dba900f0"
 };
 function wrap(fdb){
   function pack(s){ var out=[]; s.forEach(function(d){ out.push({id:d.id,data:function(){return d.data();}}); }); return {docs:out}; }
