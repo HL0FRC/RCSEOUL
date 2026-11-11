@@ -363,7 +363,7 @@ a.lname:hover{text-decoration:underline;}
     <div>
       <div class="org">대한적십자사 서울특별지사 재난대응봉사회</div>
       <div class="tit" style="letter-spacing:.5px;font-size:21px">RCSEOUL NDRT 포털</div>
-      <div class="sub">현황 · 일정 · 사진 · 위임장<span class="vtag">v3.1</span></div>
+      <div class="sub">현황 · 일정 · 사진 · 위임장<span class="vtag">v3.2</span></div>
     </div>
     <div class="who-chip" id="whoChip" hidden>
       <span class="who-name" id="whoName"></span>
@@ -691,6 +691,7 @@ const firebaseConfig = {
 function wrap(fdb){
   function pack(s){ var out=[]; s.forEach(function(d){ out.push({id:d.id,data:function(){return d.data();}}); }); return {docs:out}; }
   return { collection:function(p){
+    p="ndrt_"+p; /* 같은 프로젝트의 기존 컬렉션(documents·inputs·members)과 섞이지 않게 포털 전용 이름 사용 */
     var cref=collection(fdb,p);
     return {
       get:function(){ return getDocs(cref).then(pack); },
