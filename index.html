@@ -326,6 +326,14 @@ body.vm .tab .lf{display:none;} body.vm .tab .ls{display:inline;}
 .gate-keep input{width:16px;height:16px;accent-color:var(--red);flex:0 0 auto;}
 /* 요약현황 전체 명단: 성명 칸은 줄바꿈하지 않는다 */
 #tbAll td:nth-child(2){white-space:nowrap;}
+/* 현황 박스는 누르면 해당 메뉴로 이동 */
+button.stat{font-family:var(--sans);color:inherit;cursor:pointer;width:100%;}
+button.stat:hover{border-color:var(--red);}
+/* 반복·기념일 표시, 캘린더 추가 */
+.tagr{display:inline-block;background:var(--red-wash);color:var(--red);border:1px solid var(--red-line);border-radius:99px;padding:0 7px;font-size:10px;font-weight:700;margin-left:6px;vertical-align:1px;}
+.calbtn{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--red);background:none;border:0;padding:3px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+.calopts{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;align-items:center;}
+.calopts .go{padding:6px 11px;font-size:12px;text-decoration:none;}
 /* 화면 선택 (모바일 / PC) */
 .vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
 .vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
@@ -401,7 +409,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v3.9</span>
+        <span class="vtag">v4.0</span>
       </div>
     </div>
   </div>
@@ -432,10 +440,15 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
         <div class="f"><label class="lbl" for="plDate">날 짜 <span class="req">*</span></label><input class="inp" id="plDate" type="date"></div>
         <div class="f"><label class="lbl" for="plTime">시 간</label><input class="inp" id="plTime" type="text" placeholder="예) 14:00~17:00"></div>
       </div>
-      <div class="f"><label class="lbl" for="plTitle">활동명 <span class="req">*</span></label><input class="inp" id="plTitle" type="text" placeholder="예) 11월 월례회"></div>
+      <div class="f"><label class="lbl" for="plTitle">활동명 <span class="req">*</span></label><input class="inp" id="plTitle" type="text" placeholder="예) 11월 월례회, 개국기념일"></div>
       <div class="grid2">
         <div class="f"><label class="lbl" for="plPlace">장 소</label><input class="inp" id="plPlace" type="text" placeholder="예) 서울지사 4층"></div>
         <div class="f"><label class="lbl" for="plMemo">비 고</label><input class="inp" id="plMemo" type="text" placeholder="준비물·담당 등"></div>
+      </div>
+      <div class="grid2">
+        <div class="f"><label class="lbl" for="plRep">반 복</label>
+          <select class="inp" id="plRep"><option value="">반복 없음</option><option value="weekly">매주 반복</option><option value="yearly">기념일 (매년)</option></select></div>
+        <div class="f" id="plUntilF" hidden><label class="lbl" for="plUntil">매주 반복 종료일 (비우면 계속)</label><input class="inp" id="plUntil" type="date"></div>
       </div>
       <div style="display:flex;gap:8px;">
         <button class="btn btn-main" type="button" id="plSave" style="flex:1">계획 저장</button>
@@ -811,7 +824,14 @@ document.querySelectorAll(".stab").forEach(function(b){
     ["form","list","sum"].forEach(function(k){$("p-"+k).hidden=(k!==b.dataset.s);});
   });
 });
-function goTab(p){ var t=document.querySelector('.tab[data-p="'+p+'"]'); if(t)t.click(); }
+function goTab(p,sub){
+  var t=document.querySelector('.tab[data-p="'+p+'"]');
+  if(!t)return;
+  if(t.hidden){ toast("이 메뉴는 총무만 볼 수 있습니다"); return; }
+  t.click();
+  if(sub){ var s=document.querySelector('.stab[data-s="'+sub+'"]'); if(s)s.click(); }
+  window.scrollTo(0,0);
+}
 
 /* ───── 로그인 ───── */
 function gmsg(m){ $("gMsg").textContent=m||""; }
@@ -1535,7 +1555,7 @@ async function delDoc(col,id){
 }
 document.querySelector("main").addEventListener("click",function(e){
   var g=e.target.closest("[data-go]");
-  if(g){ goTab(g.dataset.go); return; }
+  if(g){ goTab(g.dataset.go,g.dataset.sub); return; }
   var ph=e.target.closest("[data-ph]");
   if(ph){ openPhoto(ph.dataset.ph); return; }
   var t=e.target.closest("[data-del]");
@@ -1549,6 +1569,82 @@ function dday(date){
   var n=Math.round((a-b)/86400000);
   return n===0?"오늘":n>0?"D-"+n:"";
 }
+function ymdAdd(s,n){ var d=new Date(s+"T00:00:00"); d.setDate(d.getDate()+n); return ymd(d); }
+/* 한 계획이 from~to 사이에 열리는 날짜들 (매주 반복·기념일 포함) */
+function occOf(p,from,to){
+  var out=[]; if(!p||!p.date)return out;
+  if(p.rep==="weekly"){
+    var end=(p.until&&p.until<to)?p.until:to;
+    var d=new Date(p.date+"T00:00:00"),f=new Date(from+"T00:00:00");
+    if(d<f){ var k=Math.ceil(Math.round((f-d)/86400000)/7); d.setDate(d.getDate()+7*k); }
+    for(var i=0;i<400&&ymd(d)<=end;i++){ out.push(ymd(d)); d.setDate(d.getDate()+7); }
+  }else if(p.rep==="yearly"){
+    var md=p.date.slice(4),y0=+p.date.slice(0,4);
+    for(var y=Math.max(y0,+from.slice(0,4));y<=+to.slice(0,4);y++){
+      var s=y+md,t=new Date(s+"T00:00:00");
+      if(!isNaN(t.getTime())&&ymd(t)===s&&s>=from&&s<=to)out.push(s);
+    }
+  }else if(p.date>=from&&p.date<=to){ out.push(p.date); }
+  return out;
+}
+function occs(from,to){
+  var o=[];
+  D.plans.forEach(function(p){ occOf(p,from,to).forEach(function(dt){ var c={}; for(var k in p)c[k]=p[k]; c.date=dt; c.base=p.date; o.push(c); }); });
+  return o;
+}
+/* 캘린더에 추가: 구글 캘린더 링크와 .ics 파일 (시간은 한국시간 기준) */
+function calTimes(p){
+  var m=String(p.time||"").match(/\d{1,2}:\d{2}/g)||[];
+  var y=+p.date.slice(0,4),mo=+p.date.slice(5,7),d=+p.date.slice(8,10);
+  function z(dt){ return dt.getUTCFullYear()+pad2(dt.getUTCMonth()+1)+pad2(dt.getUTCDate())+"T"+pad2(dt.getUTCHours())+pad2(dt.getUTCMinutes())+"00Z"; }
+  if(!m.length||p.rep==="yearly"){
+    var n=new Date(Date.UTC(y,mo-1,d+1));
+    return {all:true,s:p.date.replace(/-/g,""),e:n.getUTCFullYear()+pad2(n.getUTCMonth()+1)+pad2(n.getUTCDate())};
+  }
+  var a=m[0].split(":"),s=new Date(Date.UTC(y,mo-1,d,+a[0]-9,+a[1])),e;
+  if(m[1]){ var b=m[1].split(":"); e=new Date(Date.UTC(y,mo-1,d,+b[0]-9,+b[1])); if(e<=s)e=new Date(s.getTime()+3600000); }
+  else e=new Date(s.getTime()+3600000);
+  return {all:false,s:z(s),e:z(e)};
+}
+function calRule(p,t){
+  if(p.rep==="yearly")return "RRULE:FREQ=YEARLY";
+  if(p.rep==="weekly")return "RRULE:FREQ=WEEKLY"+(p.until?";UNTIL="+p.until.replace(/-/g,"")+(t.all?"":"T145959Z"):"");
+  return "";
+}
+function gcalUrl(p){
+  var t=calTimes(p),r=calRule(p,t);
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(p.title||"")
+    +"&dates="+t.s+"/"+t.e+"&ctz=Asia/Seoul"
+    +(p.place?"&location="+encodeURIComponent(p.place):"")
+    +"&details="+encodeURIComponent([p.memo||"","RCSEOUL NDRT 포털"].filter(Boolean).join("\n"))
+    +(r?"&recur="+encodeURIComponent(r):"");
+}
+function icsText(p){
+  var t=calTimes(p),r=calRule(p,t);
+  function x(s){ return String(s||"").replace(/\\/g,"\\\\").replace(/([,;])/g,"\\$1").replace(/\r?\n/g,"\\n"); }
+  var L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//RCSEOUL NDRT//KO","CALSCALE:GREGORIAN","BEGIN:VEVENT",
+    "UID:"+(p.id||"p")+"-"+t.s+"@rcseoul-ndrt","DTSTAMP:"+new Date().toISOString().replace(/[-:]/g,"").slice(0,15)+"Z",
+    t.all?"DTSTART;VALUE=DATE:"+t.s:"DTSTART:"+t.s, t.all?"DTEND;VALUE=DATE:"+t.e:"DTEND:"+t.e,
+    "SUMMARY:"+x(p.title)];
+  if(p.place)L.push("LOCATION:"+x(p.place));
+  if(p.memo)L.push("DESCRIPTION:"+x(p.memo));
+  if(r)L.push(r);
+  /* 알람: 시간이 있으면 30분 전, 종일 일정은 당일 오전 9시 */
+  L.push("BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+x(p.title),"TRIGGER:"+(t.all?"PT9H":"-PT30M"),"END:VALARM","END:VEVENT","END:VCALENDAR");
+  return L.join("\r\n")+"\r\n";
+}
+document.addEventListener("click",function(e){
+  var b=e.target.closest("[data-cal]"); if(!b)return;
+  var old=b.parentNode.querySelector(".calopts"); if(old){ old.remove(); return; }
+  var a=b.dataset.cal.split("|"),src=D.plans.filter(function(x){ return x.id===a[0]; })[0]; if(!src)return;
+  var p={}; for(var k in src)p[k]=src[k]; p.date=a[1];
+  var url="";
+  try{ url=URL.createObjectURL(new Blob([icsText(p)],{type:"text/calendar;charset=utf-8"})); }catch(err){ console.error(err); }
+  var box=document.createElement("div"); box.className="calopts";
+  box.innerHTML='<a class="go" href="'+escA(gcalUrl(p))+'" target="_blank" rel="noopener">구글 캘린더</a>'
+    +(url?'<a class="go" href="'+url+'" download="schedule.ics">폰 캘린더 (.ics)</a>':'');
+  b.insertAdjacentElement("afterend",box);
+});
 function planRow(p,edit,past){
   var d=new Date((p.date||"")+"T00:00:00");
   var ok=!isNaN(d.getTime());
@@ -1557,10 +1653,14 @@ function planRow(p,edit,past){
   if(p.place)meta.push(esc(p.place));
   if(p.memo)meta.push(esc(p.memo));
   var dd=past?"":dday(p.date||"");
+  var tag="";
+  if(p.rep==="weekly")tag='<span class="tagr">매주</span>';
+  if(p.rep==="yearly"){ var yrs=ok?d.getFullYear()-(+String(p.base||p.date).slice(0,4)):0; tag='<span class="tagr">기념일'+(yrs>0?" · "+yrs+"주년":"")+'</span>'; }
   return '<div class="prow'+(past?" past":"")+'">'
     +'<div class="pdate"><b>'+(ok?(d.getMonth()+1)+"/"+d.getDate():"-")+'</b><span>'+(ok?WD[d.getDay()]+"요일":"")+'</span></div>'
-    +'<div class="pbody"><div class="ptitle">'+esc(p.title||"")+(dd?'<span class="dday">'+dd+'</span>':'')+'</div>'
-    +(meta.length?'<div class="pmeta">'+meta.join(" · ")+'</div>':'')+'</div>'
+    +'<div class="pbody"><div class="ptitle">'+esc(p.title||"")+tag+(dd?'<span class="dday">'+dd+'</span>':'')+'</div>'
+    +(meta.length?'<div class="pmeta">'+meta.join(" · ")+'</div>':'')
+    +(past||!p.id?'':'<button class="calbtn" type="button" data-cal="'+escA(p.id)+'|'+escA(p.date||"")+'">내 캘린더에 추가 (알람)</button>')+'</div>'
     +(edit?'<div class="pacts"><button class="btn btn-s" type="button" data-pedit="'+escA(p.id)+'">수정</button>'
       +'<button class="btn btn-s" type="button" data-del="plans:'+escA(p.id)+'">삭제</button></div>':'')
     +'</div>';
@@ -1569,7 +1669,7 @@ function renderCal(){
   $("calTitle").textContent=calY+"년 "+(calM+1)+"월";
   var first=new Date(calY,calM,1).getDay(),days=new Date(calY,calM+1,0).getDate(),today=ymd(new Date());
   var has={};
-  D.plans.forEach(function(p){ if(p.date)has[p.date]=(has[p.date]||0)+1; });
+  occs(calY+"-"+pad2(calM+1)+"-01",calY+"-"+pad2(calM+1)+"-"+pad2(days)).forEach(function(p){ has[p.date]=(has[p.date]||0)+1; });
   var h=WD.map(function(w){ return '<div class="wd">'+w+'</div>'; }).join("");
   for(var i=0;i<first;i++)h+='<div></div>';
   for(var d=1;d<=days;d++){
@@ -1584,21 +1684,25 @@ $("cal").addEventListener("click",function(e){
   var c=e.target.closest("[data-day]"); if(!c)return;
   var day=c.dataset.day;
   if(canEdit())$("plDate").value=day;
-  var list=D.plans.filter(function(p){ return p.date===day; });
+  var list=occs(day,day);
   if(list.length)toast(list.map(function(p){ return (p.time?p.time+" ":"")+p.title; }).join(" / "));
 });
 function resetPlanForm(){
   planEditId="";
-  ["plDate","plTime","plTitle","plPlace","plMemo"].forEach(function(k){ $(k).value=""; });
+  ["plDate","plTime","plTitle","plPlace","plMemo","plRep","plUntil"].forEach(function(k){ $(k).value=""; });
+  $("plUntilF").hidden=true;
   $("plSave").textContent="계획 저장";
 }
 $("plNew").addEventListener("click",resetPlanForm);
+$("plRep").addEventListener("change",function(){ $("plUntilF").hidden=(this.value!=="weekly"); });
 $("plSave").addEventListener("click",async function(){
   if(!canEdit()){ toast("편집 권한이 없습니다"); return; }
   var rec={date:$("plDate").value,time:$("plTime").value.trim(),title:$("plTitle").value.trim(),
-    place:$("plPlace").value.trim(),memo:$("plMemo").value.trim(),by:meCall,at:new Date().toISOString()};
+    place:$("plPlace").value.trim(),memo:$("plMemo").value.trim(),
+    rep:$("plRep").value,until:($("plRep").value==="weekly"?$("plUntil").value:""),by:meCall,at:new Date().toISOString()};
   if(!rec.date){ toast("날짜를 선택해 주세요"); $("plDate").focus(); return; }
   if(!rec.title){ toast("활동명을 입력해 주세요"); $("plTitle").focus(); return; }
+  if(rec.until&&rec.until<rec.date){ toast("반복 종료일이 시작 날짜보다 빠릅니다"); $("plUntil").focus(); return; }
   if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
   this.disabled=true;
   try{
@@ -1623,6 +1727,7 @@ $("planList").addEventListener("click",function(e){
   planEditId=p.id;
   $("plDate").value=p.date||""; $("plTime").value=p.time||""; $("plTitle").value=p.title||"";
   $("plPlace").value=p.place||""; $("plMemo").value=p.memo||"";
+  $("plRep").value=p.rep||""; $("plUntil").value=p.until||""; $("plUntilF").hidden=(p.rep!=="weekly");
   $("plSave").textContent="수정 저장";
   $("planEdit").scrollIntoView({block:"start",behavior:"smooth"});
 });
@@ -1787,9 +1892,15 @@ function renderLogs(){
 /* ───── 화면 그리기 ───── */
 function renderPortal(){
   var ed=canEdit(),today=ymd(new Date());
-  var up=D.plans.filter(function(p){ return (p.date||"")>=today; })
-    .sort(function(a,b){ return planKey(a).localeCompare(planKey(b)); });
-  var past=D.plans.filter(function(p){ return (p.date||"")<today; })
+  /* 예정: 1회 일정은 전부, 매주 반복은 앞으로 8주, 기념일은 다음 1회 */
+  var up=[];
+  D.plans.forEach(function(p){
+    var to=p.rep==="weekly"?ymdAdd(today,56):p.rep==="yearly"?ymdAdd(today,365):"9999-12-31";
+    var ds=occOf(p,today,to); if(p.rep==="yearly")ds=ds.slice(0,1);
+    ds.forEach(function(dt){ var c={}; for(var k in p)c[k]=p[k]; c.date=dt; c.base=p.date; up.push(c); });
+  });
+  up.sort(function(a,b){ return planKey(a).localeCompare(planKey(b)); });
+  var past=D.plans.filter(function(p){ return p.rep==="yearly"?false:p.rep==="weekly"?!!(p.until&&p.until<today):(p.date||"")<today; })
     .sort(function(a,b){ return planKey(b).localeCompare(planKey(a)); }).slice(0,10);
   var t=new Date(),mk=t.getFullYear()+"-"+pad2(t.getMonth()+1);
   var proxM=rows.filter(function(r){ return monthKey(r)===mk; });
@@ -1797,9 +1908,9 @@ function renderPortal(){
   D.logs.forEach(function(l){ if(logDay(l)===today)seen[l.call]=1; });
 
   /* 현황 */
-  $("dStats").innerHTML=[["등록 봉사원",rosterSize(),"명"],["이번 달 위임장",proxM.length,"건"],
-    ["예정 활동",up.length,"건"],["오늘 접속",Object.keys(seen).length,"명"]].map(function(x){
-      return '<div class="stat"><b>'+x[1]+'</b><span>'+x[0]+' ('+x[2]+')</span></div>';
+  $("dStats").innerHTML=[["등록 봉사원",rosterSize(),"명","set",""],["이번 달 위임장",proxM.length,"건","proxy","list"],
+    ["예정 활동",up.length,"건","plan",""],["오늘 접속",Object.keys(seen).length,"명","log",""]].map(function(x){
+      return '<button class="stat" type="button" data-go="'+x[3]+'"'+(x[4]?' data-sub="'+x[4]+'"':'')+'><b>'+x[1]+'</b><span>'+x[0]+' ('+x[2]+')</span></button>';
     }).join("");
   $("dPlans").innerHTML=up.length?up.slice(0,4).map(function(p){ return planRow(p,false,false); }).join("")
     :'<div class="none">예정된 활동이 없습니다. 활동계획 메뉴에서 임원이 일정을 올리면 여기에 나타납니다.</div>';
