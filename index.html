@@ -401,7 +401,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v3.8</span>
+        <span class="vtag">v3.9</span>
       </div>
     </div>
   </div>
@@ -670,8 +670,12 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
         <div class="f"><label class="lbl" for="mPhone">연 락 처</label>
           <input class="inp" id="mPhone" type="tel" inputmode="numeric" maxlength="13" placeholder="010-1234-5678"></div>
       </div>
-      <div class="f"><label class="lbl" for="mRole">구 분</label>
-        <select class="inp" id="mRole"><option>봉사원</option><option>회장</option><option>부회장</option><option>총무</option><option>감사</option><option>기술팀장</option><option>구호팀장</option><option>드론팀장</option><option>명예회원</option><option>준회원</option></select></div>
+      <div class="grid2">
+        <div class="f"><label class="lbl" for="mRole">구 분</label>
+          <select class="inp" id="mRole"><option>봉사원</option><option>회장</option><option>부회장</option><option>총무</option><option>감사</option><option>기술팀장</option><option>구호팀장</option><option>드론팀장</option><option>명예회원</option><option>준회원</option></select></div>
+        <div class="f"><label class="lbl" for="mDmr">DMR ID</label>
+          <input class="inp" id="mDmr" type="text" inputmode="numeric" maxlength="9" placeholder="예) 4501234"></div>
+      </div>
       <button class="btn btn-main" type="button" id="mSave">봉사원 등록</button>
     </div>
   </div>
@@ -938,6 +942,7 @@ function renderMembers(){
     var meta=[];
     if(m.birth)meta.push("생년 "+esc(m.birth));
     if(m.phone)meta.push(esc(m.phone));
+    if(m.dmr)meta.push("DMR "+esc(m.dmr));
     return '<div class="mem">'
       +'<span class="mem-call">'+esc(k)+'</span>'
       +'<div class="mem-body">'
@@ -952,6 +957,7 @@ function renderMembers(){
 
 $("mCall").addEventListener("input",function(){ this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,""); });
 $("mBirth").addEventListener("input",function(){ this.value=digits(this.value); });
+$("mDmr").addEventListener("input",function(){ this.value=digits(this.value); });
 $("mPhone").addEventListener("input",function(){
   var v=digits(this.value);
   this.value=v.length<=3?v:v.length<=7?v.slice(0,3)+"-"+v.slice(3):v.slice(0,3)+"-"+v.slice(3,7)+"-"+v.slice(7,11);
@@ -965,13 +971,13 @@ $("mSave").addEventListener("click",async function(){
   if(!n){ toast("성명을 입력해 주세요"); $("mName").focus(); return; }
   if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
   var rec={call:c,name:n,birth:digits($("mBirth").value),phone:$("mPhone").value.trim(),
-    role:$("mRole").value,admin:(c===ADMIN),at:new Date().toISOString()};
+    role:$("mRole").value,dmr:digits($("mDmr").value),admin:(c===ADMIN),at:new Date().toISOString()};
   this.disabled=true;
   try{
     await db.collection("members").doc(c).set(rec);
     roster[c]=rec; renderMembers(); updateGateNote();
     toast(n+" ("+c+") 등록했습니다");
-    ["mCall","mName","mBirth","mPhone"].forEach(function(k){ $(k).value=""; });
+    ["mCall","mName","mBirth","mPhone","mDmr"].forEach(function(k){ $(k).value=""; });
     $("mRole").value="봉사원";
   }catch(e){
     console.error(e);
@@ -985,7 +991,7 @@ $("memList").addEventListener("click",async function(e){
   if(t.dataset.medit){
     var k=t.dataset.medit, m=roster[k]||{};
     $("mCall").value=k; $("mName").value=m.name||"";
-    $("mBirth").value=m.birth||""; $("mPhone").value=m.phone||"";
+    $("mBirth").value=m.birth||""; $("mPhone").value=m.phone||""; $("mDmr").value=m.dmr||"";
     $("mRole").value=roleOf(k);
     $("mCall").scrollIntoView({block:"center",behavior:"smooth"});
     toast("고친 뒤 [봉사원 등록]을 누르면 덮어씁니다");
