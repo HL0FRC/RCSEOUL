@@ -423,7 +423,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v4.1</span>
+        <span class="vtag">v4.2</span>
       </div>
     </div>
   </div>
@@ -641,7 +641,8 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     <div class="row-gap">
       <div class="grid2">
         <div class="f"><label class="lbl" for="mtType">구 분 <span class="req">*</span></label>
-          <select class="inp" id="mtType"><option>월례회의</option><option>임원회의</option><option>정기총회</option><option>임시총회</option></select></div>
+          <select class="inp" id="mtType"><option>월례회의</option><option>임원회의</option><option>정기총회</option><option>임시총회</option><option>서울지사연차대회</option><option>전협임원회의</option><option>전국협의회</option><option value="기타">기타 (직접 입력)</option></select>
+          <input class="inp" id="mtTypeEtc" type="text" placeholder="구분을 직접 입력하세요" style="margin-top:6px" hidden></div>
         <div class="f"><label class="lbl" for="mtTitle">회의명</label><input class="inp" id="mtTitle" type="text" placeholder="예) 11월 월례회의"></div>
       </div>
       <div class="grid2">
@@ -2057,7 +2058,9 @@ function renderPortal(){
 
 
 /* ═════ v4.1 회의 · 교신일지 ═════ */
-var MT_TYPES=["월례회의","임원회의","정기총회","임시총회"];
+var MT_STD=["월례회의","임원회의","정기총회","임시총회","서울지사연차대회","전협임원회의","전국협의회"];
+var MT_TYPES=MT_STD.concat(["기타"]);   /* 기타 = 직접 입력한 구분 */
+function mtBucket(t){ return MT_STD.indexOf(t)>=0?t:"기타"; }
 var mtEditId="",mtFilter="",mtOpen={},ntEditId="",ntOpen={},ntStations=[];
 function sendCopy(text,msg){
   function done(){ toast(msg||"복사했습니다"); }
@@ -2101,10 +2104,10 @@ function renderMeet(){
   }).join("");
   /* 구분 */
   $("mtFilter").innerHTML=[""].concat(MT_TYPES).map(function(t){
-    var n=t?D.meets.filter(function(m){ return m.type===t; }).length:D.meets.length;
+    var n=t?D.meets.filter(function(m){ return mtBucket(m.type)===t; }).length:D.meets.length;
     return '<button class="mchip" type="button" data-mtf="'+escA(t)+'" aria-pressed="'+(mtFilter===t?"true":"false")+'">'+esc(t||"전체")+' '+n+'</button>';
   }).join("");
-  var list=D.meets.filter(function(m){ return !mtFilter||m.type===mtFilter; })
+  var list=D.meets.filter(function(m){ return !mtFilter||mtBucket(m.type)===mtFilter; })
     .sort(function(a,b){ return planKey(b).localeCompare(planKey(a)); });
   $("mtList").innerHTML=list.length?list.map(function(m){
     var a=attList(m.att),open=!!mtOpen[m.id];
@@ -2125,8 +2128,9 @@ function renderMeet(){
 function resetMeetForm(){
   mtEditId="";
   ["mtTitle","mtDate","mtTime","mtPlace","mtAtt","mtNotice","mtMin"].forEach(function(k){ $(k).value=""; });
-  $("mtType").value=MT_TYPES[0]; $("mtSave").textContent="회의 저장"; renderMeet();
+  $("mtType").value=MT_TYPES[0]; $("mtTypeEtc").value=""; $("mtTypeEtc").hidden=true; $("mtSave").textContent="회의 저장"; renderMeet();
 }
+$("mtType").addEventListener("change",function(){ $("mtTypeEtc").hidden=(this.value!=="기타"); if(this.value==="기타")$("mtTypeEtc").focus(); });
 $("mtNew").addEventListener("click",resetMeetForm);
 $("mtAtt").addEventListener("change",renderMeet);
 $("mtPick").addEventListener("click",function(e){
@@ -2138,7 +2142,7 @@ $("mtPick").addEventListener("click",function(e){
 $("mtFilter").addEventListener("click",function(e){ var b=e.target.closest("[data-mtf]"); if(!b)return; mtFilter=b.dataset.mtf; renderMeet(); });
 $("mtSave").addEventListener("click",async function(){
   if(!canEdit()){ toast("편집 권한이 없습니다"); return; }
-  var rec={type:$("mtType").value,title:$("mtTitle").value.trim(),date:$("mtDate").value,time:$("mtTime").value.trim(),
+  var rec={type:($("mtType").value==="기타"?($("mtTypeEtc").value.trim()||"기타"):$("mtType").value),title:$("mtTitle").value.trim(),date:$("mtDate").value,time:$("mtTime").value.trim(),
     place:$("mtPlace").value.trim(),att:attList($("mtAtt").value).join(", "),notice:$("mtNotice").value.trim(),
     min:$("mtMin").value.trim(),by:meCall,at:new Date().toISOString()};
   if(!rec.date){ toast("회의 날짜를 선택해 주세요"); $("mtDate").focus(); return; }
@@ -2164,7 +2168,9 @@ $("mtList").addEventListener("click",function(e){
   var t=e.target.closest("[data-mtedit]"); if(!t)return;
   var p=D.meets.filter(function(x){ return x.id===t.dataset.mtedit; })[0]; if(!p)return;
   mtEditId=p.id;
-  $("mtType").value=p.type||MT_TYPES[0]; $("mtTitle").value=p.title||""; $("mtDate").value=p.date||""; $("mtTime").value=p.time||"";
+  var std=MT_STD.indexOf(p.type)>=0;
+  $("mtType").value=std?p.type:"기타"; $("mtTypeEtc").hidden=std; $("mtTypeEtc").value=(std||p.type==="기타")?"":(p.type||"");
+  $("mtTitle").value=p.title||""; $("mtDate").value=p.date||""; $("mtTime").value=p.time||"";
   $("mtPlace").value=p.place||""; $("mtAtt").value=p.att||""; $("mtNotice").value=p.notice||""; $("mtMin").value=p.min||"";
   $("mtSave").textContent="수정 저장"; renderMeet();
   $("meetEdit").scrollIntoView({block:"start",behavior:"smooth"});
