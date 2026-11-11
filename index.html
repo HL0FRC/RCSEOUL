@@ -11,7 +11,8 @@
 <style>
 /* 레이아웃: 상단 고정 탭 → 적십자 레드 배너 → 760px 단일 칼럼 카드 스택 */
 :root{
-  --red:#CE1126; --red-deep:#9E0C1C; --red-wash:#FDEFF1; --red-line:#F2C3C9;
+  /* v3.4: 강조색을 짙은 청색으로 변경(변수 이름은 유지). 붉은색(--rc)은 적십자 표장·필수표시·오류에만 사용 */
+  --red:#1F3A5F; --red-deep:#152A47; --red-wash:#EEF2F7; --red-line:#D3DCE8; --rc:#CE1126; --banner:#1F3A5F;
   --ink:#1C1A19; --ink-2:#4A4544; --ink-3:#7C7472;
   --paper:#FFFFFF; --ground:#F4F2F1; --line:#E2DDDB;
   --ok:#15803D; --warn:#B45309;
@@ -20,14 +21,14 @@
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
-  --red:#F2576C; --red-deep:#C9324A; --red-wash:#2A1A1D; --red-line:#5A2A32;
+  --red:#6FA0DC; --red-deep:#5587C6; --red-wash:#18222F; --red-line:#2D3D52; --rc:#F2576C; --banner:#1B2B41;
   --ink:#F2EEEC; --ink-2:#CFC7C4; --ink-3:#9A918E;
   --paper:#1F1C1B; --ground:#141211; --line:#36312F;
   --ok:#4ADE80; --warn:#FBBF24;
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
-  --red:#F2576C; --red-deep:#C9324A; --red-wash:#2A1A1D; --red-line:#5A2A32;
+  --red:#6FA0DC; --red-deep:#5587C6; --red-wash:#18222F; --red-line:#2D3D52; --rc:#F2576C; --banner:#1B2B41;
   --ink:#F2EEEC; --ink-2:#CFC7C4; --ink-3:#9A918E;
   --paper:#1F1C1B; --ground:#141211; --line:#36312F;
   --ok:#4ADE80; --warn:#FBBF24;
@@ -49,7 +50,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .tab[aria-selected="true"]{color:var(--red);border-bottom-color:var(--red);font-weight:700;}
 
 /* 배너 */
-.banner{background:var(--red);color:#fff;}
+.banner{background:var(--banner);color:#fff;}
 .banner-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:14px;padding-block:16px 14px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
 .banner .org{font-size:11px;opacity:.85;letter-spacing:.4px;}
@@ -71,14 +72,14 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* 카드 */
 .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;}
 .card-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--red-line);}
-.mark{width:19px;height:19px;background:var(--red);border-radius:3px;flex:0 0 auto;display:grid;place-items:center;}
+.mark{width:19px;height:19px;background:var(--rc);border-radius:3px;flex:0 0 auto;display:grid;place-items:center;}
 .card-title{font-size:13.5px;font-weight:700;color:var(--red);letter-spacing:1px;}
 
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media (max-width:460px){ .grid2{grid-template-columns:1fr;} }
 .f{min-width:0;}
 .lbl{font-size:11px;font-weight:700;color:var(--ink-3);letter-spacing:.3px;margin-bottom:4px;}
-.req{color:var(--red);}
+.req{color:var(--rc);}
 .fixed{background:var(--ground);border:1px solid var(--line);border-radius:8px;padding:8px 11px;font-size:13px;color:var(--ink-2);}
 .inp{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-family:var(--sans);font-size:13px;
   color:var(--ink);background:var(--paper);outline:none;}
@@ -187,7 +188,7 @@ tr:last-child td{border-bottom:0;}
   justify-content:center;padding:14px;overflow-y:auto;}
 .box{background:var(--paper);border-radius:13px;width:100%;max-width:820px;margin:auto;overflow:hidden;
   box-shadow:0 10px 44px rgba(0,0,0,.3);}
-.box-top{background:var(--red);color:#fff;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.box-top{background:var(--banner);color:#fff;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
 .box-top b{font-size:13.5px;font-weight:700;}
 .x{background:none;border:0;color:#fff;font-size:21px;cursor:pointer;line-height:1;padding:0 4px;}
 .box-bar{display:flex;gap:8px;padding:10px 13px;background:var(--ground);border-bottom:1px solid var(--line);flex-wrap:wrap;}
@@ -224,7 +225,7 @@ tr:last-child td{border-bottom:0;}
 .gate-tit{font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:6px;color:var(--red);margin:3px 0 2px;}
 .gate-sub{font-size:11.5px;color:var(--ink-3);margin-bottom:18px;}
 .gate-f{text-align:left;margin-bottom:10px;}
-.gate-msg{font-size:12px;color:var(--red);min-height:18px;margin:2px 0 8px;font-weight:600;}
+.gate-msg{font-size:12px;color:var(--rc);min-height:18px;margin:2px 0 8px;font-weight:600;}
 .gate-note{font-size:11px;color:var(--ink-3);line-height:1.65;margin-top:13px;}
 
 /* 로그인 사용자 표시 */
@@ -305,6 +306,16 @@ a.lname:hover{text-decoration:underline;}
   background:var(--ink);color:var(--paper);padding:10px 20px;border-radius:99px;font-size:12.5px;font-weight:500;
   z-index:90;transition:transform .25s;pointer-events:none;max-width:88vw;text-align:center;}
 #toast.on{transform:translateX(-50%) translateY(0);}
+/* 좁은 화면: 탭 간격을 좁히고 짧은 이름으로 표시해 전부 보이게 */
+.tab{min-width:0;padding-inline:0;white-space:nowrap;}
+.tab .ls{display:none;}
+body.vm .tab .lf{display:none;} body.vm .tab .ls{display:inline;}
+@media (max-width:640px){
+  .tab .lf{display:none;} .tab .ls{display:inline;}
+  .nav-inner{padding-left:max(4px,env(safe-area-inset-left,0px));padding-right:max(4px,env(safe-area-inset-right,0px));}
+}
+.banner-inner>div:nth-child(2){flex:1 1 236px;min-width:0;}
+.banner .org,.banner .tit{white-space:nowrap;}
 /* 화면 선택 (모바일 / PC) */
 .vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
 .vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
@@ -349,14 +360,14 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
 
 <nav class="nav">
   <div class="nav-inner">
-    <button class="tab" role="tab" aria-selected="true" data-p="dash"><span class="ico">🏠</span>현황</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="plan"><span class="ico">📅</span>활동계획</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="photo"><span class="ico">📷</span>활동사진</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="proxy"><span class="ico">📝</span>위임장</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="link"><span class="ico">🔗</span>앱·링크</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="info"><span class="ico">📞</span>뉴스·연락처</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="log"><span class="ico">📈</span>접속기록</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="set" id="tabSet" hidden><span class="ico">⚙️</span>봉사원 등록</button>
+    <button class="tab" role="tab" aria-selected="true" data-p="dash"><span class="ico">🏠</span><span class="lf">현황</span><span class="ls">현황</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="plan"><span class="ico">📅</span><span class="lf">활동계획</span><span class="ls">계획</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="photo"><span class="ico">📷</span><span class="lf">활동사진</span><span class="ls">사진</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="proxy"><span class="ico">📝</span><span class="lf">위임장</span><span class="ls">위임장</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="link"><span class="ico">🔗</span><span class="lf">앱·링크</span><span class="ls">링크</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="info"><span class="ico">📞</span><span class="lf">뉴스·연락처</span><span class="ls">연락처</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="log"><span class="ico">📈</span><span class="lf">접속기록</span><span class="ls">기록</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="set" id="tabSet" hidden><span class="ico">⚙️</span><span class="lf">봉사원 등록</span><span class="ls">등록</span></button>
   </div>
 </nav>
 
@@ -373,7 +384,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     <div>
       <div class="org">대한적십자사 서울특별지사 재난대응봉사회</div>
       <div class="tit" style="letter-spacing:.5px;font-size:21px">RCSEOUL NDRT 포털</div>
-      <div class="sub">현황 · 일정 · 사진 · 위임장<span class="vtag">v3.3</span></div>
+      <div class="sub">현황 · 일정 · 사진 · 위임장<span class="vtag">v3.4</span></div>
     </div>
     <div class="who-chip" id="whoChip" hidden>
       <span class="who-name" id="whoName"></span>
