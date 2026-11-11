@@ -316,6 +316,14 @@ body.vm .tab .lf{display:none;} body.vm .tab .ls{display:inline;}
 }
 .banner-inner>div:nth-child(2){flex:1 1 236px;min-width:0;}
 .banner .org,.banner .tit{white-space:nowrap;}
+/* 헤더 둘째 줄: DB 연결 LED · 콜사인 · 로그아웃 · 버전 */
+.banner .hd-row{display:flex;align-items:center;gap:8px;opacity:1;margin-top:5px;flex-wrap:wrap;}
+.hd-row .who-chip{margin-left:0;}
+.hd-row .vtag{margin-left:0;}
+.led{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);flex:0 0 auto;}
+.led.on{background:#39A8FF;border-color:#9BD3FF;box-shadow:0 0 6px 2px rgba(57,168,255,.85);}
+.gate-keep{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-2);margin:2px 0 8px;cursor:pointer;text-align:left;}
+.gate-keep input{width:16px;height:16px;accent-color:var(--red);flex:0 0 auto;}
 /* 화면 선택 (모바일 / PC) */
 .vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
 .vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
@@ -352,6 +360,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
       <label class="lbl" for="gPw">비밀번호</label>
       <input class="inp" id="gPw" type="password" inputmode="numeric" maxlength="12" placeholder="숫자 6자리" autocomplete="current-password">
     </div>
+    <label class="gate-keep"><input type="checkbox" id="gKeep" checked> 저장하기 (다음부터 입력 없이 바로 접속)</label>
     <div class="gate-msg" id="gMsg"></div>
     <button class="btn btn-main" type="button" id="gBtn">로그인</button>
     <div class="gate-note" id="gNote">연결을 확인하는 중입니다…</div>
@@ -384,11 +393,14 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     <div>
       <div class="org">대한적십자사 서울특별지사 재난대응봉사회</div>
       <div class="tit" style="letter-spacing:.5px;font-size:21px">RCSEOUL NDRT 포털</div>
-      <div class="sub">현황 · 일정 · 사진 · 위임장<span class="vtag">v3.4</span></div>
-    </div>
-    <div class="who-chip" id="whoChip" hidden>
-      <span class="who-name" id="whoName"></span>
-      <button class="btn-out" type="button" id="btnOut">로그아웃</button>
+      <div class="sub hd-row">
+        <span class="led" id="led" role="img" aria-label="DB 연결 안 됨" title="DB 연결 안 됨"></span>
+        <span class="who-chip" id="whoChip" hidden>
+          <span class="who-name" id="whoName"></span>
+          <button class="btn-out" type="button" id="btnOut">로그아웃</button>
+        </span>
+        <span class="vtag">v3.5</span>
+      </div>
     </div>
   </div>
 </header>
@@ -750,7 +762,8 @@ var tt;
 function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("on");},3200);}
 function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function pad2(n){return String(n).padStart(2,"0");}
-function wire(ok,msg){$("dot").className="dot"+(ok?" on":" off");$("wire").textContent=msg;}
+function wire(ok,msg){$("dot").className="dot"+(ok?" on":" off");$("wire").textContent=msg;
+  var l=$("led"); if(l){ l.className="led"+(ok?" on":""); var t=ok?"DB 연결됨":"DB 연결 안 됨"; l.title=t; l.setAttribute("aria-label",t); } }
 function digits(s){return String(s==null?"":s).replace(/\D/g,"");}
 
 /* ───── 날짜 기본값 ───── */
@@ -808,7 +821,10 @@ function updateGateNote(){
 function signIn(c,rec){
   meCall=c; meName=(rec&&rec.name)||"";
   isAdmin=(c===ADMIN)||isOwner;
-  try{ localStorage.setItem(SKEY,JSON.stringify({call:c})); }catch(e){}
+  try{
+    if($("gKeep").checked) localStorage.setItem(SKEY,JSON.stringify({call:c}));
+    else localStorage.removeItem(SKEY);   /* 저장하기를 끄면 다음 접속 때 다시 입력 */
+  }catch(e){}
   $("gate").hidden=true;
   $("whoChip").hidden=false;
   $("whoName").textContent=meName?meName+" ("+c+")":c;
