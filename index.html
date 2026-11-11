@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>RCSEOUL NDRT 포털</title>
+<title>RC Seoul NDRT 포털</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
 <style>
 /* 레이아웃: 상단 고정 탭 → 적십자 레드 배너 → 760px 단일 칼럼 카드 스택 */
@@ -222,7 +222,7 @@ tr:last-child td{border-bottom:0;}
 .gate-card{background:var(--paper);border:1px solid var(--line);border-radius:14px;width:100%;max-width:360px;
   padding:26px 22px;text-align:center;box-shadow:0 6px 28px rgba(0,0,0,.09);margin:auto;}
 .gate-org{font-size:11px;color:var(--ink-3);margin-top:10px;}
-.gate-tit{font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:6px;color:var(--red);margin:3px 0 2px;}
+.gate-tit{font-family:var(--sans);font-size:21px;font-weight:700;letter-spacing:6px;color:var(--red);margin:3px 0 2px;}
 .gate-sub{font-size:11.5px;color:var(--ink-3);margin-bottom:18px;}
 .gate-f{text-align:left;margin-bottom:10px;}
 .gate-msg{font-size:12px;color:var(--rc);min-height:18px;margin:2px 0 8px;font-weight:600;}
@@ -334,6 +334,18 @@ button.stat:hover{border-color:var(--red);}
 .calbtn{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--red);background:none;border:0;padding:3px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
 .calopts{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;align-items:center;}
 .calopts .go{padding:6px 11px;font-size:12px;text-decoration:none;}
+/* 회의 · 교신일지 */
+.ta{resize:vertical;line-height:1.6;min-height:44px;}
+.pre{white-space:pre-wrap;word-break:break-word;font-size:13px;line-height:1.7;}
+.ntc{padding:9px 0;border-bottom:1px solid var(--line);} .ntc:last-child{border-bottom:0;}
+.ntc .pre{margin-top:5px;background:var(--red-wash);border:1px solid var(--red-line);border-radius:8px;padding:8px 10px;}
+.mrow{padding:9px 0;border-bottom:1px solid var(--line);} .mrow:last-child{border-bottom:0;}
+.mhead{display:flex;gap:10px;align-items:center;}
+.mdetail{margin-top:8px;background:var(--ground);border-radius:9px;padding:10px 12px;}
+.mdetail .lbl{margin-top:8px;} .mdetail .lbl:first-child{margin-top:0;}
+/* 좁은 화면: 메뉴가 10개라 두 줄(5개씩)로 표시 */
+body.vm .nav-inner{flex-wrap:wrap;} body.vm .tab{flex:0 0 20%;padding-block:6px 4px;}
+@media (max-width:640px){ .nav-inner{flex-wrap:wrap;} .tab{flex:0 0 20%;padding-block:6px 4px;} }
 /* 화면 선택 (모바일 / PC) */
 .vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
 .vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
@@ -360,7 +372,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
       <rect x="33" y="53" width="24" height="24" fill="#CE1126"/>
     </svg>
     <div class="gate-org">대한적십자사 서울특별지사 재난대응봉사회</div>
-    <div class="gate-tit" style="letter-spacing:1px">RCSEOUL NDRT 포털</div>
+    <div class="gate-tit" style="letter-spacing:.5px">RC Seoul NDRT 포털</div>
     <div class="gate-sub">등록된 봉사원만 이용할 수 있습니다</div>
     <div class="gate-f">
       <label class="lbl" for="gCall">콜사인</label>
@@ -383,6 +395,8 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     <button class="tab" role="tab" aria-selected="false" data-p="plan"><span class="ico">📅</span><span class="lf">활동계획</span><span class="ls">계획</span></button>
     <button class="tab" role="tab" aria-selected="false" data-p="photo"><span class="ico">📷</span><span class="lf">활동사진</span><span class="ls">사진</span></button>
     <button class="tab" role="tab" aria-selected="false" data-p="proxy"><span class="ico">📝</span><span class="lf">위임장</span><span class="ls">위임장</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="meet"><span class="ico">👥</span><span class="lf">회의</span><span class="ls">회의</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-p="net"><span class="ico">📻</span><span class="lf">교신일지</span><span class="ls">교신</span></button>
     <button class="tab" role="tab" aria-selected="false" data-p="link"><span class="ico">🔗</span><span class="lf">앱·링크</span><span class="ls">링크</span></button>
     <button class="tab" role="tab" aria-selected="false" data-p="info"><span class="ico">📞</span><span class="lf">뉴스·연락처</span><span class="ls">연락처</span></button>
     <button class="tab" role="tab" aria-selected="false" data-p="log"><span class="ico">📈</span><span class="lf">접속기록</span><span class="ls">기록</span></button>
@@ -402,14 +416,14 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     </svg>
     <div>
       <div class="org">대한적십자사 서울특별지사 재난대응봉사회</div>
-      <div class="tit" style="letter-spacing:.5px;font-size:21px">RCSEOUL NDRT 포털</div>
+      <div class="tit" style="letter-spacing:.5px;font-size:21px">RC Seoul NDRT 포털</div>
       <div class="sub hd-row">
         <span class="led" id="led" role="img" aria-label="DB 연결 안 됨" title="DB 연결 안 됨"></span>
         <span class="who-chip" id="whoChip" hidden>
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v4.0</span>
+        <span class="vtag">v4.1</span>
       </div>
     </div>
   </div>
@@ -425,6 +439,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
 <!-- 현황 -->
 <section id="p-dash">
   <div class="stats4" id="dStats"></div>
+  <div class="card" id="dNoticeCard" hidden><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">회의 공지</span></div><div id="dNotice"></div></div>
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">다가오는 활동</span></div><div id="dPlans"></div></div>
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">최근 활동 사진</span></div><div class="pgrid" id="dPhotos"></div></div>
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">이번 달 위임장</span></div><div id="dProxy"></div></div>
@@ -617,6 +632,70 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
 </section>
 
 </section><!-- /위임장 -->
+
+<!-- 회의 -->
+<section id="p-meet" hidden>
+  <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">회의 공지</span></div><div id="mtNotices"></div></div>
+  <div class="card" id="meetEdit" hidden>
+    <div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">회의 등록 · 회의록 작성</span></div>
+    <div class="row-gap">
+      <div class="grid2">
+        <div class="f"><label class="lbl" for="mtType">구 분 <span class="req">*</span></label>
+          <select class="inp" id="mtType"><option>월례회의</option><option>임원회의</option><option>정기총회</option><option>임시총회</option></select></div>
+        <div class="f"><label class="lbl" for="mtTitle">회의명</label><input class="inp" id="mtTitle" type="text" placeholder="예) 11월 월례회의"></div>
+      </div>
+      <div class="grid2">
+        <div class="f"><label class="lbl" for="mtDate">회의 날짜 <span class="req">*</span></label><input class="inp" id="mtDate" type="date"></div>
+        <div class="f"><label class="lbl" for="mtTime">시 간</label><input class="inp" id="mtTime" type="text" placeholder="예) 19:00~21:00"></div>
+      </div>
+      <div class="f"><label class="lbl" for="mtPlace">장 소</label><input class="inp" id="mtPlace" type="text" placeholder="예) 서울지사 4층"></div>
+      <div class="f"><label class="lbl" for="mtAtt">참석자 (이름을 누르거나 직접 입력, 쉼표로 구분)</label>
+        <div class="months" id="mtPick" style="flex-wrap:wrap;margin-bottom:6px"></div>
+        <textarea class="inp ta" id="mtAtt" rows="2" placeholder="홍길동, 김철수"></textarea></div>
+      <div class="f"><label class="lbl" for="mtNotice">공 지 (회의 전까지 공지란에 표시)</label>
+        <textarea class="inp ta" id="mtNotice" rows="3" placeholder="안건, 준비물, 참석 안내 등"></textarea></div>
+      <div class="f"><label class="lbl" for="mtMin">회의록</label>
+        <textarea class="inp ta" id="mtMin" rows="8" placeholder="회의 진행 순서대로 내용을 적습니다"></textarea></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-main" type="button" id="mtSave" style="flex:1">회의 저장</button>
+        <button class="btn btn-s" type="button" id="mtNew">새로 작성</button>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">회의 목록</span></div>
+    <div class="months" id="mtFilter" style="flex-wrap:wrap"></div>
+    <div id="mtList"></div>
+    <div class="gate-note">회의 등록과 회의록 작성은 회장·총무·기술팀장·구호팀장·드론팀장이 합니다.</div></div>
+</section>
+
+<!-- 교신일지 -->
+<section id="p-net" hidden>
+  <div class="card" id="netEdit">
+    <div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">교신일지 작성</span></div>
+    <div class="row-gap">
+      <div class="f"><label class="lbl" for="ntRaw">카톡 내용 붙여넣기</label>
+        <textarea class="inp ta" id="ntRaw" rows="5" placeholder="카톡에 올라온 교신 참석자·키스테이션 내용을 복사해서 붙여넣으세요"></textarea></div>
+      <button class="btn btn-ghost" type="button" id="ntParse" style="margin-bottom:0">자동 정리</button>
+      <div class="grid2">
+        <div class="f"><label class="lbl" for="ntName">교신명</label><input class="inp" id="ntName" type="text"></div>
+        <div class="f"><label class="lbl" for="ntKey">키스테이션</label><input class="inp" id="ntKey" type="text" placeholder="예) HL2TLS" style="text-transform:uppercase"></div>
+      </div>
+      <div class="grid2">
+        <div class="f"><label class="lbl" for="ntDate">교신 날짜 <span class="req">*</span></label><input class="inp" id="ntDate" type="date"></div>
+        <div class="f"><label class="lbl" for="ntTime">시 간</label><input class="inp" id="ntTime" type="text" placeholder="21:00"></div>
+      </div>
+      <div class="f"><label class="lbl" for="ntList">참석자 <span id="ntCount">0</span>국 (한 줄에 한 국, 고칠 수 있습니다)</label>
+        <textarea class="inp ta" id="ntList" rows="7" placeholder="1. HL2TLS 김양섭"></textarea></div>
+      <div class="f"><label class="lbl" for="ntMemo">비 고</label><input class="inp" id="ntMemo" type="text" placeholder="전파 상태, 전달 사항 등"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-main" type="button" id="ntSave" style="flex:1">교신일지 저장</button>
+        <button class="btn btn-s" type="button" id="ntNew">새로 작성</button>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">교신일지 목록</span></div><div id="ntRows"></div>
+    <div class="gate-note">교신일지는 봉사원 누구나 작성할 수 있고, 작성자와 임원이 수정·삭제합니다.</div></div>
+</section>
 
 <!-- 앱·링크 -->
 <section id="p-link" hidden>
@@ -813,7 +892,7 @@ document.querySelectorAll(".tab").forEach(function(b){
   b.addEventListener("click",function(){
     document.querySelectorAll(".tab").forEach(function(x){x.setAttribute("aria-selected","false");});
     b.setAttribute("aria-selected","true");
-    ["dash","plan","photo","proxy","link","info","log","set"].forEach(function(k){$("p-"+k).hidden=(k!==b.dataset.p);});
+    ["dash","plan","photo","proxy","meet","net","link","info","log","set"].forEach(function(k){$("p-"+k).hidden=(k!==b.dataset.p);});
     window.scrollTo(0,0);
   });
 });
@@ -1482,7 +1561,10 @@ $("btnRetry").addEventListener("click",function(){ connect(); });
 
 /* ═════════ 포털: 현황·활동계획·사진·링크·연락처·접속기록 ═════════ */
 var EDIT_ROLES=["회장","총무","기술팀장","구호팀장","드론팀장"];
-var D={plans:[],photos:[],links:[],infos:[],logs:[]},unsubP={};
+var D={plans:[],photos:[],links:[],infos:[],logs:[],meets:[],nets:[]},unsubP={};
+/* 고정 일정: 매주 화요일 21시 화요정기교신 (코드에 들어 있어 삭제되지 않는다) */
+var FIXED_PLANS=[{id:"fixed-tue-net",date:"2026-01-06",time:"21:00",title:"화요정기교신",rep:"weekly",until:"",place:"",memo:"매주 화요일 21시",fixed:true}];
+function allPlans(){ return FIXED_PLANS.concat(D.plans); }
 var calY=now.getFullYear(),calM=now.getMonth(),planEditId="",armKey="",lbId="";
 var WD=["일","월","화","수","목","금","토"];
 var DEF_NEWS=[
@@ -1589,7 +1671,7 @@ function occOf(p,from,to){
 }
 function occs(from,to){
   var o=[];
-  D.plans.forEach(function(p){ occOf(p,from,to).forEach(function(dt){ var c={}; for(var k in p)c[k]=p[k]; c.date=dt; c.base=p.date; o.push(c); }); });
+  allPlans().forEach(function(p){ occOf(p,from,to).forEach(function(dt){ var c={}; for(var k in p)c[k]=p[k]; c.date=dt; c.base=p.date; o.push(c); }); });
   return o;
 }
 /* 캘린더에 추가: 구글 캘린더 링크와 .ics 파일 (시간은 한국시간 기준) */
@@ -1616,7 +1698,7 @@ function gcalUrl(p){
   return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(p.title||"")
     +"&dates="+t.s+"/"+t.e+"&ctz=Asia/Seoul"
     +(p.place?"&location="+encodeURIComponent(p.place):"")
-    +"&details="+encodeURIComponent([p.memo||"","RCSEOUL NDRT 포털"].filter(Boolean).join("\n"))
+    +"&details="+encodeURIComponent([p.memo||"","RC Seoul NDRT 포털"].filter(Boolean).join("\n"))
     +(r?"&recur="+encodeURIComponent(r):"");
 }
 function icsText(p){
@@ -1636,7 +1718,7 @@ function icsText(p){
 document.addEventListener("click",function(e){
   var b=e.target.closest("[data-cal]"); if(!b)return;
   var old=b.parentNode.querySelector(".calopts"); if(old){ old.remove(); return; }
-  var a=b.dataset.cal.split("|"),src=D.plans.filter(function(x){ return x.id===a[0]; })[0]; if(!src)return;
+  var a=b.dataset.cal.split("|"),src=allPlans().filter(function(x){ return x.id===a[0]; })[0]; if(!src)return;
   var p={}; for(var k in src)p[k]=src[k]; p.date=a[1];
   var url="";
   try{ url=URL.createObjectURL(new Blob([icsText(p)],{type:"text/calendar;charset=utf-8"})); }catch(err){ console.error(err); }
@@ -1661,7 +1743,7 @@ function planRow(p,edit,past){
     +'<div class="pbody"><div class="ptitle">'+esc(p.title||"")+tag+(dd?'<span class="dday">'+dd+'</span>':'')+'</div>'
     +(meta.length?'<div class="pmeta">'+meta.join(" · ")+'</div>':'')
     +(past||!p.id?'':'<button class="calbtn" type="button" data-cal="'+escA(p.id)+'|'+escA(p.date||"")+'">내 캘린더에 추가 (알람)</button>')+'</div>'
-    +(edit?'<div class="pacts"><button class="btn btn-s" type="button" data-pedit="'+escA(p.id)+'">수정</button>'
+    +(edit&&!p.fixed?'<div class="pacts"><button class="btn btn-s" type="button" data-pedit="'+escA(p.id)+'">수정</button>'
       +'<button class="btn btn-s" type="button" data-del="plans:'+escA(p.id)+'">삭제</button></div>':'')
     +'</div>';
 }
@@ -1894,7 +1976,7 @@ function renderPortal(){
   var ed=canEdit(),today=ymd(new Date());
   /* 예정: 1회 일정은 전부, 매주 반복은 앞으로 8주, 기념일은 다음 1회 */
   var up=[];
-  D.plans.forEach(function(p){
+  allPlans().forEach(function(p){
     var to=p.rep==="weekly"?ymdAdd(today,56):p.rep==="yearly"?ymdAdd(today,365):"9999-12-31";
     var ds=occOf(p,today,to); if(p.rep==="yearly")ds=ds.slice(0,1);
     ds.forEach(function(dt){ var c={}; for(var k in p)c[k]=p[k]; c.date=dt; c.base=p.date; up.push(c); });
@@ -1970,7 +2052,237 @@ function renderPortal(){
   $("infoEdit").hidden=!ed;
 
   renderLogs();
+  renderMeet(); renderNet();
 }
+
+
+/* ═════ v4.1 회의 · 교신일지 ═════ */
+var MT_TYPES=["월례회의","임원회의","정기총회","임시총회"];
+var mtEditId="",mtFilter="",mtOpen={},ntEditId="",ntOpen={},ntStations=[];
+function sendCopy(text,msg){
+  function done(){ toast(msg||"복사했습니다"); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done,function(){ fallback(text,done); }); }
+  else fallback(text,done);
+}
+function wdOf(s){ var d=new Date(s+"T00:00:00"); return isNaN(d.getTime())?"":WD[d.getDay()]; }
+function dateLabel(s){ return s?s.replace(/-/g,".")+(wdOf(s)?" ("+wdOf(s)+")":""):""; }
+function attList(s){ return String(s||"").split(/[,\n、·]+/).map(function(x){ return x.trim(); }).filter(Boolean); }
+
+/* ── 회의 ── */
+function mtName(m){ return m.title||m.type||"회의"; }
+function mtMinutesText(m){
+  var a=attList(m.att);
+  return "■ "+mtName(m)+" 회의록\n"
+    +"구분: "+(m.type||"")+"\n"
+    +"일시: "+dateLabel(m.date)+(m.time?" "+m.time:"")+"\n"
+    +"장소: "+(m.place||"")+"\n"
+    +"참석자("+a.length+"명): "+a.join(", ")+"\n\n"
+    +(m.min||"");
+}
+function renderMeet(){
+  var ed=canEdit(),today=ymd(new Date());
+  $("meetEdit").hidden=!ed;
+  /* 공지: 오늘 이후 회의 중 공지가 있는 것 */
+  var nt=D.meets.filter(function(m){ return (m.date||"")>=today&&(m.notice||"").trim(); })
+    .sort(function(a,b){ return planKey(a).localeCompare(planKey(b)); });
+  var nh=nt.map(function(m){
+    var dd=dday(m.date||"");
+    return '<div class="ntc"><div class="ptitle"><span class="badge" style="margin-left:0">'+esc(m.type||"")+'</span> '+esc(mtName(m))+(dd?'<span class="dday">'+dd+'</span>':'')+'</div>'
+      +'<div class="pmeta">'+[esc(dateLabel(m.date)+(m.time?" "+m.time:"")),esc(m.place||"")].filter(Boolean).join(" · ")+'</div>'
+      +'<div class="pre">'+esc(m.notice)+'</div></div>';
+  }).join("");
+  $("mtNotices").innerHTML=nh||'<div class="none">예정된 회의 공지가 없습니다.</div>';
+  $("dNoticeCard").hidden=!nh; $("dNotice").innerHTML=nh;
+  /* 참석자 고르기 */
+  var cur=attList($("mtAtt").value);
+  $("mtPick").innerHTML=Object.keys(roster).sort().map(function(c){
+    var n=roster[c].name||c;
+    return '<button class="mchip" type="button" data-att="'+escA(n)+'" aria-pressed="'+(cur.indexOf(n)>=0?"true":"false")+'">'+esc(n)+'</button>';
+  }).join("");
+  /* 구분 */
+  $("mtFilter").innerHTML=[""].concat(MT_TYPES).map(function(t){
+    var n=t?D.meets.filter(function(m){ return m.type===t; }).length:D.meets.length;
+    return '<button class="mchip" type="button" data-mtf="'+escA(t)+'" aria-pressed="'+(mtFilter===t?"true":"false")+'">'+esc(t||"전체")+' '+n+'</button>';
+  }).join("");
+  var list=D.meets.filter(function(m){ return !mtFilter||m.type===mtFilter; })
+    .sort(function(a,b){ return planKey(b).localeCompare(planKey(a)); });
+  $("mtList").innerHTML=list.length?list.map(function(m){
+    var a=attList(m.att),open=!!mtOpen[m.id];
+    return '<div class="mrow"><div class="mhead">'
+      +'<div class="lbody"><div class="ptitle"><span class="badge" style="margin-left:0">'+esc(m.type||"")+'</span> '+esc(mtName(m))+'</div>'
+      +'<div class="pmeta">'+[esc(dateLabel(m.date)+(m.time?" "+m.time:"")),esc(m.place||""),"참석 "+a.length+"명",(m.min||"").trim()?"회의록 있음":"회의록 없음"].filter(Boolean).join(" · ")+'</div></div>'
+      +'<div class="pacts"><button class="btn btn-s" type="button" data-mtopen="'+escA(m.id)+'">'+(open?"접기":"보기")+'</button></div></div>'
+      +(open?'<div class="mdetail">'
+        +(a.length?'<div class="lbl">참석자 ('+a.length+'명)</div><div class="pre">'+esc(a.join(", "))+'</div>':'')
+        +((m.notice||"").trim()?'<div class="lbl">공지</div><div class="pre">'+esc(m.notice)+'</div>':'')
+        +'<div class="lbl">회의록</div><div class="pre">'+((m.min||"").trim()?esc(m.min):'아직 작성된 회의록이 없습니다.')+'</div>'
+        +'<div class="bar" style="margin:8px 0 0"><button class="btn btn-s" type="button" data-mtcopy="'+escA(m.id)+'">회의록 복사</button>'
+        +(ed?'<button class="btn btn-s" type="button" data-mtedit="'+escA(m.id)+'">수정</button>'
+          +'<button class="btn btn-s" type="button" data-del="meets:'+escA(m.id)+'">삭제</button>':'')+'</div></div>':'')
+      +'</div>';
+  }).join(""):'<div class="none">등록된 회의가 없습니다.</div>';
+}
+function resetMeetForm(){
+  mtEditId="";
+  ["mtTitle","mtDate","mtTime","mtPlace","mtAtt","mtNotice","mtMin"].forEach(function(k){ $(k).value=""; });
+  $("mtType").value=MT_TYPES[0]; $("mtSave").textContent="회의 저장"; renderMeet();
+}
+$("mtNew").addEventListener("click",resetMeetForm);
+$("mtAtt").addEventListener("change",renderMeet);
+$("mtPick").addEventListener("click",function(e){
+  var b=e.target.closest("[data-att]"); if(!b)return;
+  var cur=attList($("mtAtt").value),n=b.dataset.att,i=cur.indexOf(n);
+  if(i>=0)cur.splice(i,1); else cur.push(n);
+  $("mtAtt").value=cur.join(", "); renderMeet();
+});
+$("mtFilter").addEventListener("click",function(e){ var b=e.target.closest("[data-mtf]"); if(!b)return; mtFilter=b.dataset.mtf; renderMeet(); });
+$("mtSave").addEventListener("click",async function(){
+  if(!canEdit()){ toast("편집 권한이 없습니다"); return; }
+  var rec={type:$("mtType").value,title:$("mtTitle").value.trim(),date:$("mtDate").value,time:$("mtTime").value.trim(),
+    place:$("mtPlace").value.trim(),att:attList($("mtAtt").value).join(", "),notice:$("mtNotice").value.trim(),
+    min:$("mtMin").value.trim(),by:meCall,at:new Date().toISOString()};
+  if(!rec.date){ toast("회의 날짜를 선택해 주세요"); $("mtDate").focus(); return; }
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  this.disabled=true;
+  try{
+    if(mtEditId){
+      await db.collection("meets").doc(mtEditId).set(rec); rec.id=mtEditId;
+      D.meets=D.meets.map(function(x){ return x.id===mtEditId?rec:x; });
+    }else{
+      var ref=await db.collection("meets").add(rec); rec.id=(ref&&ref.id)||("local"+Date.now());
+      if(!D.meets.some(function(x){ return x.id===rec.id; }))D.meets.push(rec);
+    }
+    mtOpen[rec.id]=true; resetMeetForm(); toast("회의를 저장했습니다");
+  }catch(e){ console.error(e); toast("저장에 실패했습니다"); }
+  finally{ this.disabled=false; }
+});
+$("mtList").addEventListener("click",function(e){
+  var o=e.target.closest("[data-mtopen]");
+  if(o){ mtOpen[o.dataset.mtopen]=!mtOpen[o.dataset.mtopen]; renderMeet(); return; }
+  var c=e.target.closest("[data-mtcopy]");
+  if(c){ var m=D.meets.filter(function(x){ return x.id===c.dataset.mtcopy; })[0]; if(m)sendCopy(mtMinutesText(m),"회의록을 복사했습니다"); return; }
+  var t=e.target.closest("[data-mtedit]"); if(!t)return;
+  var p=D.meets.filter(function(x){ return x.id===t.dataset.mtedit; })[0]; if(!p)return;
+  mtEditId=p.id;
+  $("mtType").value=p.type||MT_TYPES[0]; $("mtTitle").value=p.title||""; $("mtDate").value=p.date||""; $("mtTime").value=p.time||"";
+  $("mtPlace").value=p.place||""; $("mtAtt").value=p.att||""; $("mtNotice").value=p.notice||""; $("mtMin").value=p.min||"";
+  $("mtSave").textContent="수정 저장"; renderMeet();
+  $("meetEdit").scrollIntoView({block:"start",behavior:"smooth"});
+});
+
+/* ── 교신일지 ── */
+var CALL_RE=/(^|[^A-Z0-9])((?:HL|DS|DT|6K|6L|6M|6N|D7|D8|D9)[0-9][A-Z]{1,3})(?![A-Z0-9])/g;
+function callsIn(line){ var out=[],m,s=String(line||"").toUpperCase(); CALL_RE.lastIndex=0; while((m=CALL_RE.exec(s))){ out.push(m[2]); CALL_RE.lastIndex=m.index+m[0].length; } return out; }
+/* 카톡에서 복사한 글에서 콜사인·키스테이션·날짜를 찾아 정리한다 */
+function parseNet(raw){
+  var lines=String(raw||"").split(/\r?\n/),seen={},st=[],key="",date="";
+  lines.forEach(function(ln,i){
+    var cs=callsIn(ln);
+    if(!key&&/키\s*스테이션|키\s*국|KEY\s*STATION|NCS|관제국|(^|[^A-Z])KS([^A-Z]|$)/i.test(ln)){
+      var k=cs.length?cs:callsIn(lines[i+1]||""); if(k.length)key=k[0];
+    }
+    var who=(ln.match(/^\[([^\]]+)\]\s*\[/)||[])[1]||"";
+    cs.forEach(function(c){ if(seen[c])return; seen[c]=1; st.push({call:c,name:nameOf(c)||(cs.length===1?who:"")}); });
+    if(!date){
+      var d=ln.match(/(20\d{2})\s*[.\-\/년]\s*(\d{1,2})\s*[.\-\/월]\s*(\d{1,2})/);
+      if(d)date=d[1]+"-"+pad2(+d[2])+"-"+pad2(+d[3]);
+      else{ d=ln.match(/(\d{1,2})\s*월\s*(\d{1,2})\s*일/); if(d)date=new Date().getFullYear()+"-"+pad2(+d[1])+"-"+pad2(+d[2]); }
+    }
+  });
+  return {stations:st,key:key,date:date};
+}
+function stationsFromText(t){
+  var out=[],seen={};
+  String(t||"").split(/\r?\n/).forEach(function(ln){
+    var cs=callsIn(ln); if(!cs.length)return;
+    var c=cs[0]; if(seen[c])return; seen[c]=1;
+    var nm=ln.replace(/^\s*\d+[.)]\s*/,"").replace(new RegExp(c,"i"),"").trim();
+    out.push({call:c,name:nm||nameOf(c)});
+  });
+  return out;
+}
+function stationsText(st){ return (st||[]).map(function(s,i){ return (i+1)+". "+s.call+(s.name?" "+s.name:""); }).join("\n"); }
+function netText(n){
+  var kn=n.key?n.key+(nameOf(n.key)?" "+nameOf(n.key):""):"";
+  return "■ "+(n.name||"교신")+" 교신일지\n"
+    +"일시: "+dateLabel(n.date)+(n.time?" "+n.time:"")+"\n"
+    +"키스테이션: "+kn+"\n"
+    +"참석: "+(n.stations||[]).length+"국\n"
+    +stationsText(n.stations)+(n.memo?"\n\n비고: "+n.memo:"");
+}
+function renderNet(){
+  var ed=canEdit();
+  $("ntCount").textContent=stationsFromText($("ntList").value).length;
+  var list=D.nets.slice().sort(function(a,b){ return String(b.date||"").localeCompare(String(a.date||""))||String(b.at||"").localeCompare(String(a.at||"")); });
+  $("ntRows").innerHTML=list.length?list.map(function(n){
+    var open=!!ntOpen[n.id],mine=(n.by===meCall)||ed;
+    return '<div class="mrow"><div class="mhead">'
+      +'<div class="lbody"><div class="ptitle">'+esc(n.name||"교신")+'</div>'
+      +'<div class="pmeta">'+[esc(dateLabel(n.date)+(n.time?" "+n.time:"")),n.key?"키스테이션 "+esc(n.key):"","참석 "+(n.stations||[]).length+"국"].filter(Boolean).join(" · ")+'</div></div>'
+      +'<div class="pacts"><button class="btn btn-s" type="button" data-ntopen="'+escA(n.id)+'">'+(open?"접기":"보기")+'</button></div></div>'
+      +(open?'<div class="mdetail"><div class="pre">'+esc(netText(n))+'</div>'
+        +'<div class="bar" style="margin:8px 0 0"><button class="btn btn-s" type="button" data-ntcopy="'+escA(n.id)+'">일지 복사</button>'
+        +(mine?'<button class="btn btn-s" type="button" data-ntedit="'+escA(n.id)+'">수정</button>'
+          +'<button class="btn btn-s" type="button" data-del="nets:'+escA(n.id)+'">삭제</button>':'')+'</div></div>':'')
+      +'</div>';
+  }).join(""):'<div class="none">저장된 교신일지가 없습니다.</div>';
+}
+function resetNetForm(){
+  ntEditId="";
+  ["ntRaw","ntKey","ntList","ntMemo"].forEach(function(k){ $(k).value=""; });
+  $("ntDate").value=ymd(new Date()); $("ntTime").value="21:00"; $("ntName").value="화요정기교신";
+  $("ntSave").textContent="교신일지 저장"; renderNet();
+}
+$("ntNew").addEventListener("click",resetNetForm);
+$("ntList").addEventListener("input",function(){ $("ntCount").textContent=stationsFromText(this.value).length; });
+$("ntKey").addEventListener("input",function(){ this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,""); });
+$("ntParse").addEventListener("click",function(){
+  var raw=$("ntRaw").value;
+  if(!raw.trim()){ toast("카톡 내용을 먼저 붙여넣어 주세요"); $("ntRaw").focus(); return; }
+  var r=parseNet(raw);
+  if(!r.stations.length){ toast("콜사인을 찾지 못했습니다. 내용을 확인해 주세요"); return; }
+  $("ntList").value=stationsText(r.stations);
+  if(r.key)$("ntKey").value=r.key;
+  if(r.date)$("ntDate").value=r.date;
+  renderNet();
+  toast("참석 "+r.stations.length+"국을 정리했습니다"+(r.key?"":" · 키스테이션은 직접 입력해 주세요"));
+});
+$("ntSave").addEventListener("click",async function(){
+  if(!meCall){ toast("로그인 후 이용해 주세요"); return; }
+  var st=stationsFromText($("ntList").value);
+  var rec={date:$("ntDate").value,time:$("ntTime").value.trim(),name:$("ntName").value.trim()||"교신",key:$("ntKey").value.trim(),
+    stations:st,memo:$("ntMemo").value.trim(),raw:$("ntRaw").value.slice(0,20000),by:meCall,at:new Date().toISOString()};
+  if(!rec.date){ toast("교신 날짜를 선택해 주세요"); $("ntDate").focus(); return; }
+  if(!st.length){ toast("참석자가 없습니다. [자동 정리]를 누르거나 직접 입력해 주세요"); return; }
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  this.disabled=true;
+  try{
+    if(ntEditId){
+      var old=D.nets.filter(function(x){ return x.id===ntEditId; })[0]; if(old&&old.by)rec.by=old.by;
+      await db.collection("nets").doc(ntEditId).set(rec); rec.id=ntEditId;
+      D.nets=D.nets.map(function(x){ return x.id===ntEditId?rec:x; });
+    }else{
+      var ref=await db.collection("nets").add(rec); rec.id=(ref&&ref.id)||("local"+Date.now());
+      if(!D.nets.some(function(x){ return x.id===rec.id; }))D.nets.push(rec);
+    }
+    ntOpen[rec.id]=true; resetNetForm(); toast("교신일지를 저장했습니다");
+  }catch(e){ console.error(e); toast("저장에 실패했습니다"); }
+  finally{ this.disabled=false; }
+});
+$("ntRows").addEventListener("click",function(e){
+  var o=e.target.closest("[data-ntopen]");
+  if(o){ ntOpen[o.dataset.ntopen]=!ntOpen[o.dataset.ntopen]; renderNet(); return; }
+  var c=e.target.closest("[data-ntcopy]");
+  if(c){ var n=D.nets.filter(function(x){ return x.id===c.dataset.ntcopy; })[0]; if(n)sendCopy(netText(n),"교신일지를 복사했습니다"); return; }
+  var t=e.target.closest("[data-ntedit]"); if(!t)return;
+  var p=D.nets.filter(function(x){ return x.id===t.dataset.ntedit; })[0]; if(!p)return;
+  ntEditId=p.id;
+  $("ntDate").value=p.date||""; $("ntTime").value=p.time||""; $("ntName").value=p.name||""; $("ntKey").value=p.key||"";
+  $("ntList").value=stationsText(p.stations); $("ntMemo").value=p.memo||""; $("ntRaw").value=p.raw||"";
+  $("ntSave").textContent="수정 저장"; renderNet();
+  $("netEdit").scrollIntoView({block:"start",behavior:"smooth"});
+});
+resetNetForm();
 
 /* 화면 선택: 처음은 모바일, 고른 값은 이 기기에 기억 */
 function setView(v){
