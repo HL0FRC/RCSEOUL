@@ -431,7 +431,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v4.4</span>
+        <span class="vtag">v4.5</span>
       </div>
     </div>
   </div>
@@ -683,18 +683,18 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     <div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">교신일지 작성</span></div>
     <div class="row-gap">
       <div class="f"><label class="lbl" for="ntRaw">카톡 내용 붙여넣기</label>
-        <textarea class="inp ta" id="ntRaw" rows="5" placeholder="카톡에 올라온 교신 참석자·키스테이션 내용을 복사해서 붙여넣으세요"></textarea></div>
+        <textarea class="inp ta" id="ntRaw" rows="5" placeholder="카톡에 올라온 교신 참석자·키스테이션 내용을 복사해서 붙여넣으세요 (이름만 있어도 정리됩니다)"></textarea></div>
       <button class="btn btn-ghost" type="button" id="ntParse" style="margin-bottom:0">자동 정리</button>
       <div class="grid2">
         <div class="f"><label class="lbl" for="ntName">교신명</label><input class="inp" id="ntName" type="text"></div>
-        <div class="f"><label class="lbl" for="ntKey">키스테이션</label><input class="inp" id="ntKey" type="text" placeholder="예) HL2TLS" style="text-transform:uppercase"></div>
+        <div class="f"><label class="lbl" for="ntKey">키스테이션</label><input class="inp" id="ntKey" type="text" placeholder="콜사인 또는 이름"></div>
       </div>
       <div class="grid2">
         <div class="f"><label class="lbl" for="ntDate">교신 날짜 <span class="req">*</span></label><input class="inp" id="ntDate" type="date"></div>
         <div class="f"><label class="lbl" for="ntTime">시 간</label><input class="inp" id="ntTime" type="text" placeholder="21:00"></div>
       </div>
-      <div class="f"><label class="lbl" for="ntList">참석자 <span id="ntCount">0</span>국 (한 줄에 한 국, 고칠 수 있습니다)</label>
-        <textarea class="inp ta" id="ntList" rows="7" placeholder="1. HL2TLS 김양섭"></textarea></div>
+      <div class="f"><label class="lbl" for="ntList">참석자 <span id="ntCount">0</span>명 (한 줄에 한 명, 고칠 수 있습니다)</label>
+        <textarea class="inp ta" id="ntList" rows="7" placeholder="1. HL2TLS 김양섭 (이름만 적어도 됩니다)"></textarea></div>
       <div class="f"><label class="lbl" for="ntMemo">비 고</label><input class="inp" id="ntMemo" type="text" placeholder="전파 상태, 전달 사항 등"></div>
       <div style="display:flex;gap:8px;">
         <button class="btn btn-main" type="button" id="ntSave" style="flex:1">교신일지 저장</button>
@@ -2185,41 +2185,76 @@ $("mtList").addEventListener("click",function(e){
 /* ── 교신일지 ── */
 var CALL_RE=/(^|[^A-Z0-9])((?:HL|DS|DT|6K|6L|6M|6N|D7|D8|D9)[0-9][A-Z]{1,3})(?![A-Z0-9])/g;
 function callsIn(line){ var out=[],m,s=String(line||"").toUpperCase(); CALL_RE.lastIndex=0; while((m=CALL_RE.exec(s))){ out.push(m[2]); CALL_RE.lastIndex=m.index+m[0].length; } return out; }
-/* 카톡에서 복사한 글에서 콜사인·키스테이션·날짜를 찾아 정리한다 */
+/* 카톡에서 복사한 글에서 참석자(콜사인 또는 이름)·키스테이션·날짜를 찾아 정리한다 (v4.5: 이름만 있어도 정리) */
+var NET_KEY_RE=/키\s*스테이션|키\s*국|KEY\s*STATION|NCS|관제국|(^|[^A-Z])KS([^A-Z]|$)/i;
+var NET_STOP={"참석":1,"참석자":1,"참가":1,"참가자":1,"명단":1,"교신":1,"정기교신":1,"화요정기교신":1,"체크인":1,"이상":1,"감사":1,"감사합니다":1,"수고":1,"수고하셨습니다":1,"키스테이션":1,"키국":1,"관제국":1,"총":1,"외":1,"및":1,"불참":1,"일시":1,"장소":1,"비고":1,"오전":1,"오후":1};
+function callByName(n){ var ks=Object.keys(roster); for(var i=0;i<ks.length;i++){ if((roster[ks[i]].name||"")===n)return ks[i]; } return ""; }
+function rosterNamesIn(line){
+  var out=[],s=String(line||"");
+  Object.keys(roster).map(function(c){ return roster[c].name||""; }).filter(function(n){ return n.length>=2; })
+    .sort(function(a,b){ return b.length-a.length; })
+    .forEach(function(n){ var p=s.indexOf(n); if(p>=0){ out.push({name:n,pos:p}); s=s.replace(n,new Array(n.length+1).join(" ")); } });
+  return out.sort(function(a,b){ return a.pos-b.pos; }).map(function(x){ return x.name; });
+}
+/* 이름만 나열한 줄인지 본다: "홍길동, 김철수 이영희" → 이름 목록 */
+function plainNames(line){
+  var body=String(line||"").replace(/^[^:：]{0,12}[:：]/,"").replace(/^\s*\d+[.)]\s*/,"").replace(/\(?\s*\d+\s*(명|국)\s*\)?/g," ");
+  var tk=body.split(/[\s,，、·\/]+/).map(function(x){ return x.replace(/(님|씨|회원|봉사원)$/,"").trim(); }).filter(Boolean);
+  if(!tk.length)return [];
+  for(var i=0;i<tk.length;i++){ if(!/^[가-힣]{2,4}$/.test(tk[i])||NET_STOP[tk[i]])return []; }
+  return tk;
+}
 function parseNet(raw){
   var lines=String(raw||"").split(/\r?\n/),seen={},st=[],key="",date="";
+  function add(call,name){
+    if(call&&!name)name=nameOf(call);
+    if(!call&&name)call=callByName(name);
+    var k=call||name; if(!k||seen[k])return; seen[k]=1; st.push({call:call||"",name:name||""});
+  }
   lines.forEach(function(ln,i){
-    var cs=callsIn(ln);
-    if(!key&&/키\s*스테이션|키\s*국|KEY\s*STATION|NCS|관제국|(^|[^A-Z])KS([^A-Z]|$)/i.test(ln)){
-      var k=cs.length?cs:callsIn(lines[i+1]||""); if(k.length)key=k[0];
-    }
-    var who=(ln.match(/^\[([^\]]+)\]\s*\[/)||[])[1]||"";
-    cs.forEach(function(c){ if(seen[c])return; seen[c]=1; st.push({call:c,name:nameOf(c)||(cs.length===1?who:"")}); });
+    var d;
     if(!date){
-      var d=ln.match(/(20\d{2})\s*[.\-\/년]\s*(\d{1,2})\s*[.\-\/월]\s*(\d{1,2})/);
+      d=ln.match(/(20\d{2})\s*[.\-\/년]\s*(\d{1,2})\s*[.\-\/월]\s*(\d{1,2})/);
       if(d)date=d[1]+"-"+pad2(+d[2])+"-"+pad2(+d[3]);
       else{ d=ln.match(/(\d{1,2})\s*월\s*(\d{1,2})\s*일/); if(d)date=new Date().getFullYear()+"-"+pad2(+d[1])+"-"+pad2(+d[2]); }
+      if(d&&!callsIn(ln).length&&!rosterNamesIn(ln).length)return;   /* 날짜만 있는 줄 */
     }
+    var km=ln.match(/^\[([^\]]+)\]\s*\[[^\]]*\]\s*(.*)$/),who=km?km[1].trim():"",body=km?km[2]:ln;
+    var cs=callsIn(body),rn=rosterNamesIn(body);
+    /* 이름만 나열한 줄. 카톡 대화 글에서는 "참석자:" 같은 머리말이나 쉼표가 있을 때만 이름 목록으로 본다 */
+    var pn=(cs.length||(km&&!/[:：,，、]/.test(body)))?[]:plainNames(body);
+    if(pn.length)rn=[];
+    if(!key&&NET_KEY_RE.test(ln)){
+      var nx=lines[i+1]||"";
+      key=cs[0]||callByName(rn[0]||pn[0]||"")||rn[0]||pn[0]||callsIn(nx)[0]||callByName(rosterNamesIn(nx)[0]||"")||rosterNamesIn(nx)[0]||"";
+    }
+    cs.forEach(function(c){ add(c,cs.length===1&&!rn.length?(nameOf(c)||who):""); });
+    rn.forEach(function(n){ add("",n); });
+    pn.forEach(function(n){ add("",n); });
+    /* 카톡 글: 본문에 이름·콜사인이 없고 체크인·참석 표현이면 보낸 사람을 참석자로 */
+    if(who&&!cs.length&&!rn.length&&!pn.length&&/체크인|참석|수신|양호|QSL|73|감사|이상/i.test(body))add("",who);
   });
   return {stations:st,key:key,date:date};
 }
 function stationsFromText(t){
   var out=[],seen={};
   String(t||"").split(/\r?\n/).forEach(function(ln){
-    var cs=callsIn(ln); if(!cs.length)return;
-    var c=cs[0]; if(seen[c])return; seen[c]=1;
-    var nm=ln.replace(/^\s*\d+[.)]\s*/,"").replace(new RegExp(c,"i"),"").trim();
-    out.push({call:c,name:nm||nameOf(c)});
+    var s=ln.replace(/^\s*\d+[.)]\s*/,"").trim(); if(!s)return;
+    var cs=callsIn(s),call=cs[0]||"",nm=call?s.replace(new RegExp(call,"i"),"").trim():s;
+    if(!call&&nm)call=callByName(nm);
+    if(call&&!nm)nm=nameOf(call);
+    var k=call||nm; if(seen[k])return; seen[k]=1;
+    out.push({call:call,name:nm});
   });
   return out;
 }
-function stationsText(st){ return (st||[]).map(function(s,i){ return (i+1)+". "+s.call+(s.name?" "+s.name:""); }).join("\n"); }
+function stationsText(st){ return (st||[]).map(function(s,i){ return (i+1)+". "+[s.call,s.name].filter(Boolean).join(" "); }).join("\n"); }
 function netText(n){
   var kn=n.key?n.key+(nameOf(n.key)?" "+nameOf(n.key):""):"";
   return "■ "+(n.name||"교신")+" 교신일지\n"
     +"일시: "+dateLabel(n.date)+(n.time?" "+n.time:"")+"\n"
     +"키스테이션: "+kn+"\n"
-    +"참석: "+(n.stations||[]).length+"국\n"
+    +"참석: "+(n.stations||[]).length+"명\n"
     +stationsText(n.stations)+(n.memo?"\n\n비고: "+n.memo:"");
 }
 function renderNet(){
@@ -2230,7 +2265,7 @@ function renderNet(){
     var open=!!ntOpen[n.id],mine=(n.by===meCall)||ed;
     return '<div class="mrow"><div class="mhead">'
       +'<div class="lbody"><div class="ptitle">'+esc(n.name||"교신")+'</div>'
-      +'<div class="pmeta">'+[esc(dateLabel(n.date)+(n.time?" "+n.time:"")),n.key?"키스테이션 "+esc(n.key):"","참석 "+(n.stations||[]).length+"국"].filter(Boolean).join(" · ")+'</div></div>'
+      +'<div class="pmeta">'+[esc(dateLabel(n.date)+(n.time?" "+n.time:"")),n.key?"키스테이션 "+esc(n.key):"","참석 "+(n.stations||[]).length+"명"].filter(Boolean).join(" · ")+'</div></div>'
       +'<div class="pacts"><button class="btn btn-s" type="button" data-ntopen="'+escA(n.id)+'">'+(open?"접기":"보기")+'</button></div></div>'
       +(open?'<div class="mdetail"><div class="pre">'+esc(netText(n))+'</div>'
         +'<div class="bar" style="margin:8px 0 0"><button class="btn btn-s" type="button" data-ntcopy="'+escA(n.id)+'">일지 복사</button>'
@@ -2247,17 +2282,17 @@ function resetNetForm(){
 }
 $("ntNew").addEventListener("click",resetNetForm);
 $("ntList").addEventListener("input",function(){ $("ntCount").textContent=stationsFromText(this.value).length; });
-$("ntKey").addEventListener("input",function(){ this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,""); });
+$("ntKey").addEventListener("input",function(){ this.value=this.value.toUpperCase(); });
 $("ntParse").addEventListener("click",function(){
   var raw=$("ntRaw").value;
   if(!raw.trim()){ toast("카톡 내용을 먼저 붙여넣어 주세요"); $("ntRaw").focus(); return; }
   var r=parseNet(raw);
-  if(!r.stations.length){ toast("콜사인을 찾지 못했습니다. 내용을 확인해 주세요"); return; }
+  if(!r.stations.length){ toast("참석자 이름이나 콜사인을 찾지 못했습니다. 내용을 확인해 주세요"); return; }
   $("ntList").value=stationsText(r.stations);
   if(r.key)$("ntKey").value=r.key;
   if(r.date)$("ntDate").value=r.date;
   renderNet();
-  toast("참석 "+r.stations.length+"국을 정리했습니다"+(r.key?"":" · 키스테이션은 직접 입력해 주세요"));
+  toast("참석 "+r.stations.length+"명을 정리했습니다"+(r.key?"":" · 키스테이션은 직접 입력해 주세요"));
 });
 $("ntSave").addEventListener("click",async function(){
   if(!meCall){ toast("로그인 후 이용해 주세요"); return; }
