@@ -378,6 +378,17 @@ body.vm .subnav-inner{max-width:430px;} body.vpc .subnav-inner{max-width:1100px;
 .edtb{font-size:12px;} .edtb th,.edtb td{padding:7px 4px;} .edtb td:first-child,.edtb th:first-child{text-align:center;width:1%;white-space:nowrap;}
 .edtb td.c,.edtb th.c{text-align:center;white-space:nowrap;} .edtb td:last-child{width:1%;white-space:nowrap;}
 .edtb .tlink{display:inline;}
+/* 자료실 */
+.fdrop{border:2px dashed var(--line);border-radius:12px;padding:14px 12px;text-align:center;font-size:12.5px;color:var(--ink-2);line-height:1.6;background:var(--ground);}
+.fdrop.over{border-color:var(--red);background:var(--red-wash);}
+.frow{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);} .frow:last-child{border-bottom:0;}
+.fico{font-size:22px;line-height:1.2;flex:0 0 auto;}
+.frow .lbody{min-width:0;flex:1;}
+.frow .lname,.frow .lmeta{word-break:break-all;}
+.fsnip{font-size:12px;color:var(--ink-2);margin-top:4px;line-height:1.55;word-break:break-all;}
+.fsnip mark{background:#FFE58A;color:#1B2433;padding:0 2px;border-radius:3px;}
+.facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;}
+.fbody{margin-top:8px;background:var(--ground);border-radius:9px;padding:9px 11px;}
 /* 화면 선택 (모바일 / PC) */
 .vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
 .vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
@@ -436,7 +447,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     <button class="tab goff" data-g="act" role="tab" aria-selected="false" data-p="proxy"><span class="ico">📝</span><span class="lf">위임장</span><span class="ls">위임장</span></button>
     <button class="tab goff" data-g="act" role="tab" aria-selected="false" data-p="photo"><span class="ico">📷</span><span class="lf">활동사진</span><span class="ls">사진</span></button>
     <button class="tab goff" data-g="radio" role="tab" aria-selected="false" data-p="net"><span class="ico">📻</span><span class="lf">교신일지</span><span class="ls">교신</span></button>
-    <button class="tab goff" data-g="data" role="tab" aria-selected="false" data-p="link"><span class="ico">🔗</span><span class="lf">앱·링크</span><span class="ls">링크</span></button>
+    <button class="tab goff" data-g="data" role="tab" aria-selected="false" data-p="link"><span class="ico">🔗</span><span class="lf">링크·자료</span><span class="ls">자료</span></button>
     <button class="tab goff" data-g="data" role="tab" aria-selected="false" data-p="info"><span class="ico">📞</span><span class="lf">뉴스·연락처</span><span class="ls">연락처</span></button>
     <button class="tab goff" data-g="mem" role="tab" aria-selected="false" data-p="edu"><span class="ico">🎓</span><span class="lf">교육이력</span><span class="ls">교육</span></button>
     <button class="tab goff" data-g="mem" role="tab" aria-selected="false" data-p="log"><span class="ico">📈</span><span class="lf">접속기록</span><span class="ls">기록</span></button>
@@ -463,7 +474,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v4.9</span>
+        <span class="vtag">v5.0</span>
       </div>
     </div>
   </div>
@@ -777,6 +788,11 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
 <!-- 앱·링크 -->
 <section id="p-link" hidden>
   <div class="card">
+    <div class="f" style="margin:0"><label class="lbl" for="lkQ">링크·자료 검색</label>
+      <input class="inp" id="lkQ" type="search" placeholder="제목, 설명, 파일 본문에서 찾습니다" autocomplete="off"></div>
+    <div class="pmeta" id="lkQInfo" style="margin-top:5px"></div>
+  </div>
+  <div class="card">
     <div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">앱·링크 등록</span></div>
     <div class="row-gap">
       <div class="grid2">
@@ -791,6 +807,27 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     </div>
   </div>
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">봉사회 앱·링크</span></div><div id="lkList"></div></div>
+  <div class="card" id="fileEdit">
+    <div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">자료 올리기</span></div>
+    <div class="row-gap">
+      <div class="fdrop" id="flDrop">
+        <div>엑셀·워드·PDF·PPT·이미지 등 파일을 여기에 끌어다 놓거나<br>복사한 파일·이미지를 <b>붙여넣기(Ctrl+V)</b> 하세요 (10MB 이하)</div>
+        <button class="btn btn-s" type="button" id="flBtn" style="margin-top:8px">파일 선택</button>
+        <input type="file" id="flFile" hidden>
+      </div>
+      <div class="pmeta" id="flPicked"></div>
+      <div class="f"><label class="lbl" for="flTitle">제 목 <span class="req">*</span></label><input class="inp" id="flTitle" type="text" placeholder="예) 2026년 정기총회 자료"></div>
+      <div class="f"><label class="lbl" for="flBody">내 용 (설명이나 글을 붙여넣어도 됩니다)</label>
+        <textarea class="inp ta" id="flBody" rows="3" placeholder="자료 설명, 또는 글 내용만 올려도 됩니다"></textarea></div>
+      <div class="pmeta" id="flProg"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-main" type="button" id="flSave" style="flex:1">자료 올리기</button>
+        <button class="btn btn-s" type="button" id="flNew" hidden>수정 취소</button>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">자료 목록</span></div><div id="flList"></div>
+    <div class="gate-note">자료는 봉사원 누구나 올릴 수 있고, 올린 사람과 임원이 수정·삭제합니다.</div></div>
 </section>
 
 <!-- 뉴스·연락처 -->
@@ -895,7 +932,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
 <script type="module">
 /* Firebase 연결 (재난대응봉사회 전용 프로젝트 hl0frc-ai) */
 import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, getDocs, addDoc, setDoc, deleteDoc, onSnapshot }
+import { getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, onSnapshot }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig = {
@@ -916,6 +953,7 @@ function wrap(fdb){
       add:function(d){ return addDoc(cref,d); },
       doc:function(id){ var dref=doc(fdb,p,id); return {
         set:function(d){ return setDoc(dref,d); },
+        get:function(){ return getDoc(dref).then(function(s){ return {id:s.id,exists:s.exists(),data:function(){ return s.data(); }}; }); },
         delete:function(){ return deleteDoc(dref); } };},
       onSnapshot:function(next,err){ return onSnapshot(cref,function(s){ next(pack(s)); },err); }
     };
@@ -1662,7 +1700,7 @@ $("btnRetry").addEventListener("click",function(){ connect(); });
 
 /* ═════════ 포털: 현황·활동계획·사진·링크·연락처·접속기록 ═════════ */
 var EDIT_ROLES=["회장","총무","기술팀장","구호팀장","드론팀장"];
-var D={plans:[],photos:[],links:[],infos:[],logs:[],meets:[],nets:[],edus:[]},unsubP={};
+var D={plans:[],photos:[],links:[],infos:[],logs:[],meets:[],nets:[],edus:[],files:[]},unsubP={};
 /* 고정 일정: 매주 화요일 21시 화요정기교신 (코드에 들어 있어 삭제되지 않는다) */
 var FIXED_PLANS=[{id:"fixed-tue-net",date:"2026-01-06",time:"21:00",title:"화요정기교신",rep:"weekly",until:"",place:"",memo:"매주 화요일 21시",fixed:true}];
 function allPlans(){ return FIXED_PLANS.concat(D.plans); }
@@ -2174,10 +2212,10 @@ function renderPortal(){
     :'<div class="none">아직 올라온 사진이 없습니다. 위에서 첫 사진을 올려 보세요.</div>';
 
   /* 앱·링크 */
-  $("lkList").innerHTML='<div class="lrow"><div class="lbody"><span class="lname">위임장</span>'
+  $("lkList").innerHTML=((!lkQ||qHit("위임장 월례회 불참자 의결권 위임"))?'<div class="lrow"><div class="lbody"><span class="lname">위임장</span>'
       +'<div class="lmeta">월례회 불참자 의결권 위임 · 이 포털 안에 있습니다</div></div>'
-      +'<button class="btn btn-s pri" type="button" data-go="proxy">열기</button></div>'
-    +D.links.slice().sort(function(a,b){ return String(a.at||"").localeCompare(String(b.at||"")); }).map(function(l){
+      +'<button class="btn btn-s pri" type="button" data-go="proxy">열기</button></div>':'')
+    +D.links.filter(lkHit).sort(function(a,b){ return String(a.at||"").localeCompare(String(b.at||"")); }).map(function(l){
       var who=l.byName?l.byName+" ("+l.by+")":(l.by||"");
       return '<div class="lrow"><div class="lbody">'
         +'<a class="lname" href="'+escA(l.url)+'" target="_blank" rel="noopener">'+esc(l.name)+'</a>'
@@ -2203,7 +2241,7 @@ function renderPortal(){
   $("infoEdit").hidden=!ed;
 
   renderLogs();
-  renderMeet(); renderNet(); renderEdu(); showGroup();
+  renderMeet(); renderNet(); renderEdu(); renderFiles(); showGroup();
 }
 
 
@@ -2680,6 +2718,240 @@ $("edSeed").addEventListener("click",async function(){
     toast("기본 명단 "+n+"명을 넣었습니다");
   }catch(e){ console.error(e); toast(n?n+"명만 들어가고 나머지는 실패했습니다":"명단 넣기에 실패했습니다"); }
   finally{ this.disabled=false; renderEdu(); }
+});
+
+
+/* ═════ v5.0 자료실: 파일 올리기 · 수정 · 삭제 · 검색(제목·본문) ═════
+   파일은 Firestore 문서 크기 제한(1MB) 때문에 조각으로 나눠 저장한다.
+   files(목록 정보) · filechunks(파일 조각) · filetexts(검색용 본문) */
+var FL_MAX=10*1024*1024,FL_PART=700000,FL_TEXT_MAX=200000;
+var flPicked=null,flEditId="",flBusy=false,lkQ="",FT={},ftLoaded=false,ftLoading=null;
+function flId(){ return "f"+Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function flExt(n){ var m=String(n||"").toLowerCase().match(/\.([a-z0-9]+)$/); return m?m[1]:""; }
+function flSize(b){ b=+b||0; return b<1024?b+"B":b<1048576?Math.round(b/1024)+"KB":(b/1048576).toFixed(1)+"MB"; }
+function flIcon(n){
+  var e=flExt(n);
+  if(/^(xls|xlsx|csv)$/.test(e))return "📊"; if(/^(doc|docx|hwp|hwpx|txt|md)$/.test(e))return "📄";
+  if(/^(ppt|pptx)$/.test(e))return "📽️"; if(e==="pdf")return "📕"; if(/^(png|jpg|jpeg|gif|webp|bmp|heic)$/.test(e))return "🖼️";
+  return n?"📎":"📝";
+}
+function loadScript(src){
+  return new Promise(function(ok,no){
+    var s=document.createElement("script"); s.src=src; s.onload=ok; s.onerror=function(){ no(new Error("불러오기 실패 "+src)); };
+    document.head.appendChild(s);
+  });
+}
+function xmlText(x,para){
+  return String(x||"").replace(new RegExp("</"+para+">","g"),"\n").replace(/<[^>]+>/g,"")
+    .replace(/&#x([0-9a-fA-F]+);/g,function(m,h){ return String.fromCodePoint(parseInt(h,16)); }).replace(/&#(\d+);/g,function(m,d){ return String.fromCodePoint(+d); })
+    .replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,"&");
+}
+/* 검색용 본문 뽑기: 워드·엑셀·파워포인트·한글(hwpx)·PDF·텍스트. 뽑지 못하면 빈 글 */
+async function extractText(file){
+  var e=flExt(file.name),out="";
+  try{
+    if(/^(txt|csv|md|log|json|xml|html|htm)$/.test(e)){ out=await file.text(); }
+    else if(/^(docx|pptx|xlsx|hwpx)$/.test(e)){
+      if(!window.JSZip)await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js");
+      var zip=await window.JSZip.loadAsync(await file.arrayBuffer()),names=Object.keys(zip.files),parts=[];
+      var pick=e==="docx"?names.filter(function(n){ return /^word\/(document|footnotes|endnotes|header\d*|footer\d*)\.xml$/.test(n); })
+        :e==="pptx"?names.filter(function(n){ return /^ppt\/(slides|notesSlides)\/[^\/]+\.xml$/.test(n); })
+        :e==="xlsx"?names.filter(function(n){ return /^xl\/(sharedStrings|workbook)\.xml$/.test(n)||/^xl\/worksheets\/sheet\d+\.xml$/.test(n); })
+        :names.filter(function(n){ return /^Contents\/section\d+\.xml$/i.test(n); });
+      pick.sort(function(a,b){ return a.localeCompare(b,undefined,{numeric:true}); });
+      for(var i=0;i<pick.length;i++){
+        var x=await zip.file(pick[i]).async("string");
+        if(e==="xlsx"&&/worksheets\//.test(pick[i])){ (x.match(/<is>[\s\S]*?<\/is>/g)||[]).forEach(function(s){ parts.push(xmlText(s,"is")); }); }   /* 셀 안에 직접 든 글 */
+        else if(e==="xlsx"&&/workbook\.xml$/.test(pick[i])){ (x.match(/<sheet [^>]*name="([^"]*)"/g)||[]).forEach(function(s){ parts.push(s.replace(/.*name="([^"]*)".*/,"$1")); }); }
+        else parts.push(xmlText(x,e==="docx"?"w:p":e==="pptx"?"a:p":e==="xlsx"?"si":"hp:p"));
+      }
+      out=parts.join("\n");
+    }
+    else if(e==="pdf"){
+      if(!window.pdfjsLib){
+        await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      }
+      var pdf=await window.pdfjsLib.getDocument({data:await file.arrayBuffer(),cMapUrl:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/",cMapPacked:true}).promise,pp=[];
+      for(var p=1;p<=Math.min(pdf.numPages,300);p++){
+        var tc=await (await pdf.getPage(p)).getTextContent();
+        pp.push(tc.items.map(function(it){ return it.str; }).join(" "));
+        if(pp.join("").length>FL_TEXT_MAX)break;
+      }
+      out=pp.join("\n");
+    }
+  }catch(err){ console.error("본문 추출 실패",err); out=""; }
+  return out.replace(/[ \t]+/g," ").replace(/\n{3,}/g,"\n\n").trim().slice(0,FL_TEXT_MAX);
+}
+function readB64(file){
+  return new Promise(function(ok,no){
+    var r=new FileReader(); r.onload=function(){ var s=String(r.result||""); ok(s.slice(s.indexOf(",")+1)); }; r.onerror=function(){ no(r.error); };
+    r.readAsDataURL(file);
+  });
+}
+function docExists(s){ return s&&(typeof s.exists==="function"?s.exists():s.exists!==false); }
+/* 검색용 본문은 처음 검색할 때 한 번만 읽어 온다 */
+function ensureTexts(){
+  if(ftLoaded||!db)return Promise.resolve();
+  if(ftLoading)return ftLoading;
+  ftLoading=db.collection("filetexts").get().then(function(q){
+    q.docs.forEach(function(d){ FT[d.id]=String((d.data()||{}).text||""); }); ftLoaded=true;
+  }).catch(function(e){ console.error("본문 읽기 실패",e); }).then(function(){ ftLoading=null; });
+  return ftLoading;
+}
+function qTokens(){ return lkQ.toLowerCase().split(/\s+/).filter(Boolean); }
+function qHit(text){ var t=String(text||"").toLowerCase(),k=qTokens(); for(var i=0;i<k.length;i++){ if(t.indexOf(k[i])<0)return false; } return true; }
+function lkHit(l){ return !lkQ||qHit([l.name,l.desc,l.url].join("\n")); }
+function flHit(f){ return !lkQ||qHit([f.title,f.body,f.fname,FT[f.id]||""].join("\n")); }
+function flSnippet(f){
+  var k=qTokens()[0]; if(!k)return "";
+  var src=[f.body||"",FT[f.id]||""].join("\n"),p=src.toLowerCase().indexOf(k); if(p<0)return "";
+  var a=Math.max(0,p-28),b=Math.min(src.length,p+k.length+50);
+  return (a>0?"…":"")+esc(src.slice(a,p))+"<mark>"+esc(src.slice(p,p+k.length))+"</mark>"+esc(src.slice(p+k.length,b))+(b<src.length?"…":"");
+}
+function renderFiles(){
+  var ed=canEdit();
+  var all=D.files.slice().sort(function(a,b){ return String(b.at||"").localeCompare(String(a.at||"")); }),list=all.filter(flHit);
+  $("flList").innerHTML=list.length?list.map(function(f){
+    var who=f.byName?f.byName+" ("+f.by+")":(f.by||""),mine=ed||f.by===meCall,snip=lkQ?flSnippet(f):"";
+    var meta=[f.fname?esc(f.fname)+" · "+flSize(f.size):"글 자료",who?"등록 "+esc(who):"",esc(String(f.at||"").slice(0,10))].filter(Boolean).join(" · ");
+    return '<div class="frow"><div class="fico">'+flIcon(f.fname)+'</div><div class="lbody">'
+      +'<div class="lname">'+esc(f.title||f.fname||"자료")+'</div><div class="lmeta">'+meta+'</div>'
+      +(snip?'<div class="fsnip">'+snip+'</div>':(f.body?'<div class="fsnip">'+esc(String(f.body).slice(0,90))+(String(f.body).length>90?"…":"")+'</div>':''))
+      +'<div class="facts">'
+      +(f.fname?'<button class="btn btn-s pri" type="button" data-fldown="'+escA(f.id)+'">내려받기</button>':'')
+      +(f.body?'<button class="btn btn-s" type="button" data-flview="'+escA(f.id)+'">내용 보기</button>':'')
+      +(mine?'<button class="btn btn-s" type="button" data-fledit="'+escA(f.id)+'">수정</button><button class="btn btn-s" type="button" data-fldel="'+escA(f.id)+'">삭제</button>':'')
+      +'</div><div class="pre fbody" id="fb_'+escA(f.id)+'" hidden></div></div></div>';
+  }).join(""):'<div class="none">'+(all.length?"검색된 자료가 없습니다.":"아직 올라온 자료가 없습니다.")+'</div>';
+  if(lkQ){
+    var nl=D.links.filter(lkHit).length;
+    $("lkQInfo").textContent="검색 결과: 링크 "+nl+"건 · 자료 "+list.length+"건";
+  }else $("lkQInfo").textContent="";
+}
+function flShowPicked(){
+  $("flPicked").innerHTML=flPicked?flIcon(flPicked.name)+" <b>"+esc(flPicked.name)+"</b> · "+flSize(flPicked.size)+' <button class="tlink" type="button" id="flUnpick">빼기</button>'
+    :(flEditId?"파일을 새로 고르지 않으면 기존 파일을 그대로 둡니다.":"");
+}
+function flPick(file){
+  if(!file)return;
+  if(file.size>FL_MAX){ toast("파일이 너무 큽니다. "+flSize(FL_MAX)+" 이하만 올릴 수 있습니다"); return; }
+  var name=file.name||"";
+  /* 붙여넣은 이미지는 이름이 image.png 뿐이라 날짜를 붙인다 */
+  if(/^image\.(png|jpe?g|gif|webp|bmp)$/i.test(name)||!name){
+    var d=new Date(),ex=flExt(name)||(String(file.type||"").split("/")[1]||"png");
+    name="붙여넣은 이미지 "+ymd(d)+" "+pad2(d.getHours())+pad2(d.getMinutes())+"."+ex;
+    try{ file=new File([file],name,{type:file.type}); }catch(e){}
+  }
+  flPicked=file;
+  if(!$("flTitle").value.trim())$("flTitle").value=name.replace(/\.[A-Za-z0-9]+$/,"");
+  flShowPicked();
+}
+function resetFileForm(){
+  flEditId=""; flPicked=null; $("flFile").value=""; $("flTitle").value=""; $("flBody").value="";
+  $("flSave").textContent="자료 올리기"; $("flNew").hidden=true; $("flProg").textContent=""; flShowPicked();
+}
+$("flNew").addEventListener("click",resetFileForm);
+$("flBtn").addEventListener("click",function(){ $("flFile").click(); });
+$("flFile").addEventListener("change",function(){ flPick(this.files&&this.files[0]); });
+$("flPicked").addEventListener("click",function(e){ if(e.target.id==="flUnpick"){ flPicked=null; $("flFile").value=""; flShowPicked(); } });
+["dragenter","dragover"].forEach(function(ev){ $("flDrop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.add("over"); }); });
+["dragleave","drop"].forEach(function(ev){ $("flDrop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.remove("over"); }); });
+$("flDrop").addEventListener("drop",function(e){ var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(f)flPick(f); });
+/* 붙여넣기(Ctrl+V): 링크·자료 화면이 열려 있을 때 복사한 파일·이미지를 바로 받는다 */
+document.addEventListener("paste",function(e){
+  if($("p-link").hidden)return;
+  var fs=e.clipboardData&&e.clipboardData.files;
+  if(fs&&fs.length){ e.preventDefault(); flPick(fs[0]); toast("붙여넣은 파일을 받았습니다. 제목을 확인하고 [자료 올리기]를 눌러 주세요"); $("fileEdit").scrollIntoView({block:"center",behavior:"smooth"}); }
+});
+$("lkQ").addEventListener("input",function(){
+  lkQ=this.value.trim(); renderPortal();
+  if(lkQ&&!ftLoaded)ensureTexts().then(function(){ renderFiles(); });
+});
+$("flSave").addEventListener("click",async function(){
+  if(flBusy)return;
+  if(!meCall){ toast("로그인 후 이용해 주세요"); return; }
+  var old=flEditId?D.files.filter(function(x){ return x.id===flEditId; })[0]:null;
+  if(flEditId&&!old){ resetFileForm(); toast("수정할 자료를 찾지 못했습니다"); return; }
+  if(old&&!(canEdit()||old.by===meCall)){ toast("수정 권한이 없습니다"); return; }
+  var title=$("flTitle").value.trim(),body=$("flBody").value.trim(),file=flPicked;
+  if(!title&&file)title=file.name.replace(/\.[A-Za-z0-9]+$/,"");
+  if(!title){ toast("제목을 입력해 주세요"); $("flTitle").focus(); return; }
+  if(!old&&!file&&!body){ toast("파일을 고르거나 내용을 적어 주세요"); return; }
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  flBusy=true; this.disabled=true;
+  var id=old?old.id:flId(),now=new Date().toISOString();
+  var rec={title:title,body:body,fname:old?old.fname||"":"",ftype:old?old.ftype||"":"",size:old?old.size||0:0,chunks:old?old.chunks||0:0,
+    hasText:old?!!old.hasText:false,by:old?old.by:meCall,byName:old?old.byName||"":meName||"",at:old?old.at:now};
+  if(old){ rec.editBy=meCall; rec.editAt=now; }
+  try{
+    if(file){
+      $("flProg").textContent="본문을 읽는 중…";
+      var text=await extractText(file);
+      $("flProg").textContent="파일을 준비하는 중…";
+      var b64=await readB64(file),n=Math.max(1,Math.ceil(b64.length/FL_PART));
+      for(var i=0;i<n;i++){
+        $("flProg").textContent="올리는 중 "+(i+1)+" / "+n;
+        await db.collection("filechunks").doc(id+"_"+i).set({d:b64.slice(i*FL_PART,(i+1)*FL_PART)});
+      }
+      for(var j=n;j<(old?old.chunks||0:0);j++){ try{ await db.collection("filechunks").doc(id+"_"+j).delete(); }catch(e2){} }
+      await db.collection("filetexts").doc(id).set({text:text});
+      FT[id]=text;
+      rec.fname=file.name; rec.ftype=file.type||""; rec.size=file.size; rec.chunks=n; rec.hasText=!!text;
+    }
+    $("flProg").textContent="저장하는 중…";
+    await db.collection("files").doc(id).set(rec); rec.id=id;
+    if(old)D.files=D.files.map(function(x){ return x.id===id?rec:x; }); else if(!D.files.some(function(x){ return x.id===id; }))D.files.push(rec);
+    var hadFile=!!file,gotText=rec.hasText;
+    resetFileForm(); renderFiles();
+    toast(old?"자료를 수정했습니다":(hadFile&&!gotText&&/^(pdf|docx|pptx|xlsx|hwpx|txt|csv|md)$/.test(flExt(rec.fname))?"자료를 올렸습니다 (본문은 읽지 못해 제목으로만 검색됩니다)":"자료를 올렸습니다"));
+  }catch(e){ console.error(e); $("flProg").textContent=""; toast("자료 저장에 실패했습니다"); }
+  finally{ flBusy=false; this.disabled=false; }
+});
+var flArm="";
+$("flList").addEventListener("click",async function(e){
+  var b=e.target.closest("button"); if(!b)return;
+  var id=b.dataset.fldown||b.dataset.flview||b.dataset.fledit||b.dataset.fldel; if(!id)return;
+  var f=D.files.filter(function(x){ return x.id===id; })[0]; if(!f)return;
+  if(b.dataset.flview){ var box=$("fb_"+id); box.hidden=!box.hidden; box.textContent=f.body||""; b.textContent=box.hidden?"내용 보기":"내용 접기"; return; }
+  if(b.dataset.fledit){
+    flEditId=id; flPicked=null; $("flFile").value=""; $("flTitle").value=f.title||""; $("flBody").value=f.body||"";
+    $("flSave").textContent="수정 저장"; $("flNew").hidden=false; flShowPicked();
+    $("fileEdit").scrollIntoView({block:"start",behavior:"smooth"}); return;
+  }
+  if(b.dataset.fldown){
+    if(flBusy)return; flBusy=true; b.disabled=true; var lab=b.textContent;
+    try{
+      var parts=[];
+      for(var i=0;i<(f.chunks||0);i++){
+        b.textContent="받는 중 "+(i+1)+"/"+f.chunks;
+        var s=await db.collection("filechunks").doc(id+"_"+i).get();
+        if(!docExists(s))throw new Error("조각 없음 "+i);
+        parts.push(String((s.data()||{}).d||""));
+      }
+      var bin=atob(parts.join("")),u8=new Uint8Array(bin.length);
+      for(var k=0;k<bin.length;k++)u8[k]=bin.charCodeAt(k);
+      var url=URL.createObjectURL(new Blob([u8],{type:f.ftype||"application/octet-stream"})),a=document.createElement("a");
+      a.href=url; a.download=f.fname||"file"; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); },60000);
+      toast("내려받기를 시작했습니다");
+    }catch(err){ console.error(err); toast("내려받기에 실패했습니다"); }
+    finally{ flBusy=false; b.disabled=false; b.textContent=lab; }
+    return;
+  }
+  if(b.dataset.fldel){
+    if(!(canEdit()||f.by===meCall)){ toast("삭제 권한이 없습니다"); return; }
+    if(flArm!==id){ flArm=id; b.textContent="삭제 확인"; setTimeout(function(){ if(flArm===id){ flArm=""; renderFiles(); } },5000); return; }
+    flArm=""; b.disabled=true;
+    try{
+      for(var c=0;c<(f.chunks||0);c++){ try{ await db.collection("filechunks").doc(id+"_"+c).delete(); }catch(e3){ console.error(e3); } }
+      try{ await db.collection("filetexts").doc(id).delete(); }catch(e4){}
+      await db.collection("files").doc(id).delete();
+      D.files=D.files.filter(function(x){ return x.id!==id; }); delete FT[id];
+      if(flEditId===id)resetFileForm();
+      renderFiles(); toast("삭제했습니다");
+    }catch(err2){ console.error(err2); toast("삭제에 실패했습니다"); }
+  }
 });
 
 /* 화면 선택: 처음은 모바일, 고른 값은 이 기기에 기억 */
