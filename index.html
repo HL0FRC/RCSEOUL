@@ -433,7 +433,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v4.6</span>
+        <span class="vtag">v4.7</span>
       </div>
     </div>
   </div>
@@ -1058,8 +1058,11 @@ async function loadRoster(){
   }
 }
 
+/* 콜사인 정렬: HL → DS → 6K → 그 밖, 같은 접두어 안에서는 글자순 */
+function callRank(c){ c=String(c||"").toUpperCase(); return c.indexOf("HL")===0?0:c.indexOf("DS")===0?1:c.indexOf("6K")===0?2:3; }
+function callSort(a,b){ return (callRank(a)-callRank(b))||String(a).localeCompare(String(b)); }
 function renderMembers(){
-  var ks=Object.keys(roster).sort();
+  var ks=Object.keys(roster).sort(callSort);
   $("memCount").textContent=ks.length;
   var el=$("memList");
   if(!ks.length){
@@ -2119,7 +2122,7 @@ function renderMeet(){
   $("dNoticeCard").hidden=!nh; $("dNotice").innerHTML=nh;
   /* 참석자 고르기 */
   var cur=attList($("mtAtt").value);
-  $("mtPick").innerHTML=Object.keys(roster).sort().map(function(c){
+  $("mtPick").innerHTML=Object.keys(roster).sort(callSort).map(function(c){
     var n=roster[c].name||c;
     return '<button class="mchip" type="button" data-att="'+escA(n)+'" aria-pressed="'+(cur.indexOf(n)>=0?"true":"false")+'">'+esc(n)+'</button>';
   }).join("");
