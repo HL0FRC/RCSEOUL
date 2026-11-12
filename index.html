@@ -354,6 +354,8 @@ body.vm .nav-inner{flex-wrap:wrap;} body.vm .tab{flex:0 0 20%;padding-block:6px 
 @media (min-width:641px){ body.vpc .memtb{font-size:13px;} body.vpc .memtb th,body.vpc .memtb td{padding:8px 9px;} body.vpc .memtb .tlink{display:inline;font-size:12.5px;padding:2px 5px;} }
 .memtb td.num{font-variant-numeric:tabular-nums;}
 .tlink{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--red);background:none;border:0;padding:2px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+/* 카톡 공지 → 일정 후보 */
+.nccand{border:1px solid var(--line);border-radius:10px;padding:9px 10px;margin-bottom:8px;background:var(--ground);}
 /* 화면 선택 (모바일 / PC) */
 .vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
 .vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
@@ -431,7 +433,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v4.5</span>
+        <span class="vtag">v4.6</span>
       </div>
     </div>
   </div>
@@ -456,6 +458,19 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
 
 <!-- 활동계획 -->
 <section id="p-plan" hidden>
+  <div class="card" id="planPaste" hidden>
+    <div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">카톡 공지로 일정 추가</span></div>
+    <div class="row-gap">
+      <div class="f"><label class="lbl" for="ncRaw">카톡 공지 붙여넣기</label>
+        <textarea class="inp ta" id="ncRaw" rows="5" placeholder="카톡에 올라온 공지를 복사해서 붙여넣으세요. 날짜·시간·장소를 찾아 일정으로 정리합니다."></textarea></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost" type="button" id="ncParse" style="flex:1;margin-bottom:0">검토하기</button>
+        <button class="btn btn-s" type="button" id="ncClear">지우기</button>
+      </div>
+      <div id="ncList"></div>
+      <button class="btn btn-main" type="button" id="ncAdd" hidden>선택한 일정 추가</button>
+    </div>
+  </div>
   <div class="card" id="planEdit" hidden>
     <div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">활동 계획 편집</span></div>
     <div class="row-gap">
@@ -2018,7 +2033,7 @@ function renderPortal(){
     }).join("");
 
   /* 활동계획 */
-  $("planEdit").hidden=!ed;
+  $("planEdit").hidden=!ed; $("planPaste").hidden=!ed;
   renderCal();
   $("planList").innerHTML=(up.length?up.map(function(p){ return planRow(p,ed,false); }).join("")
       :'<div class="none">예정된 활동이 없습니다.</div>')
@@ -2330,6 +2345,148 @@ $("ntRows").addEventListener("click",function(e){
   $("netEdit").scrollIntoView({block:"start",behavior:"smooth"});
 });
 resetNetForm();
+
+
+/* ═════ v4.6 카톡 공지 → 일정 ═════ */
+var NT_TIME=/(오전|오후|낮|저녁|밤)?\s*(\d{1,2})\s*(?::\s*(\d{2})|시\s*(?:(\d{1,2})\s*분|(반))?)/;
+function ntcDate(s,today){
+  var m=s.match(/(20\d{2})\s*[.\-\/년]\s*(\d{1,2})\s*[.\-\/월]\s*(\d{1,2})/),y,mo,d;
+  if(m){ y=+m[1]; mo=+m[2]; d=+m[3]; }
+  else{
+    m=s.match(/(\d{1,2})\s*월\s*(\d{1,2})\s*일/)||s.match(/(?:^|[^\d.])(\d{1,2})\s*[.\/]\s*(\d{1,2})\s*\.?\s*\(\s*[월화수목금토일]\s*\)/);
+    if(!m)return "";
+    mo=+m[1]; d=+m[2]; y=+today.slice(0,4);
+    /* 연도가 없으면 올해, 두 달 넘게 지난 날짜면 내년으로 본다 */
+    if(y+"-"+pad2(mo)+"-"+pad2(d)<ymdAdd(today,-60))y++;
+  }
+  if(mo<1||mo>12||d<1||d>31)return "";
+  return y+"-"+pad2(mo)+"-"+pad2(d);
+}
+function ntcTimeAt(s){
+  var m=s.match(NT_TIME); if(!m)return null;
+  var h=+m[2],mi=m[3]?+m[3]:m[4]?+m[4]:m[5]?30:0;
+  if(h>24||mi>59)return null;
+  if(/오후|저녁|밤/.test(m[1]||"")&&h<12)h+=12;
+  return {h:h,mi:mi,pm:!!m[1],idx:m.index,len:m[0].length};
+}
+function hhmm(t){ return pad2(t.h)+":"+pad2(t.mi); }
+function ntcClean(s){
+  return String(s||"").replace(/^[\s:：\-–·•*]+/,"").replace(/^(?:\[[^\]]*\]\s*)+/,"").replace(/^\s*(?:\d+|[가-하])[.)]\s*/,"").replace(/^\s*\d+\)\s*/,"")
+    .replace(/[\s:：,.\-–]+$/,"").replace(/\s{2,}/g," ").trim();
+}
+/* 공지 글에서 날짜·장소·시간별 일정을 찾아 일정 후보를 만든다 */
+function parseNotice(raw,today){
+  today=today||ymd(new Date());
+  var lines=String(raw||"").split(/\r?\n/).map(function(x){ return x.replace(/ /g," "); });
+  var date="",place="",range="",items=[],titles=[],memo=[],inBody=false,prevH=-1;
+  var LBL_DATE=/(일\s*시|일\s*자|날\s*자|날\s*짜)\s*[:：]/,LBL_PLACE=/장\s*소\s*[:：]\s*(.+)$/,LBL_BODY=/(주요\s*내용|안\s*건|내\s*용)\s*[:：]?\s*$/;
+  lines.forEach(function(ln){
+    var s=ln.trim(); if(!s)return;
+    var pm=s.match(LBL_PLACE);
+    if(pm){ if(!place)place=ntcClean(pm[1]); inBody=false; return; }
+    var hasLblDate=LBL_DATE.test(s),d=ntcDate(s,today);
+    if(d&&(hasLblDate||!date)){
+      if(hasLblDate||!date)date=d;
+    }
+    if(hasLblDate){
+      /* "일시: 2026. 11. 21(토), 09:00 ~ 12:00" → 날짜 뒤의 시간 범위 */
+      var rest=s.replace(/20\d{2}\s*[.\-\/년]\s*\d{1,2}\s*[.\-\/월]\s*\d{1,2}\s*일?/,"").replace(/\d{1,2}\s*월\s*\d{1,2}\s*일/,"").replace(/\([월화수목금토일]\)/,"");
+      var a=ntcTimeAt(rest);
+      if(a){ var after=rest.slice(a.idx+a.len),b=/[~\-–]/.test(after)?ntcTimeAt(after):null; range=hhmm(a)+(b?"~"+hhmm(b):""); }
+      inBody=false; return;
+    }
+    if(LBL_BODY.test(s.replace(/^\s*(?:\d+|[가-하])[.)]\s*/,""))){ inBody=true; return; }
+    if(/^(?:[가-하]\.\s*)?(참\s*여|참\s*석|대\s*상|인\s*원)\s*[:：]/.test(s)){ memo.push(ntcClean(s)); inBody=false; return; }
+    /* 시간이 붙은 줄 → 시간별 일정 */
+    var body=s.replace(/^(시\s*간)?\s*[:：]\s*/,"").replace(/^시\s*간\s*/,"");
+    /* 날짜와 시간이 한 줄에 있으면 날짜 부분을 떼고 본다 */
+    if(d)body=body.replace(/20\d{2}\s*[.\-\/년]\s*\d{1,2}\s*[.\-\/월]\s*\d{1,2}\s*일?/,"").replace(/\d{1,2}\s*월\s*\d{1,2}\s*일/,"").replace(/\d{1,2}\s*[.\/]\s*\d{1,2}\s*\.?(?=\s*\()/,"").replace(/\(\s*[월화수목금토일]\s*\)/,"");
+    var t=ntcTimeAt(body);
+    if(t){
+      var before=ntcClean(body.slice(0,t.idx).replace(/(은|는|이|가|을|를)\s*$/,"")),after2=ntcClean(body.slice(t.idx+t.len).replace(/^\s*(에|부터|까지|에는)\s*/,"").split(/[.!?]/)[0].replace(/\s*(이|가)?\s*(있습니다|합니다|입니다|예정입니다|진행합니다|개최합니다|열립니다).*$/,""));
+      var title=(after2&&!/^(참석|참여|집결|집합|모임|시작|까지|예정)/.test(after2))?after2:(before||after2);
+      if(title&&title.length>=2){
+        /* 오전·오후 표시가 없고 앞 일정보다 이른 시각이면 오후로 본다 (예: 11시30분 다음의 1시 → 13시) */
+        if(!t.pm&&t.h<12&&prevH>=0&&t.h<prevH&&t.h<=8)t.h+=12;
+        prevH=t.h;
+        items.push({time:hhmm(t),title:title});
+        return;
+      }
+    }
+    if(inBody){ memo.push(ntcClean(s)); return; }
+    if(/회의|월례회|총회|교육|훈련|행사|봉사|교신|대회|워크숍|워크샵|모임/.test(s)&&s.length<=40){
+      var num=/^\s*\d+[.)]/.test(s);
+      titles.push({t:ntcClean(s.replace(/20\d{2}\s*년\s*/,"").replace(/(안건|의견).*$/,"").replace(/(날자|날짜|일정)[를을]?\s*(확정|공지|안내).*$/,"")),num:num});
+    }
+  });
+  var base=(titles.filter(function(x){ return x.num&&x.t; })[0]||titles.filter(function(x){ return x.t; })[0]||{t:""}).t;
+  var out=[];
+  if(items.length){
+    items.forEach(function(it){ out.push({date:date,time:it.time,title:it.title,place:place,memo:""}); });
+  }else if(date||base){
+    out.push({date:date,time:range,title:base,place:place,memo:memo.join("\n")});
+  }
+  return out;
+}
+var ntcCand=[];
+function renderNtc(){
+  var box=$("ncList");
+  if(!ntcCand.length){ box.innerHTML=""; $("ncAdd").hidden=true; return; }
+  box.innerHTML=ntcCand.map(function(c,i){
+    var dup=c.date&&c.title&&D.plans.some(function(p){ return p.date===c.date&&(p.title||"")===c.title; });
+    return '<div class="nccand" data-i="'+i+'">'
+      +'<label class="gate-keep" style="margin:0 0 5px"><input type="checkbox" data-k="on" '+(c.on?"checked":"")+'> 일정 '+(i+1)+(dup?' <span class="tagr" style="margin-left:4px">이미 등록됨</span>':'')+(c.date?'':' <span class="tagr" style="margin-left:4px">날짜 확인</span>')+'</label>'
+      +'<div class="grid2"><input class="inp" type="date" data-k="date" value="'+escA(c.date)+'" aria-label="날짜"><input class="inp" type="text" data-k="time" value="'+escA(c.time)+'" placeholder="시간" aria-label="시간"></div>'
+      +'<input class="inp" type="text" data-k="title" value="'+escA(c.title)+'" placeholder="활동명" aria-label="활동명" style="margin-top:6px">'
+      +'<input class="inp" type="text" data-k="place" value="'+escA(c.place)+'" placeholder="장소" aria-label="장소" style="margin-top:6px">'
+      +(c.memo?'<textarea class="inp ta" data-k="memo" rows="3" aria-label="비고" style="margin-top:6px">'+esc(c.memo)+'</textarea>':'')
+      +'</div>';
+  }).join("");
+  $("ncAdd").hidden=false;
+}
+$("ncList").addEventListener("input",function(e){
+  var r=e.target.closest(".nccand"),k=e.target.dataset.k; if(!r||!k)return;
+  var c=ntcCand[+r.dataset.i]; if(!c)return;
+  c[k]=(k==="on")?e.target.checked:e.target.value;
+});
+$("ncParse").addEventListener("click",function(){
+  var raw=$("ncRaw").value;
+  if(!raw.trim()){ toast("카톡 공지 내용을 먼저 붙여넣어 주세요"); $("ncRaw").focus(); return; }
+  var r=parseNotice(raw);
+  if(!r.length){ ntcCand=[]; renderNtc(); toast("일정을 찾지 못했습니다. 날짜가 있는지 확인해 주세요"); return; }
+  ntcCand=r.map(function(c){
+    c.on=!!(c.date&&c.title)&&!D.plans.some(function(p){ return p.date===c.date&&(p.title||"")===c.title; });
+    return c;
+  });
+  renderNtc();
+  toast("일정 "+r.length+"건을 찾았습니다. 확인 후 [선택한 일정 추가]를 눌러 주세요");
+});
+$("ncClear").addEventListener("click",function(){ $("ncRaw").value=""; ntcCand=[]; renderNtc(); });
+$("ncAdd").addEventListener("click",async function(){
+  if(!canEdit()){ toast("편집 권한이 없습니다"); return; }
+  var pick=ntcCand.filter(function(c){ return c.on; });
+  if(!pick.length){ toast("추가할 일정을 선택해 주세요"); return; }
+  for(var i=0;i<pick.length;i++){
+    if(!pick[i].date){ toast("날짜가 비어 있는 일정이 있습니다"); return; }
+    if(!String(pick[i].title||"").trim()){ toast("활동명이 비어 있는 일정이 있습니다"); return; }
+  }
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  this.disabled=true;
+  var n=0;
+  try{
+    for(var j=0;j<pick.length;j++){
+      var c=pick[j],rec={date:c.date,time:String(c.time||"").trim(),title:String(c.title).trim(),place:String(c.place||"").trim(),
+        memo:String(c.memo||"").trim(),rep:"",until:"",by:meCall,at:new Date().toISOString()};
+      var ref=await db.collection("plans").add(rec); rec.id=(ref&&ref.id)||("local"+Date.now()+j);
+      if(!D.plans.some(function(x){ return x.id===rec.id; }))D.plans.push(rec);
+      n++;
+    }
+    var dt=new Date(pick[0].date+"T00:00:00"); calY=dt.getFullYear(); calM=dt.getMonth();
+    $("ncRaw").value=""; ntcCand=[]; renderNtc(); renderPortal();
+    toast("일정 "+n+"건을 추가했습니다");
+  }catch(e){ console.error(e); renderPortal(); toast(n?"일정 "+n+"건만 추가되고 나머지는 실패했습니다":"일정 추가에 실패했습니다"); }
+  finally{ this.disabled=false; }
+});
 
 /* 화면 선택: 처음은 모바일, 고른 값은 이 기기에 기억 */
 function setView(v){
