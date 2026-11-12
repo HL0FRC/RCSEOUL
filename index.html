@@ -433,7 +433,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v4.7</span>
+        <span class="vtag">v4.8</span>
       </div>
     </div>
   </div>
@@ -731,7 +731,10 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
         <div class="f"><label class="lbl" for="lkUrl">주 소 <span class="req">*</span></label><input class="inp" id="lkUrl" type="url" placeholder="https://"></div>
       </div>
       <div class="f"><label class="lbl" for="lkDesc">설 명</label><input class="inp" id="lkDesc" type="text" placeholder="어떤 앱인지 한 줄로"></div>
-      <button class="btn btn-main" type="button" id="lkSave">링크 등록</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-main" type="button" id="lkSave" style="flex:1">링크 등록</button>
+        <button class="btn btn-s" type="button" id="lkNew" hidden>수정 취소</button>
+      </div>
     </div>
   </div>
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">봉사회 앱·링크</span></div><div id="lkList"></div></div>
@@ -1917,19 +1920,41 @@ $("lbDel").addEventListener("click",function(){
 
 /* ───── 앱·링크 ───── */
 function okUrl(u){ return /^https?:\/\/[^\s"'<>]+$/i.test(u); }
+/* v4.8: 등록한 링크 수정 */
+var lkEditId="";
+function resetLinkForm(){
+  lkEditId=""; ["lkName","lkUrl","lkDesc"].forEach(function(k){ $(k).value=""; });
+  $("lkSave").textContent="링크 등록"; $("lkNew").hidden=true;
+}
+$("lkNew").addEventListener("click",resetLinkForm);
+$("lkList").addEventListener("click",function(e){
+  var t=e.target.closest("[data-lkedit]"); if(!t)return;
+  var l=D.links.filter(function(x){ return x.id===t.dataset.lkedit; })[0]; if(!l)return;
+  lkEditId=l.id; $("lkName").value=l.name||""; $("lkUrl").value=l.url||""; $("lkDesc").value=l.desc||"";
+  $("lkSave").textContent="수정 저장"; $("lkNew").hidden=false;
+  $("lkName").scrollIntoView({block:"center",behavior:"smooth"}); $("lkName").focus();
+});
 $("lkSave").addEventListener("click",async function(){
   var rec={name:$("lkName").value.trim(),url:$("lkUrl").value.trim(),desc:$("lkDesc").value.trim(),
     by:meCall,byName:meName||"",at:new Date().toISOString()};
+  var old=lkEditId?D.links.filter(function(x){ return x.id===lkEditId; })[0]:null;
+  if(lkEditId&&!old){ resetLinkForm(); toast("수정할 링크를 찾지 못했습니다"); return; }
+  if(old){ rec.by=old.by||rec.by; rec.byName=old.byName||""; rec.at=old.at||rec.at; rec.editBy=meCall; rec.editAt=new Date().toISOString(); }
   if(!rec.name){ toast("이름을 입력해 주세요"); $("lkName").focus(); return; }
   if(!okUrl(rec.url)){ toast("주소는 https:// 로 시작하게 넣어 주세요"); $("lkUrl").focus(); return; }
   if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
   this.disabled=true;
   try{
-    var ref=await db.collection("links").add(rec);
-    rec.id=(ref&&ref.id)||("local"+Date.now());
-    if(!D.links.some(function(x){ return x.id===rec.id; }))D.links.push(rec);
-    ["lkName","lkUrl","lkDesc"].forEach(function(k){ $(k).value=""; });
-    renderPortal(); toast("링크를 등록했습니다");
+    if(old){
+      await db.collection("links").doc(old.id).set(rec); rec.id=old.id;
+      D.links=D.links.map(function(x){ return x.id===rec.id?rec:x; });
+    }else{
+      var ref=await db.collection("links").add(rec);
+      rec.id=(ref&&ref.id)||("local"+Date.now());
+      if(!D.links.some(function(x){ return x.id===rec.id; }))D.links.push(rec);
+    }
+    resetLinkForm();
+    renderPortal(); toast(old?"링크를 수정했습니다":"링크를 등록했습니다");
   }catch(e){ console.error(e); toast("등록에 실패했습니다"); }
   finally{ this.disabled=false; }
 });
@@ -2056,7 +2081,7 @@ function renderPortal(){
       return '<div class="lrow"><div class="lbody">'
         +'<a class="lname" href="'+escA(l.url)+'" target="_blank" rel="noopener">'+esc(l.name)+'</a>'
         +'<div class="lmeta">'+[esc(l.desc||""),who?"등록 "+esc(who):""].filter(Boolean).join(" · ")+'</div></div>'
-        +((ed||l.by===meCall)?'<button class="btn btn-s" type="button" data-del="links:'+escA(l.id)+'">삭제</button>':'')
+        +((ed||l.by===meCall)?'<button class="btn btn-s" type="button" data-lkedit="'+escA(l.id)+'">수정</button><button class="btn btn-s" type="button" data-del="links:'+escA(l.id)+'">삭제</button>':'')
         +'</div>';
     }).join("");
 
