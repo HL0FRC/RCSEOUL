@@ -356,6 +356,28 @@ body.vm .nav-inner{flex-wrap:wrap;} body.vm .tab{flex:0 0 20%;padding-block:6px 
 .tlink{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--red);background:none;border:0;padding:2px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
 /* 카톡 공지 → 일정 후보 */
 .nccand{border:1px solid var(--line);border-radius:10px;padding:9px 10px;margin-bottom:8px;background:var(--ground);}
+/* 대분류 · 소분류 메뉴 */
+.gtab{flex:1 1 0;min-width:0;padding-block:8px 6px;border:0;background:none;font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--ink-3);
+  border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;white-space:nowrap;}
+.gtab .ico{display:block;font-size:17px;margin-bottom:2px;}
+.gtab[aria-selected="true"]{color:var(--red);border-bottom-color:var(--red);font-weight:700;}
+#gnav{flex-wrap:nowrap!important;}
+.subnav{border-top:1px solid var(--line);background:var(--ground);}
+.subnav.one{display:none;}
+.subnav-inner{max-width:760px;margin:0 auto;display:flex;gap:6px;padding:6px 16px;overflow-x:auto;scrollbar-width:none;}
+.subnav-inner::-webkit-scrollbar{display:none;}
+body.vm .subnav-inner{max-width:430px;} body.vpc .subnav-inner{max-width:1100px;}
+.subnav .tab{flex:0 0 auto!important;display:inline-flex;flex-direction:row;align-items:center;gap:4px;min-width:0;margin:0;
+  padding:5px 12px!important;border:1px solid var(--line);border-radius:99px;background:var(--paper);font-size:12.5px;color:var(--ink-2);}
+.subnav .tab .ico{display:inline;font-size:13px;margin:0;}
+.subnav .tab .lf{display:inline!important;} .subnav .tab .ls{display:none!important;}
+.subnav .tab[aria-selected="true"]{background:var(--red);border-color:var(--red);color:#fff;font-weight:700;}
+.subnav .tab.goff,.subnav .tab[hidden]{display:none!important;}
+#logTable td{padding:7px 5px;}
+/* 교육이력 표 */
+.edtb{font-size:12px;} .edtb th,.edtb td{padding:7px 4px;} .edtb td:first-child,.edtb th:first-child{text-align:center;width:1%;white-space:nowrap;}
+.edtb td.c,.edtb th.c{text-align:center;white-space:nowrap;} .edtb td:last-child{width:1%;white-space:nowrap;}
+.edtb .tlink{display:inline;}
 /* 화면 선택 (모바일 / PC) */
 .vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
 .vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
@@ -400,18 +422,26 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
 </div>
 
 <nav class="nav">
-  <div class="nav-inner">
-    <button class="tab" role="tab" aria-selected="true" data-p="dash"><span class="ico">🏠</span><span class="lf">현황</span><span class="ls">현황</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-p="plan"><span class="ico">📅</span><span class="lf">활동계획</span><span class="ls">계획</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-p="photo"><span class="ico">📷</span><span class="lf">활동사진</span><span class="ls">사진</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-p="proxy"><span class="ico">📝</span><span class="lf">위임장</span><span class="ls">위임장</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-p="meet"><span class="ico">👥</span><span class="lf">회의</span><span class="ls">회의</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-p="net"><span class="ico">📻</span><span class="lf">교신일지</span><span class="ls">교신</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-p="link"><span class="ico">🔗</span><span class="lf">앱·링크</span><span class="ls">링크</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-p="info"><span class="ico">📞</span><span class="lf">뉴스·연락처</span><span class="ls">연락처</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-p="log"><span class="ico">📈</span><span class="lf">접속기록</span><span class="ls">기록</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-p="set" id="tabSet" hidden><span class="ico">⚙️</span><span class="lf">봉사원 등록</span><span class="ls">등록</span></button>
+  <div class="nav-inner" id="gnav" role="tablist" aria-label="대분류">
+    <button class="gtab" type="button" role="tab" aria-selected="true" data-g="home"><span class="ico">🏠</span>현황</button>
+    <button class="gtab" type="button" role="tab" aria-selected="false" data-g="act"><span class="ico">📅</span>활동</button>
+    <button class="gtab" type="button" role="tab" aria-selected="false" data-g="radio"><span class="ico">📻</span>교신</button>
+    <button class="gtab" type="button" role="tab" aria-selected="false" data-g="data"><span class="ico">🔗</span>자료</button>
+    <button class="gtab" type="button" role="tab" aria-selected="false" data-g="mem"><span class="ico">🪪</span>회원</button>
   </div>
+  <div class="subnav one" id="subnav"><div class="subnav-inner" role="tablist" aria-label="소분류">
+    <button class="tab" data-g="home" role="tab" aria-selected="true" data-p="dash"><span class="ico">🏠</span><span class="lf">현황</span><span class="ls">현황</span></button>
+    <button class="tab goff" data-g="act" role="tab" aria-selected="false" data-p="plan"><span class="ico">📅</span><span class="lf">활동계획</span><span class="ls">계획</span></button>
+    <button class="tab goff" data-g="act" role="tab" aria-selected="false" data-p="meet"><span class="ico">👥</span><span class="lf">회의</span><span class="ls">회의</span></button>
+    <button class="tab goff" data-g="act" role="tab" aria-selected="false" data-p="proxy"><span class="ico">📝</span><span class="lf">위임장</span><span class="ls">위임장</span></button>
+    <button class="tab goff" data-g="act" role="tab" aria-selected="false" data-p="photo"><span class="ico">📷</span><span class="lf">활동사진</span><span class="ls">사진</span></button>
+    <button class="tab goff" data-g="radio" role="tab" aria-selected="false" data-p="net"><span class="ico">📻</span><span class="lf">교신일지</span><span class="ls">교신</span></button>
+    <button class="tab goff" data-g="data" role="tab" aria-selected="false" data-p="link"><span class="ico">🔗</span><span class="lf">앱·링크</span><span class="ls">링크</span></button>
+    <button class="tab goff" data-g="data" role="tab" aria-selected="false" data-p="info"><span class="ico">📞</span><span class="lf">뉴스·연락처</span><span class="ls">연락처</span></button>
+    <button class="tab goff" data-g="mem" role="tab" aria-selected="false" data-p="edu"><span class="ico">🎓</span><span class="lf">교육이력</span><span class="ls">교육</span></button>
+    <button class="tab goff" data-g="mem" role="tab" aria-selected="false" data-p="log"><span class="ico">📈</span><span class="lf">접속기록</span><span class="ls">기록</span></button>
+    <button class="tab goff" data-g="mem" role="tab" aria-selected="false" data-p="set" id="tabSet" hidden><span class="ico">⚙️</span><span class="lf">봉사원 등록</span><span class="ls">등록</span></button>
+  </div></div>
 </nav>
 
 <header class="banner">
@@ -433,7 +463,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v4.8</span>
+        <span class="vtag">v4.9</span>
       </div>
     </div>
   </div>
@@ -721,6 +751,29 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     <div class="gate-note">교신일지는 봉사원 누구나 작성할 수 있고, 작성자와 임원이 수정·삭제합니다.</div></div>
 </section>
 
+<!-- 교육이력 -->
+<section id="p-edu" hidden>
+  <div class="card" id="eduEdit" hidden>
+    <div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">교육대상자 이력 입력</span></div>
+    <div class="row-gap">
+      <div class="grid2">
+        <div class="f"><label class="lbl" for="edName">이 름 <span class="req">*</span></label><input class="inp" id="edName" type="text" placeholder="홍길동"></div>
+        <div class="f"><label class="lbl" for="edOk">수강 가능 여부</label><select class="inp" id="edOk"><option>Y</option><option>N</option></select></div>
+      </div>
+      <div class="f"><label class="lbl" for="edExp">갱신유효기간 만료</label><input class="inp" id="edExp" type="text" placeholder="예) 2028. 5. 16. 또는 강사과정 취득"></div>
+      <div class="f"><label class="lbl" for="edMemo">비 고</label><input class="inp" id="edMemo" type="text" placeholder="수료일, 차수 등"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-main" type="button" id="edSave" style="flex:1">이력 저장</button>
+        <button class="btn btn-s" type="button" id="edNew">새로 작성</button>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">재해구호전문가 과정 교육대상자 이력</span></div>
+    <div id="edList"></div>
+    <button class="btn btn-ghost" type="button" id="edSeed" hidden>기본 명단 9명 넣기</button>
+    <div class="gate-note">입력·수정·삭제는 회장·총무·기술팀장·구호팀장·드론팀장이 합니다.</div></div>
+</section>
+
 <!-- 앱·링크 -->
 <section id="p-link" hidden>
   <div class="card">
@@ -766,7 +819,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">최근 14일 접속 인원</span></div><div id="logChart"></div></div>
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">봉사원별 접속 횟수 (최근 30일)</span></div><div id="logRank"></div></div>
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">최근 접속 기록</span></div><div class="scroll"><table>
-    <thead><tr><th>일시</th><th>콜사인</th><th>성명</th></tr></thead><tbody id="logTable"></tbody></table></div></div>
+    <thead><tr><th>날짜</th><th>접속 시간</th><th>머문 시간</th><th>콜사인</th><th>성명</th></tr></thead><tbody id="logTable"></tbody></table></div></div>
 </section>
 
 <!-- 봉사원 등록 -->
@@ -925,8 +978,28 @@ document.querySelectorAll(".tab").forEach(function(b){
   b.addEventListener("click",function(){
     document.querySelectorAll(".tab").forEach(function(x){x.setAttribute("aria-selected","false");});
     b.setAttribute("aria-selected","true");
-    ["dash","plan","photo","proxy","meet","net","link","info","log","set"].forEach(function(k){$("p-"+k).hidden=(k!==b.dataset.p);});
+    ["dash","plan","photo","proxy","meet","net","link","info","log","set","edu"].forEach(function(k){$("p-"+k).hidden=(k!==b.dataset.p);});
+    showGroup(b.dataset.g); lastIn[b.dataset.g]=b.dataset.p;
     window.scrollTo(0,0);
+  });
+});
+/* v4.9 메뉴: 대분류(위) → 소분류(아래). 메뉴가 늘면 소분류에 추가한다 */
+var curGroup="home",lastIn={};
+function showGroup(g){
+  curGroup=g||curGroup;
+  document.querySelectorAll(".gtab").forEach(function(x){ x.setAttribute("aria-selected",x.dataset.g===curGroup?"true":"false"); });
+  var n=0;
+  document.querySelectorAll(".subnav .tab").forEach(function(t){
+    var off=(t.dataset.g!==curGroup); t.classList.toggle("goff",off); if(!off&&!t.hidden)n++;
+  });
+  $("subnav").classList.toggle("one",n<=1);
+}
+document.querySelectorAll(".gtab").forEach(function(b){
+  b.addEventListener("click",function(){
+    var g=b.dataset.g,ts=[].slice.call(document.querySelectorAll('.subnav .tab[data-g="'+g+'"]')).filter(function(t){ return !t.hidden; });
+    if(!ts.length)return;
+    var t=ts.filter(function(x){ return x.dataset.p===lastIn[g]; })[0]||ts[0];
+    t.click();
   });
 });
 document.querySelectorAll(".stab").forEach(function(b){
@@ -1589,7 +1662,7 @@ $("btnRetry").addEventListener("click",function(){ connect(); });
 
 /* ═════════ 포털: 현황·활동계획·사진·링크·연락처·접속기록 ═════════ */
 var EDIT_ROLES=["회장","총무","기술팀장","구호팀장","드론팀장"];
-var D={plans:[],photos:[],links:[],infos:[],logs:[],meets:[],nets:[]},unsubP={};
+var D={plans:[],photos:[],links:[],infos:[],logs:[],meets:[],nets:[],edus:[]},unsubP={};
 /* 고정 일정: 매주 화요일 21시 화요정기교신 (코드에 들어 있어 삭제되지 않는다) */
 var FIXED_PLANS=[{id:"fixed-tue-net",date:"2026-01-06",time:"21:00",title:"화요정기교신",rep:"weekly",until:"",place:"",memo:"매주 화요일 21시",fixed:true}];
 function allPlans(){ return FIXED_PLANS.concat(D.plans); }
@@ -1638,15 +1711,39 @@ function watchAll(){
 }
 
 /* 접속 기록: 로그인할 때, 그리고 자동 로그인은 하루 한 번 남긴다 */
+/* v4.9 접속 기록: 들어온 시각(at)과 마지막으로 머문 시각(last)을 남긴다.
+   30분 안에 다시 열면 같은 접속으로 이어 쓰고, 열어 둔 동안 5분마다 last를 갱신한다 */
+var logSess=null,logTimer=0;
+function logKey(){ return "ndrt_sess_"+meCall; }
+function logSave(){ try{ localStorage.setItem(logKey(),JSON.stringify(logSess)); }catch(e){} }
+function logRec(){ return {call:meCall,name:meName||"",day:logSess.day,at:logSess.at,last:logSess.last}; }
 function logVisit(force){
   if(!db||!meCall)return;
-  var k="ndrt_log_"+meCall,today=ymd(new Date());
-  try{
-    if(!force&&localStorage.getItem(k)===today)return;
-    localStorage.setItem(k,today);
-  }catch(e){}
-  db.collection("logs").add({call:meCall,name:meName||"",day:today,at:new Date().toISOString()})
-    .catch(function(e){ console.error("접속 기록 실패",e); });
+  var now=new Date(),today=ymd(now),s=null;
+  try{ s=JSON.parse(localStorage.getItem(logKey())||"null"); }catch(e){}
+  if(s&&s.id&&s.day===today&&(now-new Date(s.last))<30*60000){ logSess=s; logBeat(); }
+  else{
+    logSess={id:"",day:today,at:now.toISOString(),last:now.toISOString()};
+    var mine=logSess;
+    db.collection("logs").add(logRec()).then(function(ref){
+      mine.id=(ref&&ref.id)||""; if(logSess===mine)logSave();
+      if(mine.id&&!D.logs.some(function(x){ return x.id===mine.id; })){ D.logs.push({id:mine.id,call:meCall,name:meName||"",day:mine.day,at:mine.at,last:mine.last}); renderLogs(); }
+    }).catch(function(e){ console.error("접속 기록 실패",e); });
+  }
+  if(!logTimer){
+    logTimer=setInterval(logBeat,5*60000);
+    document.addEventListener("visibilitychange",function(){ logBeat(); });
+    window.addEventListener("pagehide",logBeat);
+  }
+}
+function logBeat(){
+  if(!db||!meCall||!logSess||!logSess.id)return;
+  var now=new Date();
+  if(ymd(now)!==logSess.day){ logSess=null; try{ localStorage.removeItem(logKey()); }catch(e){} logVisit(true); return; }
+  logSess.last=now.toISOString(); logSave();
+  var id=logSess.id,rec=logRec();
+  D.logs.forEach(function(x){ if(x.id===id)x.last=rec.last; });
+  db.collection("logs").doc(id).set(rec).catch(function(e){ console.error("접속 기록 갱신 실패",e); });
 }
 
 /* 삭제는 두 번 눌러야 실행된다 */
@@ -2016,9 +2113,13 @@ function renderLogs(){
   var recent=D.logs.slice().sort(function(a,b){ return String(b.at||"").localeCompare(String(a.at||"")); }).slice(0,20);
   $("logTable").innerHTML=recent.length?recent.map(function(l){
     var d=new Date(l.at),ok=!isNaN(d.getTime());
-    var when=ok?pad2(d.getMonth()+1)+"."+pad2(d.getDate())+" "+pad2(d.getHours())+":"+pad2(d.getMinutes()):"";
-    return '<tr><td class="num">'+when+'</td><td>'+esc(l.call||"")+'</td><td>'+esc(l.name||nameOf(l.call)||"-")+'</td></tr>';
-  }).join(""):'<tr><td colspan="3" style="text-align:center;color:var(--ink-3);padding:16px">기록이 없습니다</td></tr>';
+    var when=ok?pad2(d.getMonth()+1)+"."+pad2(d.getDate()):"";
+    var e=l.last?new Date(l.last):null,eok=e&&!isNaN(e.getTime())&&ok&&e>=d;
+    var mins=eok?Math.round((e-d)/60000):-1;
+    var span=ok?pad2(d.getHours())+":"+pad2(d.getMinutes())+(eok?" ~ "+pad2(e.getHours())+":"+pad2(e.getMinutes()):" ~"):"";
+    var stay=mins<0?"-":mins<1?"1분 미만":mins<60?mins+"분":Math.floor(mins/60)+"시간"+(mins%60?" "+(mins%60)+"분":"");
+    return '<tr><td class="num">'+when+'</td><td class="num" style="white-space:nowrap">'+span+'</td><td class="num">'+stay+'</td><td>'+esc(l.call||"")+'</td><td>'+esc(l.name||nameOf(l.call)||"-")+'</td></tr>';
+  }).join(""):'<tr><td colspan="5" style="text-align:center;color:var(--ink-3);padding:16px">기록이 없습니다</td></tr>';
 }
 
 /* ───── 화면 그리기 ───── */
@@ -2102,7 +2203,7 @@ function renderPortal(){
   $("infoEdit").hidden=!ed;
 
   renderLogs();
-  renderMeet(); renderNet();
+  renderMeet(); renderNet(); renderEdu(); showGroup();
 }
 
 
@@ -2514,6 +2615,71 @@ $("ncAdd").addEventListener("click",async function(){
     toast("일정 "+n+"건을 추가했습니다");
   }catch(e){ console.error(e); renderPortal(); toast(n?"일정 "+n+"건만 추가되고 나머지는 실패했습니다":"일정 추가에 실패했습니다"); }
   finally{ this.disabled=false; }
+});
+
+
+/* ═════ v4.9 재해구호전문가 과정 교육대상자 이력 ═════ */
+var EDU_SEED=[["김양섭","강사과정 취득","Y"],["나길원","2028. 5. 16.","Y"],["박 철","2028. 5. 16.","Y"],["박정호","강사과정 취득","Y"],["오세진","2028. 5. 16.","Y"],
+  ["이도희","강사과정 취득","Y"],["이원재","2028. 5. 16.","Y"],["정진철","강사과정 취득","Y"],["지인실","강사과정 취득","Y"]];
+var edEditId="";
+function renderEdu(){
+  var ed=canEdit();
+  $("eduEdit").hidden=!ed;
+  var list=D.edus.slice().sort(function(a,b){ return String(a.name||"").localeCompare(String(b.name||""),"ko"); });
+  $("edSeed").hidden=!(ed&&!list.length);
+  $("edList").innerHTML=list.length
+    ?'<div class="scroll"><table class="edtb"><thead><tr><th>구분</th><th>이름</th><th>갱신유효기간 만료</th><th class="c">수강 가능</th>'+(ed?'<th>관리</th>':'')+'</tr></thead><tbody>'
+      +list.map(function(e,i){
+        return '<tr><td class="num">'+(i+1)+'</td><td><b>'+esc(e.name||"")+'</b>'+(e.memo?'<div class="pmeta">'+esc(e.memo)+'</div>':'')+'</td><td>'+esc(e.exp||"")+'</td><td class="c">'+esc(e.ok||"")+'</td>'
+          +(ed?'<td><button class="tlink" type="button" data-ededit="'+escA(e.id)+'">수정</button><button class="tlink" type="button" data-del="edus:'+escA(e.id)+'">삭제</button></td>':'')+'</tr>';
+      }).join("")+'</tbody></table></div>'
+    :'<div class="none">등록된 교육대상자 이력이 없습니다.</div>';
+}
+function resetEduForm(){
+  edEditId=""; ["edName","edExp","edMemo"].forEach(function(k){ $(k).value=""; });
+  $("edOk").value="Y"; $("edSave").textContent="이력 저장";
+}
+$("edNew").addEventListener("click",resetEduForm);
+$("edSave").addEventListener("click",async function(){
+  if(!canEdit()){ toast("편집 권한이 없습니다"); return; }
+  var rec={name:$("edName").value.trim(),exp:$("edExp").value.trim(),ok:$("edOk").value,memo:$("edMemo").value.trim(),by:meCall,at:new Date().toISOString()};
+  if(!rec.name){ toast("이름을 입력해 주세요"); $("edName").focus(); return; }
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  this.disabled=true;
+  try{
+    if(edEditId){
+      await db.collection("edus").doc(edEditId).set(rec); rec.id=edEditId;
+      D.edus=D.edus.map(function(x){ return x.id===edEditId?rec:x; });
+    }else{
+      var ref=await db.collection("edus").add(rec); rec.id=(ref&&ref.id)||("local"+Date.now());
+      if(!D.edus.some(function(x){ return x.id===rec.id; }))D.edus.push(rec);
+    }
+    resetEduForm(); renderEdu(); toast("교육 이력을 저장했습니다");
+  }catch(e){ console.error(e); toast("저장에 실패했습니다"); }
+  finally{ this.disabled=false; }
+});
+$("edList").addEventListener("click",function(e){
+  var t=e.target.closest("[data-ededit]"); if(!t)return;
+  var p=D.edus.filter(function(x){ return x.id===t.dataset.ededit; })[0]; if(!p)return;
+  edEditId=p.id; $("edName").value=p.name||""; $("edExp").value=p.exp||""; $("edOk").value=(p.ok==="N"?"N":"Y"); $("edMemo").value=p.memo||"";
+  $("edSave").textContent="수정 저장"; $("eduEdit").scrollIntoView({block:"start",behavior:"smooth"});
+});
+/* 명단이 비어 있을 때 한 번에 넣는 기본 명단 */
+$("edSeed").addEventListener("click",async function(){
+  if(!canEdit()||D.edus.length)return;
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  this.disabled=true;
+  var n=0;
+  try{
+    for(var i=0;i<EDU_SEED.length;i++){
+      var s=EDU_SEED[i],rec={name:s[0],exp:s[1],ok:s[2],memo:"",by:meCall,at:new Date().toISOString()};
+      var ref=await db.collection("edus").add(rec); rec.id=(ref&&ref.id)||("local"+Date.now()+i);
+      if(!D.edus.some(function(x){ return x.id===rec.id; }))D.edus.push(rec);
+      n++;
+    }
+    toast("기본 명단 "+n+"명을 넣었습니다");
+  }catch(e){ console.error(e); toast(n?n+"명만 들어가고 나머지는 실패했습니다":"명단 넣기에 실패했습니다"); }
+  finally{ this.disabled=false; renderEdu(); }
 });
 
 /* 화면 선택: 처음은 모바일, 고른 값은 이 기기에 기억 */
