@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>WIRESMON-X 한글 사용 안내서</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* WIRESMON-X 한글 사용 안내서 v1.0 (2026-11-19) */
+:root{
+  --navy:#1f3350; --navy2:#2c4a73; --ink:#26303c; --sub:#4d5b6b; --line:#d5dbe3;
+  --bg:#eef1f5; --card:#ffffff; --soft:#f4f6f9; --accent:#1d5c8f;
+  --tip-bg:#eaf2f9; --tip-bd:#9dbcd6; --warn-bg:#fbf1e3; --warn-bd:#d9a860; --warn-ink:#6a4208;
+  --mark:#ffe08a; --maxw:480px;
+}
+*{box-sizing:border-box}
+html{font-size:14px;scroll-behavior:smooth}
+@media (min-width:768px){html{font-size:16px}}
+body{margin:0;font-family:'Noto Sans KR',sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-text-size-adjust:100%}
+body.m-pc{--maxw:1100px}
+button,input{font-family:inherit;font-size:1rem;color:inherit}
+
+/* 헤더 */
+.nav{position:sticky;top:0;z-index:30;background:var(--navy);color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:8px 12px}
+.nav-top{display:flex;align-items:center;gap:8px}
+.brand{flex:1;min-width:0}
+.brand b{display:block;font-size:1.07rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{display:block;font-size:.8rem;color:#c9d6e6}
+.ver{font-size:.8rem;background:#fff;color:var(--navy);border-radius:10px;padding:1px 8px;font-weight:700;white-space:nowrap}
+.seg{display:flex;border:1px solid #8ea5c2;border-radius:6px;overflow:hidden;flex:none}
+.seg button{background:transparent;color:#e6edf6;border:0;padding:5px 10px;cursor:pointer;font-size:.86rem}
+.seg button.on{background:#fff;color:var(--navy);font-weight:700}
+.nav-search{display:flex;gap:6px;margin-top:8px;align-items:center}
+.menu-btn{flex:none;background:var(--navy2);color:#fff;border:1px solid #8ea5c2;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:.93rem}
+body.m-pc .menu-btn{display:none}
+.sbox{flex:1;display:flex;background:#fff;border-radius:6px;overflow:hidden;min-width:0}
+.sbox input{flex:1;min-width:0;border:0;padding:7px 10px;outline:none;color:var(--ink);background:#fff}
+.sbox button{border:0;background:#fff;color:var(--sub);padding:0 10px;cursor:pointer}
+.snav{flex:none;background:var(--navy2);color:#fff;border:1px solid #8ea5c2;border-radius:6px;padding:6px 9px;cursor:pointer}
+.sinfo{font-size:.86rem;color:#dbe5f1;margin-top:4px;min-height:1.2em}
+
+/* 레이아웃 */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:8px 12px}
+body.m-pc .wrap{display:grid;grid-template-columns:270px 1fr;gap:12px;align-items:start}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px}
+.toc h2{font-size:.93rem;margin:0 0 4px;color:var(--navy);padding:0 4px}
+.toc a{display:block;padding:4px 6px;border-radius:4px;color:var(--ink);text-decoration:none;font-size:.93rem}
+.toc a:hover{background:var(--soft)}
+.toc a.g{font-weight:700;color:var(--navy);margin-top:4px;border-top:1px solid var(--line);border-radius:0;padding-top:6px}
+.toc a.g:first-of-type{border-top:0;margin-top:0}
+.toc a.s{padding-left:16px;color:var(--sub)}
+.toc a.off{display:none}
+.toc a.hit{background:#fff6d6}
+body.m-pc .toc{position:sticky;top:140px;max-height:calc(100vh - 150px);overflow:auto}
+body.m-mobile .toc{position:fixed;top:0;left:0;bottom:0;width:86%;max-width:340px;z-index:50;border-radius:0;overflow:auto;transform:translateX(-102%);transition:transform .2s}
+body.m-mobile.toc-open .toc{transform:none;box-shadow:4px 0 16px rgba(0,0,0,.3)}
+.dim{display:none;position:fixed;inset:0;background:rgba(20,30,45,.5);z-index:40}
+body.m-mobile.toc-open .dim{display:block}
+.toc-close{display:none;float:right;border:1px solid var(--line);background:var(--soft);border-radius:4px;padding:2px 8px;cursor:pointer}
+body.m-mobile .toc-close{display:block}
+
+/* 본문 */
+.sec{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 8px;scroll-margin-top:144px}
+.sec.off{display:none}
+.sec h2{font-size:1.14rem;margin:0 0 6px;color:var(--navy);border-bottom:2px solid var(--navy);padding-bottom:4px}
+.sec h3{font-size:1rem;margin:8px 0 4px;color:var(--accent);scroll-margin-top:144px}
+.sec h4{font-size:.93rem;margin:6px 0 2px;color:var(--ink)}
+.sec p{margin:4px 0}
+.sec ul,.sec ol{margin:4px 0;padding-left:1.4em}
+.sec li{margin:2px 0}
+.tw{overflow-x:auto;margin:6px 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border:1px solid var(--line);padding:4px 7px;text-align:left;vertical-align:top}
+th{background:#e3eaf3;color:var(--navy);font-weight:700;white-space:nowrap}
+td:first-child{font-weight:500;color:#1b2a3d}
+.tip,.warn{border-left:4px solid var(--tip-bd);background:var(--tip-bg);padding:5px 9px;margin:6px 0;border-radius:0 5px 5px 0;font-size:.93rem;color:#1f3a55}
+.warn{border-left-color:var(--warn-bd);background:var(--warn-bg);color:var(--warn-ink)}
+.tip b:first-child,.warn b:first-child{margin-right:4px}
+code,kbd{font-family:inherit;background:#e9edf2;border:1px solid #cfd6df;border-radius:4px;padding:0 5px;font-size:.93em;color:#1b2a3d;white-space:nowrap}
+code{white-space:normal;overflow-wrap:break-word}
+.sec{overflow-wrap:break-word}
+mark{background:var(--mark);color:#1b1b1b;border-radius:2px;padding:0 1px}
+mark.cur{outline:2px solid #c9731a}
+.none{display:none;background:var(--card);border:1px dashed var(--line);border-radius:8px;padding:12px;text-align:center;color:var(--sub)}
+.foot{max-width:var(--maxw);margin:0 auto;padding:6px 12px 12px;font-size:.86rem;color:var(--sub);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.top-btn{position:fixed;right:12px;bottom:12px;z-index:20;background:var(--navy);color:#fff;border:0;border-radius:50%;width:42px;height:42px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.sec a{color:var(--accent)}
+</style>
+</head>
+<body class="m-mobile">
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-top">
+      <div class="brand"><b>WIRESMON-X 한글 사용 안내서</b><span>WIRES-X 원격 모니터 · 설치·설정·사용 가이드</span></div>
+      <span class="ver" id="verTop"></span>
+      <div class="seg" role="group" aria-label="화면 선택">
+        <button type="button" id="btnMobile" class="on">모바일</button>
+        <button type="button" id="btnPc">PC</button>
+      </div>
+    </div>
+    <div class="nav-search">
+      <button type="button" class="menu-btn" id="btnMenu">☰ 목차</button>
+      <div class="sbox">
+        <input type="search" id="q" placeholder="검색어 입력 (예: 비밀번호, 포트, LOCK)" autocomplete="off" aria-label="매뉴얼 검색">
+        <button type="button" id="btnClear" title="검색 지우기" aria-label="검색 지우기">✕</button>
+      </div>
+      <button type="button" class="snav" id="btnPrev" title="이전 결과" aria-label="이전 결과">▲</button>
+      <button type="button" class="snav" id="btnNext" title="다음 결과" aria-label="다음 결과">▼</button>
+    </div>
+    <div class="sinfo" id="sinfo"></div>
+  </div>
+</header>
+
+<div class="dim" id="dim"></div>
+
+<div class="wrap">
+  <nav class="toc" id="toc" aria-label="목차">
+    <button type="button" class="toc-close" id="btnTocClose">닫기 ✕</button>
+    <h2>목차</h2>
+    <div id="tocList"></div>
+  </nav>
+
+  <main id="main">
+
+<section class="sec" id="s01">
+<h2>1. WIRESMON-X 개요</h2>
+<h3>WIRESMON-X란</h3>
+<p>WIRESMON-X(WIRES-X Remote Monitor)는 <b>노드 PC가 있는 곳에 가지 않고도</b> 인터넷을 통해 내 WIRES-X 노드를 감시하고 제어하는 YAESU의 Windows용 프로그램입니다. 무인으로 운용되는 노드의 상태를 확인하고, 문제가 생기면 송신을 막거나 소프트웨어를 다시 시작할 수 있습니다.</p>
+<h3>할 수 있는 일</h3>
+<div class="tw"><table>
+<tr><th>기능</th><th>내용</th></tr>
+<tr><td>음성 모니터</td><td>노드를 지나가는 양쪽 음성을 원격 PC 스피커로 청취</td></tr>
+<tr><td>접속 상태 표시</td><td>노드가 지금 어느 노드·룸에 연결되어 있는지, 송신·수신 중인지 표시</td></tr>
+<tr><td>ON-AIR LOCK</td><td>노드의 송신 금지(송신 차단)와 해제</td></tr>
+<tr><td>소프트웨어 종료·재시작</td><td>노드 PC의 WIRES-X 소프트웨어를 원격으로 종료 (자동 시작 설정 시 재시작)</td></tr>
+<tr><td>웹 모니터</td><td>웹 브라우저로 노드의 상태와 설정 정보 열람</td></tr>
+</table></div>
+<h3>구성</h3>
+<div class="tw"><table>
+<tr><th>구분</th><th>장소</th><th>실행 프로그램</th></tr>
+<tr><td>노드 PC</td><td>무선국(HRI-200·무전기 설치 장소)</td><td>WIRES-X 소프트웨어</td></tr>
+<tr><td>원격 PC</td><td>집·사무실 등 다른 장소</td><td>WIRESMON-X.exe</td></tr>
+</table></div>
+<p>두 PC는 인터넷으로 연결됩니다. 원격 PC는 노드의 <b>DTMF ID · HRI-200 시리얼 번호 · 원격 제어 비밀번호</b> 세 가지로 자기 노드를 찾아 접속합니다.</p>
+<div class="warn"><b>주의</b>WIRESMON-X는 반드시 <b>노드 PC가 아닌 다른 PC</b>에 설치해야 합니다.</div>
+<h3>전체 진행 순서</h3>
+<ol>
+<li>노드 PC에서 원격 제어 기능을 켜고 비밀번호를 정한다 (<a href="#s03">3장</a>)</li>
+<li>원격 PC에 WIRESMON-X를 내려받아 압축을 푼다 (<a href="#s04">4장</a>)</li>
+<li>WIRESMON-X를 실행해 접속 정보를 입력하고 연결한다 (<a href="#s05">5장</a>)</li>
+<li>상태 표시를 확인하고 필요한 제어를 한다 (<a href="#s06">6장</a>, <a href="#s07">7장</a>)</li>
+</ol>
+</section>
+
+<section class="sec" id="s02">
+<h2>2. 준비물과 요구 사양</h2>
+<h3>원격 PC 사양</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>사양</th></tr>
+<tr><td>운영체제</td><td>Microsoft Windows 11</td></tr>
+<tr><td>CPU</td><td>1.0GHz 이상 권장</td></tr>
+<tr><td>메모리</td><td>4GB 이상 권장</td></tr>
+<tr><td>저장 장치</td><td>운영체제 요구 사양을 충분히 넘는 여유 공간</td></tr>
+<tr><td>화면</td><td>1024×768 이상, 16비트 하이컬러 이상</td></tr>
+<tr><td>LAN</td><td>100BASE-TX 이상 권장</td></tr>
+<tr><td>인터넷</td><td>8Mbps 이상(고속 회선 권장), IPv4 주소 회선</td></tr>
+</table></div>
+<div class="tip"><b>참고</b>원격 PC 쪽은 <b>공인 IP나 포트 개방(포트 포워딩)이 필요 없습니다.</b> PC 방화벽에서 WIRESMON-X의 통신만 허용하면 됩니다.</div>
+<h3>미리 알아 둘 정보 3가지</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th><th>확인 방법</th></tr>
+<tr><td>DTMF ID</td><td>내 노드의 DTMF ID 번호(5자리 숫자)</td><td>노드 등록 시 발급받은 번호</td></tr>
+<tr><td>Serial No</td><td>노드에 연결된 HRI-200 인터페이스 박스의 시리얼 번호</td><td>노드 등록 시 사용한 HRI-200 시리얼 번호</td></tr>
+<tr><td>Password</td><td>노드 PC의 WIRES-X 소프트웨어에 설정한 원격 제어 비밀번호</td><td><a href="#s03">3장</a>에서 직접 설정</td></tr>
+</table></div>
+<h3>버전 호환</h3>
+<ul>
+<li>WIRESMON-X Ver. 2.000은 <b>IPv6 호환판 WIRES-X 소프트웨어</b>만 제어할 수 있습니다.</li>
+<li>WIRES-X 소프트웨어 <b>Ver. 1.570 이전 버전은 제어할 수 없습니다.</b> 노드 PC의 소프트웨어를 먼저 최신판으로 올려야 합니다.</li>
+<li>예전 원격 프로그램(Ver. 1.570 이전용, WiRES-II용 WIRESMON.exe)은 쓸 수 없습니다.</li>
+</ul>
+<div class="tip"><b>참고</b>YAESU 원문은 접속 정보로 HRI-200 시리얼 번호를 요구합니다. HRI-200 없이 운용하는 노드(PDN 등)에서의 사용 가능 여부는 원문에 나와 있지 않으므로 별도 확인이 필요합니다.</div>
+</section>
+
+<section class="sec" id="s03">
+<h2>3. 노드 PC 사전 설정</h2>
+<p>원격 접속을 하려면 <b>노드 PC에서 먼저</b> 아래 설정을 해 두어야 합니다. ①은 필수이고, ②·③은 해당 기능을 쓸 때만 필요합니다.</p>
+<h3>① 원격 제어 켜기와 비밀번호 설정 (필수)</h3>
+<ol>
+<li>노드 PC에서 WIRES-X 소프트웨어를 실행한다</li>
+<li>메뉴에서 <code>"File"</code> → <code>"Settings"</code> 를 연다</li>
+<li>왼쪽 <code>"Property"</code> 아래의 <code>"General settings"</code> 를 클릭한다</li>
+<li><code>"Remote control"</code> 에 체크한다</li>
+<li><code>"Password"</code> 에 원격 제어용 비밀번호를 입력한다</li>
+<li><kbd>[OK]</kbd> 를 클릭한다</li>
+</ol>
+<div class="warn"><b>주의</b>이 설정이 꺼져 있으면 WIRESMON-X에서 접속할 수 없습니다. 비밀번호는 노드를 제어할 수 있는 열쇠이므로 운용 책임자만 알고 있도록 관리하세요.</div>
+<h3>② 웹 모니터 설정 (웹 모니터를 쓸 때만)</h3>
+<h4>플러그인 등록</h4>
+<ol>
+<li><code>"Tool"</code> 메뉴 → <code>"Plugin set"</code></li>
+<li><kbd>[Add Module]</kbd> 클릭</li>
+<li><code>"WiresWeb.dll"</code> 선택 후 <kbd>[Open]</kbd> → 목록에 "WIRES WebServer" 표시</li>
+<li><kbd>[Close]</kbd></li>
+<li><code>"Tool"</code> 메뉴 → <code>"WIRES WebServer"</code></li>
+<li>비밀번호와 포트 번호 확인 (비밀번호는 ①에서 등록한 값이 자동 입력됨)</li>
+<li><kbd>[OK]</kbd></li>
+</ol>
+<h4>포트 개방</h4>
+<ul>
+<li>웹 모니터는 TCP 포트로 노드 PC와 통신합니다. 기본값은 <code>46190</code> 입니다.</li>
+<li>노드 쪽 공유기의 "NAT" 또는 "포트 매핑(포트 포워딩)"에 해당 TCP 포트를 등록하고, 내부 주소는 노드 PC의 고정 IP로 지정합니다.</li>
+<li>노드 PC의 방화벽에서도 WIRES-X 소프트웨어의 해당 포트 통신을 허용합니다.</li>
+</ul>
+<div class="tip"><b>참고</b>웹 모니터를 쓰지 않고 음성 모니터·ON-AIR LOCK·재시작만 쓴다면 ②는 건너뛰어도 됩니다.</div>
+<h3>③ 자동 재시작 준비 (원격 재시작을 쓸 때만)</h3>
+<p>노드 PC에서 <code>YMLAN.exe</code> 의 <b>Auto Start(자동 시작)</b> 기능이 켜져 있어야, 원격에서 WIRES-X 소프트웨어를 종료했을 때 자동으로 다시 실행됩니다. 꺼져 있으면 종료만 되고 다시 켜지지 않습니다.</p>
+<div class="warn"><b>주의</b>자동 시작이 꺼진 상태에서 원격 종료를 하면 노드가 멈춘 채로 남아 현장에 가서 직접 켜야 합니다. 원격 종료를 쓰기 전에 자동 시작 설정을 반드시 확인하세요. 설정 방법은 WIRES-X 소프트웨어의 도움말을 참조합니다.</div>
+</section>
+
+<section class="sec" id="s04">
+<h2>4. 원격 PC에 설치하기</h2>
+<p>설치 프로그램이 따로 없고, 압축을 풀면 바로 실행할 수 있습니다.</p>
+<h3>내려받기와 압축 풀기</h3>
+<ol>
+<li><a href="https://www.yaesu.com/jp/en/wires-x/contact/owner.php" target="_blank" rel="noopener">WIRES-X 오너 페이지</a>에 접속해 <code>"Download WIRES-X Remote Control software"</code> 를 클릭하고 화면 안내에 따른다</li>
+<li><code>wiresmon-x2000en.zip</code> 파일을 원하는 폴더에 저장한다</li>
+<li>zip 파일을 마우스 오른쪽 버튼으로 클릭 → <code>"압축 풀기"</code> 를 선택해 원하는 폴더에 푼다 (예: <code>C:\wiresmon-x</code>)</li>
+<li>필요하면 <code>WIRESMON-X.EXE</code> 를 오른쪽 클릭해 바탕화면 바로 가기를 만든다</li>
+</ol>
+<h3>들어 있는 파일</h3>
+<div class="tw"><table>
+<tr><th>파일</th><th>용도</th></tr>
+<tr><td>WIRESMON-X.EXE</td><td>실행 파일(본체)</td></tr>
+<tr><td>DlgComFuncs.dll</td><td>실행에 필요한 DLL</td></tr>
+<tr><td>UdpComFuncs.dll</td><td>실행에 필요한 DLL</td></tr>
+<tr><td>WIRESMON-X.chm</td><td>온라인 도움말</td></tr>
+<tr><td>WIRESMON-X.txt</td><td>설명 문서</td></tr>
+</table></div>
+<div class="warn"><b>주의</b>EXE와 DLL 2개는 반드시 <b>같은 폴더</b>에 두어야 합니다. EXE만 따로 옮기면 실행되지 않습니다.</div>
+<h3>설정 파일 위치</h3>
+<p>처음 실행하면 접속 설정을 담은 <code>WIRESMON-X.INI</code> 파일이 문서 폴더의 <code>\Documents\WIRESXA\</code> 아래에 자동으로 만들어집니다. 프로그램을 시작할 때 이 파일을 읽습니다.</p>
+<h3>삭제(제거)</h3>
+<p>압축을 풀어 생긴 파일들을 지우면 됩니다. 설정까지 지우려면 <code>\Documents\WIRESXA\WIRESMON-X.INI</code> 도 함께 삭제합니다.</p>
+</section>
+
+<section class="sec" id="s05">
+<h2>5. 처음 실행과 접속</h2>
+<h3>① 방화벽 허용</h3>
+<ol>
+<li><code>WIRESMON-X.EXE</code> 를 더블클릭해 실행한다</li>
+<li>처음 실행하면 Windows 방화벽의 통신 차단 알림 창이 뜬다</li>
+<li><kbd>[액세스 허용]</kbd> 을 클릭해 통신을 허용한다</li>
+</ol>
+<div class="tip"><b>참고</b>알림을 실수로 닫았거나 차단했다면 Windows <code>설정</code> → <code>개인 정보 및 보안</code> → <code>Windows 보안</code> → <code>방화벽 및 네트워크 보호</code> → <code>방화벽에서 앱 허용</code> 에서 WIRESMON-X를 찾아 체크합니다. 별도 백신·보안 프로그램을 쓰면 그 프로그램에서도 허용해야 합니다.</div>
+<h3>② 접속 정보 입력 (Access Setting)</h3>
+<div class="tw"><table>
+<tr><th>입력란</th><th>입력할 값</th></tr>
+<tr><td>DTMF ID</td><td>내 노드의 DTMF ID 번호</td></tr>
+<tr><td>Serial No</td><td>노드의 HRI-200 인터페이스 박스 시리얼 번호</td></tr>
+<tr><td>Password</td><td>노드 PC에서 설정한 원격 제어 비밀번호 (<a href="#s03">3장</a> ①)</td></tr>
+<tr><td>Save Password</td><td>체크하면 비밀번호를 PC에 저장해 다음부터 다시 입력하지 않음</td></tr>
+</table></div>
+<div class="warn"><b>주의</b>여러 사람이 쓰는 PC에서는 <code>Save Password</code> 를 체크하지 마세요. 그 PC를 쓰는 누구나 노드를 제어할 수 있게 됩니다.</div>
+<h3>③ 연결 (Connect)</h3>
+<ol>
+<li>노드 쪽 기기 전원이 켜져 있고 WIRES-X 소프트웨어가 실행 중인지 확인한다</li>
+<li><kbd>[Connect]</kbd> 를 클릭한다</li>
+<li>연결되면 화면에 노드의 User ID와 CallSign이 표시된다</li>
+</ol>
+<h3>연결이 안 될 때 나오는 메시지</h3>
+<div class="tw"><table>
+<tr><th>메시지</th><th>원인</th><th>조치</th></tr>
+<tr><td>Server or ID Not Found</td><td>DTMF ID나 시리얼 번호가 등록 정보와 다름, 또는 방화벽에 막혀 통신이 안 됨</td><td>두 번호를 다시 확인하고, 방화벽 허용 상태를 점검</td></tr>
+<tr><td>Password Unmatch</td><td>입력한 비밀번호가 노드에 설정된 비밀번호와 다름</td><td>노드 PC의 General settings에 등록한 비밀번호 확인 후 다시 입력</td></tr>
+</table></div>
+<h3>④ 연결 끊기 (Disconnect)</h3>
+<p>원격 모니터링을 끝내려면 <kbd>[Disconnect]</kbd> 를 클릭합니다. 연결만 끊어질 뿐 노드 운용에는 영향이 없습니다.</p>
+</section>
+
+<section class="sec" id="s06">
+<h2>6. 모니터 화면 보는 법</h2>
+<p>연결되면 노드 PC의 WIRES-X 소프트웨어 상태가 아이콘과 색으로 표시됩니다.</p>
+<h3>기본 정보</h3>
+<div class="tw"><table>
+<tr><th>표시</th><th>내용</th></tr>
+<tr><td>User ID</td><td>모니터 중인 노드의 User ID</td></tr>
+<tr><td>CallSign</td><td>모니터 중인 노드의 호출부호</td></tr>
+<tr><td>Connecting Node/Room ID</td><td>노드가 현재 연결되어 있는 상대 노드·룸의 User ID</td></tr>
+</table></div>
+<h3>운용 상태 — IDLE / NET</h3>
+<div class="tw"><table>
+<tr><th>표시</th><th>색</th><th>의미</th></tr>
+<tr><td>IDLE</td><td>회색</td><td>다른 노드·룸에 연결되어 있지 않음</td></tr>
+<tr><td>NET</td><td>녹색</td><td>다른 노드·룸에 연결되어 있음</td></tr>
+</table></div>
+<p>무전기 설정과 운용 방식에 따라 Analog / Digital / GM 표시가 바뀝니다.</p>
+<h3>송신 상태 — ON-AIR / ON-AIR LOCK</h3>
+<div class="tw"><table>
+<tr><th>표시</th><th>의미</th></tr>
+<tr><td>ON-AIR (회색)</td><td>송신하지 않음</td></tr>
+<tr><td>ON-AIR (녹색)</td><td>송신 중</td></tr>
+<tr><td>ON-AIR LOCK</td><td>송신 금지 상태</td></tr>
+</table></div>
+<h3>수신 상태 — LOCAL / INTERNET</h3>
+<div class="tw"><table>
+<tr><th>표시</th><th>의미</th></tr>
+<tr><td>LOCAL (회색)</td><td>신호 없음</td></tr>
+<tr><td>LOCAL (파란색)</td><td>신호 수신 중이나 스켈치 코드가 설정과 다름</td></tr>
+<tr><td>LOCAL (녹색)</td><td>신호 수신 중, 스켈치 코드 일치 (음성 중계는 하지 않는 상태)</td></tr>
+<tr><td>INTERNET</td><td>연결된 노드·룸으로 음성을 중계하는 중</td></tr>
+</table></div>
+<div class="tip"><b>참고</b>송신·수신 표시는 두 줄로 나옵니다. <b>윗줄은 음성 채널</b>, <b>아랫줄은 프리셋 서치 채널</b>입니다.</div>
+<h3>HRI-200 연결 상태</h3>
+<div class="tw"><table>
+<tr><th>표시</th><th>의미</th></tr>
+<tr><td>RADIO 1 / RADIO 2</td><td>HRI-200 모드의 무전기가 인식됨</td></tr>
+<tr><td>HRI-200 (빨간색)</td><td>노드 PC가 HRI-200을 인식하지 못함 — USB 연결·전원 점검 필요</td></tr>
+</table></div>
+</section>
+
+<section class="sec" id="s07">
+<h2>7. 제어 기능 사용법</h2>
+<h3>음성 모니터 (SOUND Monitor)</h3>
+<p>버튼을 클릭할 때마다 음성 모니터가 켜지고 꺼집니다. 켜면 노드를 지나가는 양쪽 음성을 들을 수 있습니다.</p>
+<div class="tw"><table>
+<tr><th>버튼 색</th><th>상태</th></tr>
+<tr><td>파란색</td><td>모니터 중</td></tr>
+<tr><td>회색</td><td>모니터 꺼짐</td></tr>
+</table></div>
+<div class="warn"><b>주의</b>음성 모니터는 노드가 <b>NET(다른 노드·룸에 연결된) 상태</b>일 때만 쓸 수 있습니다. IDLE 상태에서는 들리지 않습니다.</div>
+<h3>송신 제어 (ON-AIR ACTIVE / LOCK)</h3>
+<p>버튼을 클릭하면 노드의 송신 상태가 바뀝니다.</p>
+<div class="tw"><table>
+<tr><th>상태</th><th>의미</th></tr>
+<tr><td>ON-AIR ACTIVE</td><td>정상 운용</td></tr>
+<tr><td>ON-AIR LOCK</td><td>송신 금지 — 노드가 전파를 내보내지 않음</td></tr>
+</table></div>
+<div class="tip"><b>참고</b>LOCK을 걸었으면 원인 조치 후 반드시 ACTIVE로 되돌리세요. LOCK 상태로 두면 노드가 계속 송신하지 못합니다.</div>
+<h3>소프트웨어 종료·재시작 (App Quit)</h3>
+<p>노드 PC의 WIRES-X 소프트웨어에서 <code>"File"</code> → <code>"Exit"</code> 를 누른 것과 같은 동작을 원격으로 실행합니다.</p>
+<ul>
+<li>노드 PC에서 YMLAN.exe의 Auto Start가 <b>켜져 있으면</b>: 종료 후 자동으로 다시 실행 → 원격 재시작</li>
+<li>Auto Start가 <b>꺼져 있으면</b>: 종료만 되고 노드가 멈춤 (<a href="#s03">3장</a> ③)</li>
+</ul>
+<h3>웹 모니터 (Web monitor)</h3>
+<ol>
+<li><code>Web port</code> 란에 노드 쪽 설정과 같은 TCP 포트 번호를 입력한다 (기본값 46190)</li>
+<li><kbd>[Web monitor]</kbd> 버튼을 클릭한다</li>
+<li>웹 브라우저가 열리고 노드의 상태와 설정 정보가 표시된다</li>
+</ol>
+<p>노드 쪽에 플러그인 등록과 포트 개방이 되어 있어야 합니다 (<a href="#s03">3장</a> ②).</p>
+<h3>음량 조절 (Sound Volume Control)</h3>
+<ul>
+<li>원격 PC에서 들리는 모니터 음량을 조절합니다. <b>노드 PC의 음량은 바뀌지 않습니다.</b></li>
+<li>이 조절은 Windows 볼륨 믹서의 "WIRES Monitor application Volume(응용 프로그램)" 항목과 연동됩니다.</li>
+<li>그래도 소리가 작거나 크면 Windows의 스피커(장치) 음량을 조절합니다.</li>
+</ul>
+<h3>창 닫기 (Close)</h3>
+<p><kbd>[Close]</kbd> 를 클릭하면 창이 닫힙니다.</p>
+</section>
+
+<section class="sec" id="s08">
+<h2>8. 상황별 사용 순서</h2>
+<h3>평소 상태 점검</h3>
+<ol>
+<li>WIRESMON-X 실행 → <kbd>[Connect]</kbd></li>
+<li>User ID·CallSign이 내 노드가 맞는지 확인</li>
+<li>HRI-200 표시가 빨간색이 아닌지, RADIO 표시가 나오는지 확인</li>
+<li>IDLE / NET 과 연결된 노드·룸 ID가 의도한 상태인지 확인</li>
+<li>필요하면 SOUND Monitor로 음성 품질 확인</li>
+<li><kbd>[Disconnect]</kbd> 로 종료</li>
+</ol>
+<h3>노드가 계속 송신하거나 이상한 신호를 내보낼 때</h3>
+<ol>
+<li>ON-AIR 표시가 녹색으로 계속 켜져 있는지 확인</li>
+<li>SOUND Monitor로 어떤 음성이 중계되는지 청취 (NET 상태일 때)</li>
+<li>문제가 확인되면 <kbd>[ON-AIR ACTIVE / LOCK]</kbd> 버튼으로 <b>ON-AIR LOCK</b> 전환</li>
+<li>원인 조치 후 다시 ON-AIR ACTIVE로 복귀</li>
+</ol>
+<h3>노드 소프트웨어가 멈춘 것 같을 때</h3>
+<ol>
+<li>표시가 갱신되지 않거나 상태가 비정상인지 확인</li>
+<li>노드 PC의 자동 시작이 켜져 있는 것이 확실하면 <kbd>[App Quit]</kbd> 클릭</li>
+<li>잠시 기다린 뒤 <kbd>[Connect]</kbd> 로 다시 접속해 정상 복귀 확인</li>
+<li>다시 접속되지 않으면 현장 점검이 필요</li>
+</ol>
+</section>
+
+<section class="sec" id="s09">
+<h2>9. 문제 해결</h2>
+<div class="tw"><table>
+<tr><th>증상</th><th>점검할 것</th></tr>
+<tr><td>"Server or ID Not Found"</td><td>DTMF ID·시리얼 번호 오타, 원격 PC 방화벽 허용 여부, 인터넷 연결</td></tr>
+<tr><td>"Password Unmatch"</td><td>노드 PC General settings의 비밀번호와 같은지, 대소문자</td></tr>
+<tr><td>정보는 맞는데 연결이 안 됨</td><td>노드 PC의 "Remote control" 체크 여부, 노드 PC 전원과 WIRES-X 소프트웨어 실행 여부, 노드 쪽 소프트웨어 버전(1.570 이전은 불가)</td></tr>
+<tr><td>방화벽 알림이 안 뜸</td><td>Windows 방화벽의 "방화벽에서 앱 허용" 목록에서 직접 허용, 보안 프로그램 설정</td></tr>
+<tr><td>음성 모니터가 안 들림</td><td>노드가 NET 상태인지, SOUND Monitor 버튼이 파란색인지, 볼륨 믹서와 스피커 음량</td></tr>
+<tr><td>웹 모니터가 안 열림</td><td>Web port 번호가 노드 설정과 같은지, 노드 쪽 공유기 TCP 포트 개방, 노드 PC 방화벽, WiresWeb.dll 플러그인 등록</td></tr>
+<tr><td>App Quit 후 다시 안 켜짐</td><td>노드 PC의 YMLAN.exe Auto Start가 꺼져 있음 — 현장에서 직접 실행 후 설정</td></tr>
+<tr><td>HRI-200이 빨간색</td><td>노드 PC와 HRI-200의 USB 연결, 무전기 전원과 HRI-200 모드</td></tr>
+<tr><td>프로그램이 실행되지 않음</td><td>EXE와 DLL 2개가 같은 폴더에 있는지, 압축을 풀지 않고 zip 안에서 실행하지 않았는지</td></tr>
+</table></div>
+</section>
+
+<section class="sec" id="s10">
+<h2>10. 운용 시 주의사항</h2>
+<ul>
+<li><b>비밀번호 관리</b>: DTMF ID·시리얼 번호·비밀번호를 알면 누구나 노드의 송신을 막거나 소프트웨어를 끌 수 있습니다. 문서·메신저·공개 웹에 적어 두지 마세요.</li>
+<li><b>담당자 변경 시</b>: 노드 PC에서 원격 제어 비밀번호를 바꿉니다.</li>
+<li><b>LOCK 해제 확인</b>: ON-AIR LOCK을 건 뒤에는 조치가 끝나면 ACTIVE로 되돌렸는지 꼭 확인합니다.</li>
+<li><b>원격 종료 전 확인</b>: 자동 시작이 꺼진 노드에 App Quit을 쓰면 현장 출동이 필요해집니다.</li>
+<li><b>웹 모니터 포트</b>: 포트를 열면 외부에서 접근 가능한 경로가 생깁니다. 쓰지 않으면 열지 않습니다.</li>
+<li><b>음성 모니터</b>: 들은 교신 내용은 운용 점검 목적으로만 사용합니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="s11">
+<h2>11. 설정 점검표</h2>
+<h3>노드 PC</h3>
+<div class="tw"><table>
+<tr><th>확인</th><th>항목</th></tr>
+<tr><td>□</td><td>WIRES-X 소프트웨어가 IPv6 호환 최신판이다</td></tr>
+<tr><td>□</td><td>File → Settings → General settings 의 "Remote control" 에 체크했다</td></tr>
+<tr><td>□</td><td>원격 제어 비밀번호를 설정했다</td></tr>
+<tr><td>□</td><td>(재시작 사용 시) YMLAN.exe Auto Start가 켜져 있다</td></tr>
+<tr><td>□</td><td>(웹 모니터 사용 시) WiresWeb.dll 플러그인을 등록했다</td></tr>
+<tr><td>□</td><td>(웹 모니터 사용 시) 공유기와 방화벽에서 TCP 포트를 열었다</td></tr>
+</table></div>
+<h3>원격 PC</h3>
+<div class="tw"><table>
+<tr><th>확인</th><th>항목</th></tr>
+<tr><td>□</td><td>Windows 11이고 노드 PC와 다른 PC다</td></tr>
+<tr><td>□</td><td>zip을 풀어 EXE와 DLL이 같은 폴더에 있다</td></tr>
+<tr><td>□</td><td>처음 실행 시 방화벽에서 통신을 허용했다</td></tr>
+<tr><td>□</td><td>DTMF ID·Serial No·Password를 입력했다</td></tr>
+<tr><td>□</td><td>Connect 후 내 노드의 User ID·CallSign이 표시된다</td></tr>
+</table></div>
+</section>
+
+<section class="sec" id="s12">
+<h2>12. 안내서 정보</h2>
+<p>이 문서는 YAESU MUSEN의 "WIRESMON-X.EXE (WIRES-X Remote Monitor application) ver. 2.000" 설명 문서와 HRI-200 사용 설명서의 원격 운용 부분을 바탕으로, 운용자가 따라 하기 쉽게 한글로 풀어 쓴 <b>비공식 안내서</b>입니다. 화면 캡처는 싣지 않았으며, Windows 메뉴 이름은 버전에 따라 조금 다를 수 있습니다. 정확한 내용과 최신 정보는 YAESU의 공식 문서와 프로그램에 들어 있는 도움말(WIRESMON-X.chm)을 기준으로 합니다. WIRES, WIRES-X는 YAESU MUSEN의 상표입니다.</p>
+<p class="pdf-link">인쇄용 PDF: <a href="WIRESMON-X_한글매뉴얼.pdf" target="_blank" rel="noopener">WIRESMON-X_한글매뉴얼.pdf</a></p>
+</section>
+
+  <div class="none" id="none">검색 결과가 없습니다. 다른 검색어를 입력해 보세요.</div>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>WIRESMON-X 한글 사용 안내서 (비공식 요약) · 원문: YAESU WIRESMON-X.EXE ver. 2.000 설명 문서</span>
+  <span id="verFoot"></span>
+</footer>
+
+<button type="button" class="top-btn" id="btnTop" title="맨 위로" aria-label="맨 위로">▲</button>
+
+<script>
+(function(){
+  'use strict';
+  var APP_VERSION = 'v1.0';
+  var APP_DATE = '2026-11-19';
+
+  var body = document.body;
+  var $ = function(id){ return document.getElementById(id); };
+  $('verTop').textContent = APP_VERSION;
+  $('verFoot').textContent = APP_VERSION + ' · ' + APP_DATE;
+
+  /* ---------- 화면 모드 (초기값: 모바일) ---------- */
+  function setMode(mode){
+    body.classList.toggle('m-pc', mode === 'pc');
+    body.classList.toggle('m-mobile', mode !== 'pc');
+    body.classList.remove('toc-open');
+    $('btnPc').classList.toggle('on', mode === 'pc');
+    $('btnMobile').classList.toggle('on', mode !== 'pc');
+  }
+  $('btnPc').addEventListener('click', function(){ setMode('pc'); });
+  $('btnMobile').addEventListener('click', function(){ setMode('mobile'); });
+
+  /* ---------- 목차 생성 ---------- */
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.sec'));
+  var tocList = $('tocList');
+  var tocLinks = [];   // {a, sec}
+  sections.forEach(function(sec){
+    var h2 = sec.querySelector('h2');
+    var a = document.createElement('a');
+    a.className = 'g';
+    a.href = '#' + sec.id;
+    a.textContent = h2.textContent;
+    tocList.appendChild(a);
+    tocLinks.push({a:a, sec:sec});
+    var subs = sec.querySelectorAll('h3');
+    for (var i = 0; i < subs.length; i++){
+      var h3 = subs[i];
+      h3.id = sec.id + '-' + (i + 1);
+      var s = document.createElement('a');
+      s.className = 's';
+      s.href = '#' + h3.id;
+      s.textContent = h3.textContent;
+      tocList.appendChild(s);
+      tocLinks.push({a:s, sec:sec});
+    }
+  });
+
+  function closeToc(){ body.classList.remove('toc-open'); }
+  $('btnMenu').addEventListener('click', function(){ body.classList.toggle('toc-open'); });
+  $('btnTocClose').addEventListener('click', closeToc);
+  $('dim').addEventListener('click', closeToc);
+  tocList.addEventListener('click', function(e){
+    if (e.target && e.target.tagName === 'A') closeToc();
+  });
+  $('btnTop').addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  /* ---------- 검색 ---------- */
+  var originals = sections.map(function(sec){ return sec.innerHTML; });
+  var q = $('q'), sinfo = $('sinfo'), none = $('none');
+  var marks = [], cur = -1, timer = null;
+
+  function escapeReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function restore(){
+    sections.forEach(function(sec, i){
+      if (sec.getAttribute('data-hl') === '1'){
+        sec.innerHTML = originals[i];
+        sec.removeAttribute('data-hl');
+      }
+      sec.classList.remove('off');
+    });
+    marks = []; cur = -1;
+  }
+
+  function highlight(sec, re){
+    var walker = document.createTreeWalker(sec, NodeFilter.SHOW_TEXT, null);
+    var nodes = [], n;
+    while ((n = walker.nextNode())) nodes.push(n);
+    var count = 0;
+    nodes.forEach(function(node){
+      var text = node.nodeValue;
+      re.lastIndex = 0;
+      if (!re.test(text)) return;
+      re.lastIndex = 0;
+      var frag = document.createDocumentFragment();
+      var last = 0, m;
+      while ((m = re.exec(text))){
+        if (m[0].length === 0){ re.lastIndex++; continue; }
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var mk = document.createElement('mark');
+        mk.textContent = m[0];
+        frag.appendChild(mk);
+        last = m.index + m[0].length;
+        count++;
+      }
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+    return count;
+  }
+
+  function relinkToc(){
+    // 검색으로 innerHTML이 바뀌어도 h3 id는 원본에 포함되어 유지됨
+    var term = q.value.trim();
+    tocLinks.forEach(function(t){
+      var hidden = t.sec.classList.contains('off');
+      t.a.classList.toggle('off', hidden);
+      t.a.classList.toggle('hit', !!term && !hidden && t.a.className.indexOf('g') === 0);
+    });
+  }
+
+  function doSearch(){
+    restore();
+    var term = q.value.trim();
+    if (!term){
+      sinfo.textContent = '';
+      none.style.display = 'none';
+      relinkToc();
+      return;
+    }
+    var re = new RegExp(escapeReg(term), 'gi');
+    var total = 0, secCount = 0;
+    sections.forEach(function(sec){
+      var c = highlight(sec, re);
+      if (c > 0){ sec.setAttribute('data-hl', '1'); total += c; secCount++; }
+      else { sec.classList.add('off'); }
+    });
+    marks = Array.prototype.slice.call(document.querySelectorAll('main mark'));
+    none.style.display = total ? 'none' : 'block';
+    sinfo.textContent = total
+      ? '"' + term + '" — ' + secCount + '개 단락에서 ' + total + '건 (▲▼ 또는 Enter로 이동)'
+      : '"' + term + '" — 결과 없음';
+    relinkToc();
+    if (total){ cur = -1; }
+  }
+
+  function go(step){
+    if (!marks.length) return;
+    if (cur >= 0 && marks[cur]) marks[cur].classList.remove('cur');
+    cur = (cur + step + marks.length) % marks.length;
+    var m = marks[cur];
+    m.classList.add('cur');
+    var y = m.getBoundingClientRect().top + window.pageYOffset - 140;
+    window.scrollTo({top: y < 0 ? 0 : y, behavior:'smooth'});
+    sinfo.textContent = '"' + q.value.trim() + '" — ' + (cur + 1) + ' / ' + marks.length + '건';
+  }
+
+  // h3 id 를 원본 HTML에 반영 (검색 복원 시에도 유지되도록 목차 생성 후 저장)
+  originals = sections.map(function(sec){ return sec.innerHTML; });
+
+  q.addEventListener('input', function(){
+    clearTimeout(timer);
+    timer = setTimeout(function(){ timer = null; doSearch(); }, 180);
+  });
+  q.addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){
+      e.preventDefault();
+      if (timer){ clearTimeout(timer); timer = null; doSearch(); }
+      go(e.shiftKey ? -1 : 1);
+    }
+  });
+  $('btnNext').addEventListener('click', function(){ go(1); });
+  $('btnPrev').addEventListener('click', function(){ go(-1); });
+  $('btnClear').addEventListener('click', function(){
+    q.value = '';
+    clearTimeout(timer);
+    doSearch();
+    q.focus();
+  });
+
+  setMode('mobile');
+})();
+</script>
+</body>
+</html>
