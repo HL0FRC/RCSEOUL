@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>HRI-200 WIRES-X 한글 사용 안내서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* HRI-200 WIRES-X 한글 사용 안내서 v1.0 (2026-11-19) */
+:root{
+  --navy:#1f3350; --navy2:#2c4a73; --ink:#26303c; --sub:#4d5b6b; --line:#d5dbe3;
+  --bg:#eef1f5; --card:#ffffff; --soft:#f4f6f9; --accent:#1d5c8f;
+  --tip-bg:#eaf2f9; --tip-bd:#9dbcd6; --warn-bg:#fbf1e3; --warn-bd:#d9a860; --warn-ink:#6a4208;
+  --mark:#ffe08a; --maxw:480px;
+}
+*{box-sizing:border-box}
+html{font-size:14px;scroll-behavior:smooth}
+@media (min-width:768px){html{font-size:16px}}
+body{margin:0;font-family:'Noto Sans KR',sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-text-size-adjust:100%}
+body.m-pc{--maxw:1100px}
+button,input{font-family:inherit;font-size:1rem;color:inherit}
+
+/* 헤더 */
+.nav{position:sticky;top:0;z-index:30;background:var(--navy);color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:8px 12px}
+.nav-top{display:flex;align-items:center;gap:8px}
+.brand{flex:1;min-width:0}
+.brand b{display:block;font-size:1.07rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{display:block;font-size:.8rem;color:#c9d6e6}
+.ver{font-size:.8rem;background:#fff;color:var(--navy);border-radius:10px;padding:1px 8px;font-weight:700;white-space:nowrap}
+.seg{display:flex;border:1px solid #8ea5c2;border-radius:6px;overflow:hidden;flex:none}
+.seg button{background:transparent;color:#e6edf6;border:0;padding:5px 10px;cursor:pointer;font-size:.86rem}
+.seg button.on{background:#fff;color:var(--navy);font-weight:700}
+.nav-search{display:flex;gap:6px;margin-top:8px;align-items:center}
+.menu-btn{flex:none;background:var(--navy2);color:#fff;border:1px solid #8ea5c2;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:.93rem}
+body.m-pc .menu-btn{display:none}
+.sbox{flex:1;display:flex;background:#fff;border-radius:6px;overflow:hidden;min-width:0}
+.sbox input{flex:1;min-width:0;border:0;padding:7px 10px;outline:none;color:var(--ink);background:#fff}
+.sbox button{border:0;background:#fff;color:var(--sub);padding:0 10px;cursor:pointer}
+.snav{flex:none;background:var(--navy2);color:#fff;border:1px solid #8ea5c2;border-radius:6px;padding:6px 9px;cursor:pointer}
+.sinfo{font-size:.86rem;color:#dbe5f1;margin-top:4px;min-height:1.2em}
+
+/* 레이아웃 */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:8px 12px}
+body.m-pc .wrap{display:grid;grid-template-columns:270px 1fr;gap:12px;align-items:start}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px}
+.toc h2{font-size:.93rem;margin:0 0 4px;color:var(--navy);padding:0 4px}
+.toc a{display:block;padding:4px 6px;border-radius:4px;color:var(--ink);text-decoration:none;font-size:.93rem}
+.toc a:hover{background:var(--soft)}
+.toc a.g{font-weight:700;color:var(--navy);margin-top:4px;border-top:1px solid var(--line);border-radius:0;padding-top:6px}
+.toc a.g:first-of-type{border-top:0;margin-top:0}
+.toc a.s{padding-left:16px;color:var(--sub)}
+.toc a.off{display:none}
+.toc a.hit{background:#fff6d6}
+body.m-pc .toc{position:sticky;top:140px;max-height:calc(100vh - 150px);overflow:auto}
+body.m-mobile .toc{position:fixed;top:0;left:0;bottom:0;width:86%;max-width:340px;z-index:50;border-radius:0;overflow:auto;transform:translateX(-102%);transition:transform .2s}
+body.m-mobile.toc-open .toc{transform:none;box-shadow:4px 0 16px rgba(0,0,0,.3)}
+.dim{display:none;position:fixed;inset:0;background:rgba(20,30,45,.5);z-index:40}
+body.m-mobile.toc-open .dim{display:block}
+.toc-close{display:none;float:right;border:1px solid var(--line);background:var(--soft);border-radius:4px;padding:2px 8px;cursor:pointer}
+body.m-mobile .toc-close{display:block}
+
+/* 본문 */
+.sec{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 8px;scroll-margin-top:144px}
+.sec.off{display:none}
+.sec h2{font-size:1.14rem;margin:0 0 6px;color:var(--navy);border-bottom:2px solid var(--navy);padding-bottom:4px}
+.sec h3{font-size:1rem;margin:8px 0 4px;color:var(--accent);scroll-margin-top:144px}
+.sec h4{font-size:.93rem;margin:6px 0 2px;color:var(--ink)}
+.sec p{margin:4px 0}
+.sec ul,.sec ol{margin:4px 0;padding-left:1.4em}
+.sec li{margin:2px 0}
+.tw{overflow-x:auto;margin:6px 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border:1px solid var(--line);padding:4px 7px;text-align:left;vertical-align:top}
+th{background:#e3eaf3;color:var(--navy);font-weight:700;white-space:nowrap}
+td:first-child{font-weight:500;color:#1b2a3d}
+.tip,.warn{border-left:4px solid var(--tip-bd);background:var(--tip-bg);padding:5px 9px;margin:6px 0;border-radius:0 5px 5px 0;font-size:.93rem;color:#1f3a55}
+.warn{border-left-color:var(--warn-bd);background:var(--warn-bg);color:var(--warn-ink)}
+.tip b:first-child,.warn b:first-child{margin-right:4px}
+code,kbd{font-family:inherit;background:#e9edf2;border:1px solid #cfd6df;border-radius:4px;padding:0 5px;font-size:.93em;color:#1b2a3d;white-space:nowrap}
+code{white-space:normal;overflow-wrap:break-word}
+.sec{overflow-wrap:break-word}
+mark{background:var(--mark);color:#1b1b1b;border-radius:2px;padding:0 1px}
+mark.cur{outline:2px solid #c9731a}
+.none{display:none;background:var(--card);border:1px dashed var(--line);border-radius:8px;padding:12px;text-align:center;color:var(--sub)}
+.foot{max-width:var(--maxw);margin:0 auto;padding:6px 12px 12px;font-size:.86rem;color:var(--sub);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.top-btn{position:fixed;right:12px;bottom:12px;z-index:20;background:var(--navy);color:#fff;border:0;border-radius:50%;width:42px;height:42px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+</style>
+</head>
+<body class="m-mobile">
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-top">
+      <div class="brand"><b>HRI-200 WIRES-X 한글 사용 안내서</b><span>WIRES-X 접속 키트 · 노드 운용 가이드</span></div>
+      <span class="ver" id="verTop"></span>
+      <div class="seg" role="group" aria-label="화면 선택">
+        <button type="button" id="btnMobile" class="on">모바일</button>
+        <button type="button" id="btnPc">PC</button>
+      </div>
+    </div>
+    <div class="nav-search">
+      <button type="button" class="menu-btn" id="btnMenu">☰ 목차</button>
+      <div class="sbox">
+        <input type="search" id="q" placeholder="검색어 입력 (예: 포트, DG-ID, 룸, GM)" autocomplete="off" aria-label="매뉴얼 검색">
+        <button type="button" id="btnClear" title="검색 지우기" aria-label="검색 지우기">✕</button>
+      </div>
+      <button type="button" class="snav" id="btnPrev" title="이전 결과" aria-label="이전 결과">▲</button>
+      <button type="button" class="snav" id="btnNext" title="다음 결과" aria-label="다음 결과">▼</button>
+    </div>
+    <div class="sinfo" id="sinfo"></div>
+  </div>
+</header>
+
+<div class="dim" id="dim"></div>
+
+<div class="wrap">
+  <nav class="toc" id="toc" aria-label="목차">
+    <button type="button" class="toc-close" id="btnTocClose">닫기 ✕</button>
+    <h2>목차</h2>
+    <div id="tocList"></div>
+  </nav>
+
+  <main id="main">
+
+<section class="sec" id="s01">
+<h2>1. WIRES-X 개요</h2>
+<h3>WIRES-X란</h3>
+<p>WIRES(Wide-coverage Internet Repeater Enhancement System)는 인터넷을 이용해 아마추어무선의 통신 범위를 넓혀 주는 시스템입니다. PC로 인터넷에 연결된 <b>로컬 노드</b>가 접속점(액세스 포인트) 역할을 하여, 이동국·고정국이 가까운 노드에 전파로 접속하면 전 세계의 무선국과 교신할 수 있습니다.</p>
+<h3>주요 특징</h3>
+<ul>
+<li>C4FM 디지털 통신 지원 — 음질 열화 없이 디지털 신호를 중계</li>
+<li>영문·숫자로 된 User ID 체계, ID 검색·접속 기능</li>
+<li>문자·사진·음성 데이터를 저장하고 읽는 <b>뉴스 기능</b></li>
+<li>로컬 노드를 빨리 찾기 위한 <b>프리셋 서치 채널</b></li>
+<li><b>GM(그룹 모니터)</b> 운용국의 신호 중계</li>
+<li>DTMF 명령을 쓰는 FM 아날로그 통신 지원, 디지털국↔아날로그국 상호 교신 가능</li>
+<li>HRI-200은 USB 한 가닥으로 PC와 연결·급전되며 USB 오디오 장치를 내장</li>
+<li>인터넷 포트 개방 상태를 점검하는 포트 체크 기능</li>
+</ul>
+<h3>시스템 구성 요소</h3>
+<div class="tw"><table>
+<tr><th>구성</th><th>역할</th></tr>
+<tr><td>WIRES-X 서버</td><td>YAESU가 운영. 인터넷 접속 관리와 사용자(노드) 관리</td></tr>
+<tr><td>WIRES-X 노드</td><td>PC + 접속 키트로 인터넷에 연결된 접속점 무선국. C4FM 디지털 또는 FM 아날로그 중 선택 운용. 여러 노드가 동시에 모이는 <b>룸</b>도 개설 가능</td></tr>
+<tr><td>이동국·고정국</td><td>교신권 내 로컬 노드에 접속해 인터넷 너머의 무선국과 교신. 디지털 노드는 WIRES-X 호환 디지털 무전기, 아날로그 노드는 DTMF 송출이 되는 FM 무전기가 필요</td></tr>
+</table></div>
+<h3>교신이 이루어지는 흐름</h3>
+<ol>
+<li>아마추어국과 WIRES-X 노드를 개설한다</li>
+<li>이동국·고정국이 노드를 찾는다</li>
+<li>접속할 상대(노드/룸)를 지정해 연결한다</li>
+<li>이동국·고정국이 음성을 송신한다</li>
+<li>노드가 수신해 인터넷으로 상대 노드에 중계한다</li>
+<li>상대 노드가 무전기로 재송신한다</li>
+<li>상대 노드 채널을 수신 중인 무선국이 이를 듣는다</li>
+</ol>
+</section>
+
+<section class="sec" id="s02">
+<h2>2. 준비물과 요구 사양</h2>
+<h3>무전기</h3>
+<div class="warn"><b>주의</b>무전기의 소프트웨어·펌웨어는 YAESU 웹사이트의 최신판으로 갱신해 두세요.</div>
+<ul>
+<li><b>C4FM 디지털 노드</b>: 10핀 미니 DIN DATA 단자가 있는 C4FM 무전기 — FTM-510D, FTM-500D, FTM-400XD/400D, FTM-310D, FTM-300D, FTM-200D, FTM-100D (R/E 계열, 2026년 2월 기준)</li>
+<li><b>FM 아날로그 노드</b>: 위 기종 또는 FTM-6000 권장. 6핀(8핀) 미니 DIN DATA 단자가 있는 FM 무전기도 가능</li>
+<li><b>FTX-1</b>은 HRI-200 없이 USB Type-C 케이블로 PC에 직접 연결해 디지털·아날로그 노드로 운용</li>
+<li>안테나, 전원 등 무선국 부대 설비</li>
+</ul>
+<h3>PC</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>사양</th></tr>
+<tr><td>운영체제</td><td>Microsoft Windows 11</td></tr>
+<tr><td>CPU</td><td>2.0GHz 이상</td></tr>
+<tr><td>저장 공간</td><td>여유 64GB 이상 (256GB 이상 SSD 권장)</td></tr>
+<tr><td>메모리</td><td>OS 요구 사양 충족 (4GB 이상 권장)</td></tr>
+<tr><td>USB</td><td>Full-speed USB 포트</td></tr>
+<tr><td>화면</td><td>1366×768 이상, 16비트 하이컬러 이상(32비트 권장)</td></tr>
+<tr><td>LAN</td><td>100BASE-TX / 1000BASE-T</td></tr>
+</table></div>
+<h3>인터넷 회선</h3>
+<ul>
+<li>광회선 등 고속 회선 권장</li>
+<li>아래 조건은 <b>구버전 호환 룸</b>을 열 때만 필요합니다.
+  <ul>
+  <li>IPv4 공인 IP(유동·고정 모두 가능), 노드마다 고유 IP 필요</li>
+  <li>UDP 포트 3개 개방: <code>46114</code>, <code>46120</code>, <code>46122</code> (공유기 사용 시 NAPT 설정)</li>
+  </ul></li>
+<li>원격 제어 기능을 쓸 때는 TCP 포트 1개 개방 필요 (공유기 사용 시 NAPT 설정)</li>
+</ul>
+<div class="warn"><b>주의</b>공유기 방화벽을 쓰면 위 포트를 열어 서버와 통신이 되게 해야 합니다. 같은 회선을 여러 용도로 동시에 쓰면 음성이 끊기거나 접속이 불안정해질 수 있습니다.</div>
+<h3>노드 개설 절차 요약</h3>
+<ol>
+<li>WIRES-X 서버에 노드 등록 → ID 번호 발급 (<a href="#s05">5장</a>)</li>
+<li>WIRES-X 소프트웨어 설치 (<a href="#s06">6장</a>)</li>
+</ol>
+</section>
+
+<section class="sec" id="s03">
+<h2>3. 사용 전 확인·안전 수칙</h2>
+<p>WIRES-X 소프트웨어는 최종 사용자 사용권 계약에 따라 구매자만 사용할 수 있으며, 사양·기능은 예고 없이 바뀔 수 있습니다.</p>
+<h3>위험</h3>
+<ul>
+<li>병원·항공기 등 사용이 금지된 장소에서 쓰지 않는다 (전자·의료기기에 영향)</li>
+<li>가연성 가스가 있는 곳에서 쓰지 않는다 (화재·폭발 위험)</li>
+</ul>
+<h3>경고</h3>
+<ul>
+<li>지정 전압 외의 전원을 쓰지 않는다</li>
+<li>분해·개조하지 않는다. 젖은 손으로 플러그·커넥터를 만지지 않는다</li>
+<li>연기·이상한 냄새가 나면 연결된 PC를 끄고 케이블을 뽑은 뒤 구입처나 YAESU 기술지원에 문의한다</li>
+<li>가습기 옆 등 물기가 닿기 쉬운 곳에 두지 않는다</li>
+<li>케이블을 무리하게 구부리거나 당기지 않고, 뽑을 때는 플러그를 잡는다</li>
+<li>케이블이 손상됐거나 커넥터가 꽉 끼워지지 않으면 사용하지 않는다</li>
+<li>금속 조각·물 등이 내부에 들어가지 않게 한다</li>
+<li>이어폰·헤드폰을 큰 음량으로 오래 쓰지 않는다</li>
+<li>천둥·번개가 칠 때는 PC를 끄고 전원 플러그를 뽑는다</li>
+</ul>
+<h3>주의</h3>
+<ul>
+<li>난방기구 근처, 직사광선, 먼지·습기가 많은 곳에 두지 않는다</li>
+<li>신나·벤젠으로 닦지 않고 부드러운 마른 천을 쓴다</li>
+<li>장기간 쓰지 않을 때는 케이블을 뽑아 둔다</li>
+<li>던지거나 강한 충격을 주지 않는다. 위에 올라서거나 무거운 물건을 올리지 않는다</li>
+<li>자기 카드·테이프류를 가까이 두지 않는다. 어린이 손이 닿지 않게 한다</li>
+<li>케이블 위에 무거운 물건을 올리지 않는다</li>
+<li>라디오·TV 근처에서 쓰면 전파 간섭이 생길 수 있다</li>
+<li>지정 옵션 외의 제품을 쓰지 않는다. 불안정하거나 진동이 심한 곳에 두지 않는다</li>
+<li>케이스를 열지 않는다</li>
+</ul>
+</section>
+
+<section class="sec" id="s04">
+<h2>4. 구성품·옵션·표기 규칙</h2>
+<h3>구성품</h3>
+<ul>
+<li>HRI-200 본체</li>
+<li>USB 케이블 (Type A – Type B)</li>
+<li>CT-174: 미니 DIN 10핀–10핀 데이터 케이블</li>
+<li>CT-175: 미니 DIN 10핀–6핀 데이터 케이블</li>
+<li>WIRES-X 소프트웨어 설치 디스크(CD-R)</li>
+<li>WIRES-X 사용자 등록 안내서</li>
+</ul>
+<p>빠진 것이 있으면 구입처에 문의합니다. CT-174, CT-175는 옵션으로 추가 구매할 수 있습니다.</p>
+<h3>이 안내서의 표기</h3>
+<ul>
+<li><kbd>[GM]</kbd>, <kbd>[Close]</kbd> 처럼 대괄호 — 기기의 키·스위치 또는 PC 화면의 버튼</li>
+<li><code>"Settings"</code> 처럼 따옴표 — PC 화면의 제목·메뉴 항목 이름 (소프트웨어가 영문이므로 화면 표기는 영문 그대로 적었습니다)</li>
+<li>OS 버전과 제품 업그레이드에 따라 실제 화면·명칭이 다를 수 있습니다</li>
+</ul>
+</section>
+
+<section class="sec" id="s05">
+<h2>5. WIRES-X 서버 등록 (ID 발급)</h2>
+<div class="tip"><b>참고</b>다른 무선국이 개설한 공개 노드에 C4FM 디지털 무전기로 접속해 교신만 할 경우에는 서버 사용자 등록이 필요 없습니다.</div>
+<ol>
+<li>WIRES-X 웹사이트 접속: <a href="https://www.yaesu.com/jp/en/wires-x/index.php" target="_blank" rel="noopener">https://www.yaesu.com/jp/en/wires-x/index.php</a></li>
+<li><code>"New Member Registration"</code> 클릭</li>
+<li>이메일 주소를 입력해 제출 → 회원 등록용 주소가 담긴 메일이 옵니다</li>
+<li>해당 주소로 들어가 <code>"Apply for WIRES-X new ID (membership registration)"</code> 선택</li>
+<li>사용권 계약 화면에서 <kbd>[I Agree]</kbd> 클릭</li>
+<li>필수 항목을 입력해 제출 → 완료되면 ID 취득 안내 메일이 옵니다</li>
+</ol>
+<div class="tip"><b>참고</b>무전기 시리얼 번호는 등록할 필요가 없습니다. FTX-1은 HRI-200을 쓰지 않으므로 FTX-1의 "RADIO ID"를 입력합니다. 등록 처리에는 영업일 기준 4~5일이 걸립니다.</div>
+<div class="warn"><b>주의</b>기술 발전이나 규제 변화로 서버 운영이 어렵다고 YAESU가 판단하면 WIRES 서버 운영이 중단될 수 있습니다.</div>
+</section>
+
+<section class="sec" id="s06">
+<h2>6. 소프트웨어 설치</h2>
+<div class="warn"><b>주의</b>최신판 사용을 권장합니다. WIRES-X 회원 페이지에 로그인하면 최신 소프트웨어를 내려받을 수 있습니다.</div>
+<h3>HRI-200 USB 장치 드라이버 설치</h3>
+<div class="tip"><b>참고</b>FTX-1은 HRI-200을 쓰지 않으므로 드라이버 설치가 필요 없습니다.</div>
+<ol>
+<li>PC를 켜고 관리자 권한 계정으로 로그인 (다른 프로그램은 닫기)</li>
+<li>CD-R의 <code>"Install.exe"</code> 실행 → <code>"WIRES-X installer"</code> 창 표시</li>
+<li><kbd>[HRI-200 Device Driver Setup]</kbd> 클릭 → 명령 프롬프트 창이 열리며 설치 시작<br>"Connect HRI-200 to USB." 메시지가 나오면 HRI-200 USB 케이블을 다시 꽂고 <kbd>[OK]</kbd></li>
+<li>Windows 보안 경고가 나오면 <kbd>[Install]</kbd> 클릭 → 완료되면 창이 자동으로 닫힘</li>
+</ol>
+<h3>WIRES-X 소프트웨어 설치</h3>
+<ol>
+<li>CD-R의 <code>"Install.exe"</code> 실행</li>
+<li><kbd>[WIRES-X Software Setup]</kbd> 클릭 → 설치 마법사 시작</li>
+<li><kbd>[Next]</kbd> 클릭</li>
+<li>사용권 동의 체크박스에 체크 후 <kbd>[Next]</kbd> (체크하지 않으면 설치 중단)</li>
+<li>설치 위치 확인 후 <kbd>[Next]</kbd><br><code>"Enable WIRES-X Auto Start."</code>에 체크하면 Windows 시작 시 자동 실행되고, 프로그램이 종료돼도 자동으로 다시 실행됩니다</li>
+<li><kbd>[Install]</kbd> 클릭 (설정을 바꾸려면 <kbd>[Back]</kbd>, 그만두려면 <kbd>[Cancel]</kbd>)</li>
+<li><kbd>[Finish]</kbd> 클릭 → 바탕화면에 <code>Wires-X</code> 아이콘 생성</li>
+<li><code>"WIRES-X installer"</code> 창에서 <kbd>[Close]</kbd></li>
+</ol>
+</section>
+
+<section class="sec" id="s07">
+<h2>7. 기기 연결</h2>
+<h3>HRI-200 각부 명칭</h3>
+<div class="tw"><table>
+<tr><th>위치</th><th>명칭</th><th>설명</th></tr>
+<tr><td>전면</td><td>POWER 표시등</td><td>전원이 들어오면 녹색 점등</td></tr>
+<tr><td>후면</td><td>MONITOR 단자 (3.5mm)</td><td>이어폰·스피커를 꽂아 노드 송신음을 모니터. PDN 운용 노드의 음성은 모니터 불가</td></tr>
+<tr><td>후면</td><td>RADIO 2 단자</td><td>C4FM 디지털 전용. 프리셋 서치 채널용 디지털 무전기를 10핀–10핀 케이블로 연결</td></tr>
+<tr><td>후면</td><td>RADIO 1 단자</td><td>음성 채널용 무전기 연결. 호환 기종은 10핀–10핀, FM 아날로그 기종은 10핀–6핀 케이블</td></tr>
+<tr><td>후면</td><td>USB 단자</td><td>부속 USB 케이블의 Type B 쪽을 꽂아 PC와 연결</td></tr>
+</table></div>
+<h3>HRI-200과 PC 연결</h3>
+<div class="warn"><b>중요</b>USB 드라이버 설치가 끝나기 전에는 HRI-200을 PC에 연결하지 마세요. 먼저 연결하면 오동작할 수 있습니다.</div>
+<ul>
+<li>부속 USB 케이블로 HRI-200(Type B)과 PC(Type A)를 연결하고, PC는 LAN 케이블로 인터넷에 연결합니다</li>
+<li>정상 연결되면 PC를 켤 때 HRI-200도 자동으로 켜집니다</li>
+<li>공유기 사용 시 배선과 초기 설정은 공유기 설명서를 따릅니다 (보통 웹 브라우저로 공유기 IP에 접속해 설정)</li>
+<li>FTX-1은 별매 USB Type-C 케이블로 PC에 직접 연결합니다</li>
+</ul>
+<h4>페라이트 코어</h4>
+<p>고주파 잡음을 줄이기 위해 USB 케이블 양쪽 끝을 부속 페라이트 코어에 한 바퀴 감은 뒤 코어를 닫습니다. USB 플러그에 최대한 가깝게 답니다.</p>
+<h3>HRI-200과 무전기 연결</h3>
+<div class="warn"><b>주의</b>케이블 연결 전에 무전기 전원을 끄세요. 무전기용 DC 13.8V 전원은 별도로 준비합니다.</div>
+<div class="tw"><table>
+<tr><th>구성</th><th>연결</th></tr>
+<tr><td>C4FM 디지털 무전기 1대</td><td>무전기 10핀 DATA 단자 ↔ CT-174 ↔ HRI-200 RADIO 1</td></tr>
+<tr><td>FM 아날로그 무전기 1대</td><td>10핀 단자 기종: CT-174 ↔ RADIO 1 / 6핀 단자 기종: CT-175(6핀 쪽을 무전기에) ↔ RADIO 1</td></tr>
+<tr><td>디지털 무전기 2대</td><td>운용(음성) 채널용: CT-174 ↔ RADIO 1 / 프리셋 서치 채널용: CT-174(옵션 추가분) ↔ RADIO 2</td></tr>
+</table></div>
+<div class="tip"><b>참고</b>
+<ul>
+<li>FM 아날로그 무전기는 데이터 통신 포트 속도를 1,200bps로 설정합니다</li>
+<li>FTM-510D/500D/400XD/400D/300D/200D/100D: <kbd>[D/X]</kbd>와 <kbd>[GM]</kbd>을 누른 채 전원 ON → 접속 전용(노드) 모드. 포트 속도 등 메뉴 설정이 필요 없습니다</li>
+<li>FTM-310D: <kbd>[PMG]</kbd>와 <kbd>[V/M]</kbd>을 누른 채 전원 ON</li>
+</ul></div>
+</section>
+
+<section class="sec" id="s08">
+<h2>8. 인터넷 환경 준비</h2>
+<div class="tip"><b>먼저 확인</b>WIRES-X 소프트웨어 <b>Ver. 2.000</b>은 포트 개방이 필요 없습니다. Ver. 1.570 이전 노드가 접속할 수 있는 <b>구버전 호환 룸</b>을 열 때만 아래의 포트 개방·고정 IP 설정이 필요합니다.</div>
+<h3>왜 설정이 필요한가</h3>
+<ul>
+<li><b>포트 개방</b>: Ver. 1.570 이전 노드·룸은 UDP 포트 <code>46114</code>, <code>46120</code>, <code>46122</code>로 통신합니다. 시판 공유기는 기본값에서 이 통신을 막으므로 포트를 열어야 합니다</li>
+<li><b>고정 IP 지정</b>: 공유기의 DHCP는 PC를 켤 때마다 다른 IP를 줄 수 있습니다. 포트 개방은 대상 PC를 IP로 지정하므로, 노드 PC의 IP를 고정하고 그 주소를 공유기에 등록해야 합니다</li>
+</ul>
+<h3>PC에 고정 IP 설정 (Windows 11)</h3>
+<ol>
+<li>화면 오른쪽 아래 네트워크 아이콘을 오른쪽 클릭</li>
+<li><kbd>[Network and Internet settings]</kbd> 클릭</li>
+<li><kbd>[Ethernet]</kbd> 클릭</li>
+<li><code>"IP assignment"</code> 항목의 <kbd>[Edit]</kbd> 클릭</li>
+<li><kbd>[Manual]</kbd> 선택</li>
+<li><kbd>[IPv4]</kbd> 켜기</li>
+<li>IP 주소 입력</li>
+<li>서브넷 마스크에 <code>255.255.255.0</code> 입력</li>
+<li>기본 게이트웨이에 공유기 IP 입력</li>
+<li>기본 DNS 서버에 공유기 IP 입력</li>
+<li><kbd>[Save]</kbd> 클릭</li>
+</ol>
+<div class="tip"><b>참고</b>IP 주소의 마지막 자리는 공유기가 허용하는 범위 안에서 정합니다(공유기 설정 화면 참조). 공유기에 여러 기기를 연결할 때는 IP가 겹치지 않게 합니다.</div>
+<h3>공유기 포트 개방</h3>
+<p>공유기에 UPnP 기능이 있으면 WIRES-X 소프트웨어에서 포트를 열 수 있고, 없으면 공유기 설정 화면에서 직접 엽니다. UPnP가 있어도 소프트웨어로 열리지 않으면 공유기 화면에서 엽니다.</p>
+<h4>UPnP가 없는 공유기</h4>
+<p>공유기의 "NAT" 또는 "포트 매핑(포트 포워딩)" 설정에서 LAN 쪽 주소를 노드 PC의 고정 IP로 지정하고 UDP <code>46114</code>, <code>46120</code>, <code>46122</code> 3개를 등록합니다.</p>
+<h4>UPnP가 있는 공유기</h4>
+<ol>
+<li>공유기 설정 화면에서 UPnP가 켜져 있는지 확인</li>
+<li>바탕화면의 <code>Wires-X</code> 아이콘을 더블클릭해 실행</li>
+<li>인터넷 보안 경고가 나오면 <kbd>[Allow access]</kbd>(환경에 따라 <kbd>[Unblock]</kbd>) 클릭 → <code>"WIRES ID Activation"</code> 창 표시</li>
+<li><kbd>[Port check]</kbd> 클릭</li>
+<li><code>"Port Check"</code> 영역의 <code>"Automatic UPnP"</code>에 체크</li>
+<li><kbd>[Start]</kbd> 클릭 → 6개 포트의 통신 상태를 점검해 포트별로 OK / NG 표시. NG가 하나라도 있으면 3개 포트 등록을 자동으로 시도한 뒤 다시 점검</li>
+<li>모든 포트가 OK이면 <kbd>[Close]</kbd></li>
+</ol>
+<div class="warn"><b>주의</b>다시 점검해도 NG가 남으면 소프트웨어로는 포트를 열 수 없는 환경입니다. 공유기 설정 화면에서 직접 엽니다.</div>
+<div class="tip"><b>참고</b>원격 모니터 기능으로 노드를 원격 제어하려면 TCP 포트 <code>46190</code>(기본값)을 열어야 합니다 (<a href="#s17">17장</a>).</div>
+<h3>보안 대책</h3>
+<p>인터넷 사업자의 보안 서비스나 공유기·PC의 방화벽을 이용해 도청·무단 접근에 대비합니다.</p>
+</section>
+
+<section class="sec" id="s09">
+<h2>9. 소프트웨어 시작과 ID 인증</h2>
+<h3>시작</h3>
+<p>바탕화면의 <code>Wires-X</code> 아이콘을 더블클릭합니다 (시작 버튼 → <code>Wires-X</code>로도 실행 가능).</p>
+<h3>인터넷 접근 허용</h3>
+<p>실행 시 Windows나 방화벽 프로그램의 보안 경고 창이 뜨면 차단을 해제해 WIRES-X가 인터넷에 접근할 수 있게 합니다.</p>
+<h3>서버 인증 (최초 실행)</h3>
+<p>처음 실행하면 <code>"WIRES ID Activation"</code> 창이 뜹니다.</p>
+<ol>
+<li>필요한 경우 포트 점검 수행 (<a href="#s08">8장</a>)</li>
+<li>발급받은 노드 DTMF ID와 룸 DTMF ID(각 5자리 숫자) 입력</li>
+<li><kbd>[ID Entry]</kbd> 클릭 → 인증되면 신청 시 등록한 User ID, Call Sign, City, State, Country가 표시됨</li>
+<li><kbd>[OK]</kbd> 클릭 → 사용자 정보가 PC에 저장되고 <code>"Settings"</code> 창 표시 (코멘트 등 노드 설정 가능)</li>
+<li><kbd>[OK]</kbd> 클릭 → 메인 화면 표시</li>
+</ol>
+<div class="tip"><b>참고</b>두 번째 실행부터는 인증 창이 나오지 않습니다. 재인증(<code>"Retry activation"</code>)을 하면 다시 나옵니다.</div>
+</section>
+
+<section class="sec" id="s10">
+<h2>10. 메인 화면 구성</h2>
+<p>왼쪽에는 인터넷상의 노드·룸 목록이, 오른쪽에는 내 노드의 상태와 운용 상황이 표시됩니다.</p>
+<div class="tw"><table>
+<tr><th>영역</th><th>위치</th><th>내용</th></tr>
+<tr><td>메뉴 바</td><td>상단</td><td>주요 기능 호출 (<a href="#s22">22장</a>)</td></tr>
+<tr><td>그룹 창</td><td>왼쪽 위</td><td>설정에 따라 북마크·접속 중 노드·내 룸 접속 노드 목록 표시</td></tr>
+<tr><td>액티브 노드 창</td><td>왼쪽 가운데</td><td>운용 중인 WIRES-X 노드 목록</td></tr>
+<tr><td>액티브 룸 창</td><td>왼쪽 아래</td><td>운용 중인 WIRES-X 룸 목록</td></tr>
+<tr><td>상태 바</td><td>하단</td><td>소프트웨어 상태, 커서가 가리키는 메뉴의 설명</td></tr>
+<tr><td>상태 표시</td><td>오른쪽 위</td><td>내 노드 상태를 아이콘으로 표시</td></tr>
+<tr><td>사용자 모니터 창</td><td>오른쪽</td><td>현재 접속 중인 디지털 무선국 정보</td></tr>
+<tr><td>로그 창</td><td>오른쪽 가운데</td><td>소프트웨어 동작 기록</td></tr>
+<tr><td>채팅 창</td><td>오른쪽</td><td>접속 상대와의 문자 채팅 기록, 아래에 입력란</td></tr>
+<tr><td>기능 창</td><td>오른쪽 아래</td><td><kbd>[News]</kbd>, <kbd>[GM]</kbd> 등 부가 기능 버튼</td></tr>
+</table></div>
+<p>각 영역의 자세한 내용은 <a href="#s21">21장</a>을 참조합니다.</p>
+</section>
+
+<section class="sec" id="s11">
+<h2>11. 무전기 설정 (Transceiver)</h2>
+<div class="warn"><b>주의</b>HRI-200 모드 지원 기종(FTM-510D/500D/400XD/400D/310D/300D/200D/100D, FTX-1)은 여기서 한 설정이 무전기에 자동 반영됩니다. 지원하지 않는 기종은 무전기에도 같은 값을 직접 설정해야 합니다.</div>
+<h3>무전기를 노드 모드로 켜기</h3>
+<div class="tw"><table>
+<tr><th>기종</th><th>조작</th><th>표시</th></tr>
+<tr><td>FTM-510D/500D/400XD/400D/300D/200D/100D</td><td><kbd>[D/X]</kbd> + <kbd>[GM]</kbd>을 누른 채 전원 스위치를 길게 눌러 ON</td><td>HRI-200</td></tr>
+<tr><td>FTM-310D</td><td><kbd>[PMG]</kbd> + <kbd>[V/M]</kbd>을 누른 채 전원 스위치를 길게 눌러 ON</td><td>HRI-200</td></tr>
+<tr><td>FTX-1</td><td><kbd>[FUNC]</kbd> 노브 길게 → <kbd>[HRI MODE]</kbd>를 "ON" → <kbd>[GM/X]</kbd> 길게</td><td>WIRES-X HRI</td></tr>
+</table></div>
+<h3>설정 순서</h3>
+<ol>
+<li><code>"File"</code> 메뉴 → <code>"Settings"</code></li>
+<li><code>"Device settings"</code> → <code>"Transceiver"</code></li>
+<li><code>"Voice CH Transceiver"</code> 영역에서 운용 모드 선택</li>
+<li><code>"Voice CH"</code> 영역의 항목을 모두 설정 (빠뜨리면 노드 운용 불가)</li>
+<li>필요 시 <code>"Preset Search CH"</code> 영역 설정 (<a href="#s14">14장</a>)</li>
+<li><kbd>[OK]</kbd> 또는 <kbd>[Apply]</kbd>로 저장 (<kbd>[Cancel]</kbd>은 저장하지 않고 닫기)</li>
+</ol>
+<h3>운용 모드 4가지</h3>
+<p>기본값은 Analog입니다.</p>
+<div class="tw"><table>
+<tr><th>모드</th><th>구성</th><th>Voice CH → Transceiver</th><th>Preset Search CH → Operation mode</th></tr>
+<tr><td>Digital</td><td>디지털 무전기 1대로 음성 채널만</td><td>RX:DIGITAL - TX:DIGITAL</td><td>OFF</td></tr>
+<tr><td>Digital Dual Receive</td><td>1대로 음성 채널과 프리셋 서치 채널을 번갈아 수신</td><td>RX:DIGITAL - TX:DIGITAL</td><td>Dual Rcv</td></tr>
+<tr><td>Digital Double</td><td>음성 채널용 1대 + 프리셋 서치 채널용 1대</td><td>RX:DIGITAL - TX:DIGITAL</td><td>ON</td></tr>
+<tr><td>Analog</td><td>아날로그 무전기로 음성 채널만</td><td>RX:FM - TX:FM</td><td>—</td></tr>
+</table></div>
+<div class="tip"><b>참고</b>Dual Receive Timing(두 채널 감시 전환 간격)은 1~15초를 1초 단위로 설정하며 보통 1초로 둡니다.</div>
+<div class="warn"><b>주의</b>GM 모드로 운용할 때는 Digital 모드만 쓸 수 있습니다 (Dual Receive, Double, Analog 선택 불가).</div>
+<h3>Voice CH 설정 항목</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Transceiver</td><td>중계 운용 방식 선택 — Digital(RX:DIGITAL - TX:DIGITAL): C4FM / Analog(RX:FM - TX:FM): FM</td></tr>
+<tr><td>Transceiver / DST / F/W version</td><td>연결된 디지털 무전기의 정보 표시</td></tr>
+<tr><td>Modulation</td><td>선택된 음성 채널의 전파 형식(Digital/Analog) 표시</td></tr>
+<tr><td>Frequency</td><td>WIRES-X 운용 주파수(MHz) 입력. ID 목록에 표시되며, HRI-200 제어 모드 호환 기종에는 자동 설정</td></tr>
+<tr><td>Narrow deviation</td><td>내로우 편이 운용 시 선택. 수신·송신 채널을 다르게 설정할 수 없음</td></tr>
+<tr><td>DG-ID / Analog SQL</td><td>운용 주파수의 스켈치 방식. 아래 표 참조</td></tr>
+<tr><td>Power</td><td>RADIO 1에 연결된 무전기의 송신 출력</td></tr>
+<tr><td>Offset</td><td>운용 주파수에 대한 오프셋 값(MHz)</td></tr>
+<tr><td>Reverse</td><td>송신 주파수 오프셋 방향. 아래 참조</td></tr>
+<tr><td>Hide frequency settings</td><td>체크 시 주파수 정보를 ID 목록에 숨김(기본값: 체크). 해제하면 주파수 등 운용 정보가 목록에 표시</td></tr>
+</table></div>
+<h4>DG-ID (디지털 운용) — 기본값 DG-ID 00, Sub ID 00</h4>
+<ul>
+<li>DG-ID 번호 <code>00</code>~<code>99</code>, DG-ID Sub ID <code>00</code>~<code>26</code> 선택</li>
+<li>DG-ID를 <code>00</code>으로 두면 <b>공개 노드</b>가 되어, WIRES-X DG-ID가 "AUTO"인 모든 무전기에서 접속할 수 있습니다. AUTO인 무전기는 접속 시 노드와 같은 Sub ID로 자동 설정됩니다. Sub ID를 01~26으로 두면 다른 무전기의 신호가 중계되지 않을 수 있습니다</li>
+<li>특정 그룹만 쓰는 노드는 DG-ID를 00 이외로 정하고, 그룹 무전기 모두를 같은 번호로 맞춥니다</li>
+</ul>
+<h4>Analog SQL (아날로그 운용) — 기본값 NoTone</h4>
+<div class="tw"><table>
+<tr><th>선택</th><th>설명</th></tr>
+<tr><td>NoTone</td><td>CTCSS 톤·DCS 코드 스켈치 미사용</td></tr>
+<tr><td>ToneSQL</td><td>CTCSS 톤 스켈치 사용. 톤 주파수 67.0~254.1Hz 선택</td></tr>
+<tr><td>DCS</td><td>DCS 코드 스켈치 사용. 코드 023~754 선택</td></tr>
+</table></div>
+<h4>Reverse (오프셋 방향)</h4>
+<ul>
+<li><b>Reverse(체크, 기본값)</b>: 업링크(RX) 주파수 = 다운링크(TX) 주파수 − 오프셋</li>
+<li><b>Normal(해제)</b>: 업링크(RX) 주파수 = 다운링크(TX) 주파수 + 오프셋</li>
+<li>리피터 방식에서는 휴대 단말과 송·수신이 반대가 되므로 Reverse 설정을 씁니다</li>
+</ul>
+<div class="tw"><table>
+<tr><th>예</th><th>업링크(RX)</th><th>다운링크(TX)</th><th>설정</th><th>목록·검색 응답 표시</th></tr>
+<tr><td>예 1</td><td>434.700MHz</td><td>439.700MHz</td><td>Reverse, 오프셋 −5.000MHz</td><td>439.700MHz − 5.000MHz</td></tr>
+<tr><td>예 2</td><td>439.700MHz</td><td>434.700MHz</td><td>Normal, 오프셋 +5.000MHz</td><td>434.700MHz + 5.000MHz</td></tr>
+</table></div>
+</section>
+
+<section class="sec" id="s12">
+<h2>12. 노드 기본 설정</h2>
+<h3>WIRES ID 정보</h3>
+<p><code>"File"</code> → <code>"Settings"</code> → <code>"Personal settings"</code> - <code>"WIRES ID information"</code>에서 설정하고 <kbd>[OK]</kbd>로 저장합니다.</p>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Serial/Radio ID</td><td>HRI-200 시리얼 번호</td></tr>
+<tr><td>DTMF ID</td><td>아날로그국이 내 노드에 접속할 때 쓰는 코드</td></tr>
+<tr><td>CallSign</td><td>노드 호출부호</td></tr>
+<tr><td>User ID</td><td>디지털국이 내 노드에 접속할 때 쓰는 코드</td></tr>
+<tr><td>[User ID change]</td><td>사용자 등록 정보 일부 변경(아래 참조). ID 이름에는 호출부호를 포함할 것</td></tr>
+<tr><td>City / State / Country</td><td>노드 소재지</td></tr>
+<tr><td>Comment</td><td>서버 노드 목록의 "Comment" 칸에 표시되는 문구</td></tr>
+<tr><td>Confidential ID</td><td>체크 시 서버 노드 목록에서 내 노드를 숨김</td></tr>
+<tr><td>QSL exchange</td><td>체크 시 상대가 보낸 QSL 카드 이미지를 표시하고 내 이미지를 상대에게 전송. <kbd>[…]</kbd>로 이미지 파일 지정 (<a href="#s20">20장</a>)</td></tr>
+<tr><td>Get info. text</td><td>노드 목록의 "Get Info" 기능으로 표시되는 문구</td></tr>
+</table></div>
+<h3>User ID Change 창</h3>
+<p><code>"WIRES ID information"</code> 화면에서 <kbd>[User ID change]</kbd>를 누르면 열립니다.</p>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Serial/Radio ID, DTMF ID</td><td>변경 불가</td></tr>
+<tr><td>User ID</td><td>최대 10자로 변경 가능. 영문·숫자, "-", "/"만 사용. <kbd>[Apply]</kbd>를 누르면 서버로 전송되어 노드 목록 갱신. 이미 쓰이는 ID면 오류가 나므로 다른 문자열 입력</td></tr>
+<tr><td>Style</td><td>운용 형태 — <b>Open</b>(기본값): 접속 상대 제한 없는 공개 노드 / <b>GM</b>: GM 운용국용 중계 노드 (Transceiver 설정이 Digital 1대 운용일 때만 선택 가능)</td></tr>
+<tr><td>News setting</td><td>내 노드의 뉴스 스테이션 이용 범위 — <b>ALL OK</b>(기본값): 다운로드·업로드 허용 / <b>Download only</b>: 다운로드만 / <b>QSO only</b>: 뉴스 접근 금지. EMG Voice(비상 음성)는 항상 송수신 가능</td></tr>
+<tr><td>Operation location setting</td><td>City, State/Province, Country/Region 선택. 적용 시 서버에 반영</td></tr>
+</table></div>
+<h3>룸 설정 (Round QSO room settings)</h3>
+<p><code>"File"</code> → <code>"Settings"</code> → <code>"Round QSO room settings"</code>. 항목과 룸 개설 방법은 <a href="#s15">15장</a>을 참조합니다.</p>
+<h3>노드 위치 정보</h3>
+<p><code>"File"</code> → <code>"Settings"</code> → <code>"Personal settings"</code> - <code>"Location settings"</code></p>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Latitude / Longitude</td><td>노드의 위도·경도. 세계측지계(WGS-84) 기준 값 입력</td></tr>
+<tr><td>[Read GPS data]</td><td>HRI-200 제어 모드 호환 무전기가 GPS를 수신 중이면 무전기의 위치 정보를 읽어와 설정값을 대체</td></tr>
+<tr><td>Show position data</td><td>체크 시 서버 노드 목록에 위치 표시, 접속한 디지털 노드에도 위치 전송</td></tr>
+</table></div>
+<h3>음량 조정 (Preset Volume)</h3>
+<p>아날로그 노드로 운용하거나 아날로그 노드에 접속할 때는 미리 음량을 맞춰야 합니다. 디지털 노드끼리의 통신에는 영향이 없습니다.</p>
+<ol>
+<li><code>"View"</code> 메뉴 → <code>"Audio adjustment"</code></li>
+<li>창의 <code>"Settings"</code> 메뉴 → <code>"Preset Volume"</code>에서 선택
+  <ul>
+  <li>10핀 DATA 단자 기종(FTM-510D~100D, FTM-6000): <code>"HRI-200 mode Transceiver"</code></li>
+  <li>6핀(8핀) DATA 단자의 기존 FM 기종(FTM-350, FT-8900R 등): <code>"conventional transceiver"</code></li>
+  </ul></li>
+<li><kbd>[Close]</kbd> 클릭 → 적정 음량으로 설정됨</li>
+</ol>
+<p>세밀한 조정은 <a href="#s18">18장</a>을 참조합니다.</p>
+<h3>IP 규격 선택</h3>
+<ol>
+<li><code>"File"</code> 메뉴 → <code>"IP Spec"</code></li>
+<li><code>"IPv4"</code>(기본값, 일반적으로 사용) 또는 <code>"IPv6"</code> 선택</li>
+</ol>
+<div class="tip"><b>참고</b>IP 규격을 바꾼 뒤에는 WIRES-X 소프트웨어를 다시 시작합니다.</div>
+</section>
+
+<section class="sec" id="s13">
+<h2>13. 접속·해제와 기본 운용</h2>
+<h3>인터넷상의 노드에 접속</h3>
+<ol>
+<li>액티브 노드 창에서 접속할 노드 선택</li>
+<li>해당 노드에 커서를 두고 오른쪽 클릭</li>
+<li><code>"Connect"</code> 클릭 (<code>"Connect"</code> 메뉴의 <code>"Connect"</code>로도 가능)</li>
+</ol>
+<p>접속되면 상태 표시가 <kbd>[IDLE]</kbd>에서 <kbd>[NET]</kbd>으로 바뀌고 로그 창에 접속 상황이 표시됩니다.</p>
+<h3>인터넷상의 룸에 접속</h3>
+<ol>
+<li>액티브 룸 창에서 접속할 룸 선택</li>
+<li>해당 룸에 커서를 두고 오른쪽 클릭</li>
+<li><code>"Connect"</code> 클릭</li>
+</ol>
+<p>접속되면 룸 운용 상황을 보여 주는 팝업 창이 뜹니다.</p>
+<div class="tw"><table>
+<tr><th>팝업 영역</th><th>내용</th></tr>
+<tr><td>룸 정보</td><td>룸의 User ID, DTMF ID, 액티비티 수(접속 노드 수)</td></tr>
+<tr><td>[Refresh]</td><td>메인 화면의 액티브 룸 목록 갱신</td></tr>
+<tr><td>[Close]</td><td>팝업 닫기 (접속은 유지)</td></tr>
+<tr><td>노드 ID 목록</td><td>룸에 접속한 노드 ID. 송신 중인 노드는 녹색. 오른쪽 클릭하면 노드 정보 표시</td></tr>
+<tr><td>송신 노드 정보</td><td>현재 송신 중인 노드·디지털국 정보</td></tr>
+</table></div>
+<div class="tip"><b>참고</b>팝업을 닫아도 룸에 접속해 있는 동안은 <code>"View"</code> 메뉴의 <code>"Connect ID window"</code>로 다시 열 수 있습니다.</div>
+<h3>접속 해제</h3>
+<p><code>"Connect"</code> 메뉴 → <code>"Disconnect"</code>. 노드 PC가 아니라 이동국·고정국 무전기에서도 해제할 수 있습니다(무전기 설명서 참조).</p>
+<h3>접속 방식·안내 방송 설정</h3>
+<ul>
+<li>룸 접속 동작: <code>"File"</code> → <code>"Settings"</code> → <code>"Call settings"</code> (<a href="#s22">22장</a>)</li>
+<li>룸 입·퇴장 음성 안내(아날로그 전용): <code>"File"</code> → <code>"Settings"</code> → <code>"General settings"</code></li>
+</ul>
+<h3>노드 운용 시 유의 사항</h3>
+<div class="warn"><b>3분 타이머</b>HRI-200에는 3분 타이머가 있어 한 번의 연속 송신이 3분을 넘으면 강제로 끊깁니다. 이용자에게 1회 송신을 3분 이내로 하도록 안내하세요.</div>
+<div class="warn"><b>송신 간격</b>인터넷 중계로 시간 지연이 생기므로 평소보다 송신 간격을 길게 둡니다. 상대 송신이 끝나자마자 응답하면 노드가 송신 상태로 남을 수 있습니다.</div>
+<h3>북마크 등록</h3>
+<ol>
+<li><code>"View"</code> 메뉴 → <code>"Bookmark-Info"</code></li>
+<li><code>"Bookmark"</code> 영역의 <kbd>[Add]</kbd> 클릭</li>
+<li>등록할 노드·룸의 DTMF ID 또는 User ID 입력</li>
+<li><kbd>[OK]</kbd> → 목록에 추가</li>
+<li><kbd>[Close]</kbd></li>
+</ol>
+<h4>북마크 상태 보기</h4>
+<p><code>"View"</code> → <code>"Group window"</code> - <code>"Bookmark list"</code>(기본값). 북마크한 상대가 운용 중이면 그룹 창에 표시됩니다. <code>"Bookmark information"</code> 창에서 <code>"Show the offline Node/Room"</code>을 선택하면 비운용 상태도 표시됩니다.</p>
+<h3>문자 채팅</h3>
+<ol>
+<li>노드 또는 룸에 접속</li>
+<li>채팅 창 아래 입력란에 메시지 입력</li>
+<li><kbd>[SEND]</kbd> 클릭 (입력란에서 Enter 키로도 전송)</li>
+</ol>
+<p><kbd>[CLR]</kbd>은 채팅 기록 삭제. 채팅 기록은 프로그램을 닫으면 지워지므로, 보관하려면 <code>"Log file settings"</code>에서 <code>"Node log-file save"</code>에 체크합니다.</p>
+<h3>소프트웨어 종료</h3>
+<p><code>"File"</code> 메뉴 → <code>"Exit"</code> 또는 창 오른쪽 위 <kbd>[X]</kbd>.</p>
+<div class="tip"><b>참고</b>설치 때 자동 시작을 선택했다면 종료 직후 다시 실행됩니다. 재실행을 원치 않으면 작업 표시줄(숨겨진 아이콘 포함)의 WIRES-X 아이콘에서 <code>"Quit"</code>을 선택하거나 <code>"Auto Start"</code> 체크를 해제합니다.</div>
+</section>
+
+<section class="sec" id="s14">
+<h2>14. 프리셋 서치 채널</h2>
+<h3>개념</h3>
+<p>이동국·고정국이 WIRES-X 노드를 찾을 때 쓰는 미리 약속된 채널입니다. 이 주파수를 무전기에 등록해 두면 가까운 노드를 빨리 찾을 수 있고, 평소와 다른 장소에서도 근처 노드를 찾을 수 있습니다.</p>
+<div class="warn"><b>주의</b>C4FM 디지털 통신에서만 동작하며, HRI-200으로만 설정할 수 있습니다.</div>
+<h3>운용 방식 2가지</h3>
+<div class="tw"><table>
+<tr><th>방식</th><th>연결</th><th>동작</th></tr>
+<tr><td>무전기 1대</td><td>C4FM 무전기를 RADIO 1에 연결</td><td>대기 중에는 프리셋 서치 채널과 음성 채널을 번갈아 감시. 다른 노드·룸에 접속하면 프리셋 채널 감시를 멈추고 음성 채널만 송수신</td></tr>
+<tr><td>무전기 2대</td><td>음성 채널용을 RADIO 1, 프리셋 서치 채널용을 RADIO 2에 연결</td><td>두 채널을 항상 수신 대기. 프리셋 채널로 신호가 오면 음성 채널 정보를 보낸 무선국에 전송. 접속 중에도 프리셋 채널 감시 지속</td></tr>
+</table></div>
+<h3>설정</h3>
+<p><code>"Transceiver"</code> 창에서 <code>"RX:DIGITAL - TX:DIGITAL"</code>을 선택한 뒤, <code>"Operation mode"</code>를 1대 운용이면 <code>"Dual Rcv"</code>, 2대 운용이면 <code>"ON"</code>으로 합니다.</p>
+<div class="tip"><b>참고</b>DR-2X/DR-1X 리피터에 연결하는 경우는 해당 기종용 HRI-200 참조 매뉴얼을 봅니다.</div>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Operation mode</td><td>OFF: 미사용 / ON: 사용(2대) / Dual Rcv: 1대로 운용</td></tr>
+<tr><td>Dual Receive Timing</td><td>프리셋 서치 채널 감시 간격</td></tr>
+<tr><td>Transceiver / DST / F/W version</td><td>프리셋 채널용으로 연결된 디지털 무전기의 펌웨어 정보</td></tr>
+<tr><td>Operation</td><td>선택한 방식에 따라 "Dual receive" 또는 "ON: Digital" 표시</td></tr>
+<tr><td>Frequency</td><td>프리셋 서치 운용 주파수(MHz). 혼신을 피하도록 주변 WIRES-X 운용국과 협의해 정함</td></tr>
+<tr><td>Narrow deviation</td><td>프리셋 채널 무전기를 내로우 편이로 운용할 때 선택</td></tr>
+<tr><td>DG-ID</td><td>프리셋 서치 채널의 DG-ID. 00이면 공개 노드, 그룹 전용이면 00 이외로 통일</td></tr>
+<tr><td>Power</td><td>프리셋 서치 채널의 송신 출력</td></tr>
+</table></div>
+</section>
+
+<section class="sec" id="s15">
+<h2>15. 룸(Round QSO Room) 개설·운영</h2>
+<h3>룸이란</h3>
+<p>여러 노드와 무선국이 동시에 접속해 자유롭게 대화하는 WIRES 상의 공용 공간입니다. 누구나 들어오는 <b>오픈 룸</b>과 등록 회원만 접속하는 <b>클로즈드 룸</b>이 있습니다. 룸은 노드 소유자가 개설하며 관리 책임도 소유자에게 있습니다. <b>노드 1개당 룸 1개</b>를 열 수 있습니다. 로컬 노드가 룸에 들어가면 그 노드에 접속한 무선국도 함께 룸에 들어갑니다.</p>
+<h3>룸 열기</h3>
+<p>서버에 등록하면 노드 ID와 함께 룸 ID도 발급됩니다. 노드를 개설했다면 별도 장비 없이 룸을 열 수 있습니다.</p>
+<ol>
+<li>WIRES-X 소프트웨어 실행</li>
+<li><code>"File"</code> → <code>"Settings"</code></li>
+<li><code>"Round QSO room settings"</code> 클릭</li>
+<li><kbd>[Setup]</kbd> 클릭 → <code>"Room Open"</code> 창</li>
+<li><code>"Room Active"</code>에 체크</li>
+<li><kbd>[Room Activation]</kbd> 클릭 → 서버에 전송·확인되면 룸 활성화</li>
+<li><kbd>[OK]</kbd></li>
+</ol>
+<h3>룸 기본 정보 (Round QSO room settings)</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Room ID</td><td>디지털국용 룸 접속 코드</td></tr>
+<tr><td>DTMF ID</td><td>아날로그국용 룸 접속 코드</td></tr>
+<tr><td>[Setup]</td><td>룸 ID와 운용 형태 변경 창 열기</td></tr>
+<tr><td>Room Name</td><td>서버 룸 목록의 "Room name" 칸에 표시</td></tr>
+<tr><td>Comment</td><td>서버 룸 목록의 "Comment" 칸에 표시</td></tr>
+<tr><td>Confidential ID</td><td>체크 시 서버 룸 목록에 표시하지 않음</td></tr>
+<tr><td>QSL exchange</td><td>체크 시 QSL 카드 이미지 수신 표시·송신. <kbd>[…]</kbd>로 송신 파일 지정</td></tr>
+<tr><td>Room information</td><td>룸 목록의 "Get Info" 기능으로 표시되는 문구</td></tr>
+</table></div>
+<h3>Room Open 창 (운영 설정)</h3>
+<p><kbd>[Setup]</kbd> → 항목 설정 → <kbd>[Room Activation]</kbd>(서버 전송) → <kbd>[OK]</kbd></p>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Room Active</td><td>체크하면 룸 운영, 해제하면 룸 정지(기본값: 해제)</td></tr>
+<tr><td>Serial/Radio ID, DTMF ID</td><td>변경 불가</td></tr>
+<tr><td>Room ID</td><td>영문·숫자 최대 16자로 변경 가능. 이미 쓰이는 ID면 오류 → 다른 문자열 사용</td></tr>
+<tr><td>Style</td><td>룸 운용 형태 4종 (아래 표)</td></tr>
+<tr><td>News setting</td><td>ALL OK(기본값): 업·다운로드 허용 / Download only / QSO only: 뉴스 접근 금지. EMG Voice는 항상 가능</td></tr>
+</table></div>
+<h4>Style (룸 운용 형태)</h4>
+<div class="tw"><table>
+<tr><th>형태</th><th>설명</th></tr>
+<tr><td>Open (기본값)</td><td>접속 제한 없는 룸</td></tr>
+<tr><td>Open(Digital)</td><td>접속 제한은 없으나 디지털 노드만 접속 가능</td></tr>
+<tr><td>Closed</td><td>등록 회원의 노드·무선국만 사용. 회원의 디지털 노드만 접속 가능(아날로그 노드를 받으려면 Open). 음성은 DN 모드만 중계(VW 모드를 중계하려면 Open)</td></tr>
+<tr><td>GM</td><td>GM 회원으로 등록된 노드·무선국 전용. 노드 운용 모드가 Digital(1대 구성)일 때만 선택 가능. 중계는 DN 음성 또는 DW 디지털 데이터(이미지 제외)로 제한</td></tr>
+</table></div>
+<div class="tip"><b>참고</b>룸을 연 소유자 본인도 접속할 수 있습니다. 룸 시스템은 소유자의 WIRES-X 소프트웨어가 돌아가는 PC에서 동작합니다.</div>
+<h3>룸 호환 설정 (Room Compatible)</h3>
+<p><code>"File"</code> 메뉴 → <code>"Room Compatible"</code>에서 선택합니다.</p>
+<div class="tw"><table>
+<tr><th>선택</th><th>설명</th></tr>
+<tr><td>New ver only</td><td>새 통신 방식의 룸. Ver. 2.000 이상 노드만 이용. 포트 개방 없이 개설 가능. Ver. 1.570 이하 노드는 접속 불가</td></tr>
+<tr><td>Old version compatibility</td><td>Ver. 2.000 이상과 Ver. 1.570 이하 모두 이용. IPv4 공인 IP와 UDP 46114·46120·46122 개방 필요</td></tr>
+</table></div>
+<div class="warn"><b>주의</b>이 설정을 바꾸면 WIRES-X 소프트웨어를 다시 시작해야 합니다.</div>
+<h3>회원 등록 (클로즈드 룸·GM 룸)</h3>
+<h4>노드를 회원으로</h4>
+<ol>
+<li>메인 화면 액티브 노드 창에서 해당 노드를 오른쪽 클릭</li>
+<li><code>"MyRoom member"</code> 클릭</li>
+</ol>
+<h4>무선국을 회원으로</h4>
+<ol>
+<li><code>"View"</code> 메뉴 → <code>"Mobile Users list"</code></li>
+<li>무선국 선택</li>
+<li><kbd>[MyRoom member]</kbd> 클릭</li>
+</ol>
+<p>등록된 회원은 <code>"View"</code> → <code>"Room-Info"</code>의 <code>"MyRoom information"</code> 창에서 확인합니다.</p>
+<h3>룸 운영 중지</h3>
+<p><code>"Room Open"</code> 창에서 <code>"Room Active"</code> 체크를 해제하고 <kbd>[OK]</kbd>.</p>
+<h3>룸 운영 시 유의 사항</h3>
+<ul>
+<li>이용자에게 1회 송신 3분 이내, 평소보다 긴 송신 간격을 안내한다</li>
+<li>접속 노드의 스켈치가 열려 있거나 정체 불명의 신호가 들어오면 룸의 모든 노드가 송신 상태로 남아 폐가 된다. 소유자는 문제 노드의 접속을 일시 차단할 수 있다</li>
+<li>소유자는 필요 시 상황을 모니터해 문제를 일으키는 노드를 정지시킨다</li>
+<li>회선 품질, 접속 노드 수, PC 부하에 따라 음질이 나빠지거나 프로그램이 불안정해질 수 있다</li>
+<li>이용자 간 혼신 등에 대해 YAESU는 책임지지 않는다</li>
+</ul>
+<h3>MyRoom information 창 (상세 관리)</h3>
+<p><code>"View"</code> → <code>"Room-Info"</code>. 표시 내용은 룸 형태에 따라 다릅니다.</p>
+<div class="tw"><table>
+<tr><th>구분</th><th>항목</th><th>설명</th></tr>
+<tr><td>공통</td><td>Status / User ID / DTMF ID / Activity / Room name</td><td>운용 형태와 뉴스 공개 방식, 접속 코드, 현재 접속 노드 수, 룸 이름</td></tr>
+<tr><td>오픈 룸</td><td>Reject list</td><td>접속 차단 목록. <kbd>[Add Reject Info]</kbd>로 추가, <kbd>[Delete Reject Info]</kbd>로 해제. 액티브 목록에서 오른쪽 클릭 → <code>"MyRoom Reject"</code>로도 추가</td></tr>
+<tr><td>클로즈드 룸</td><td>Member list</td><td>접속 허용 목록. <kbd>[Add New Member]</kbd> / <kbd>[Delete Member]</kbd></td></tr>
+<tr><td>GM 룸</td><td>GM member station information</td><td>GM 회원 목록. <kbd>[Add New Member]</kbd> / <kbd>[Delete Member]</kbd></td></tr>
+<tr><td>공통</td><td>Remove/Mute Node setting</td><td>입력란에 DTMF ID/User ID 입력 후 <kbd>[Remove]</kbd>(강제 접속 해제) 또는 <kbd>[Mute]</kbd>(해당 노드 음성 중계 중지)</td></tr>
+<tr><td>공통</td><td>Remove ID list / Reject</td><td>강제 해제된 노드 목록. <code>"Reject"</code>에 체크하면 재접속 요청도 거부</td></tr>
+<tr><td>공통</td><td>Mute ID list</td><td>음성 중계를 멈춘 노드 목록</td></tr>
+<tr><td>공통</td><td>[Apply]</td><td>설정 저장·적용</td></tr>
+</table></div>
+<h3>접속 노드 확인·차단·음소거</h3>
+<ul>
+<li><b>확인</b>: <code>"View"</code> → <code>"Group window"</code> → <code>"MyRoom access list"</code>. 노드를 오른쪽 클릭 → <code>"Get Info"</code>로 노드 정보 표시</li>
+<li><b>일시 차단</b>: 그룹 창에서 노드를 오른쪽 클릭 → <code>"Remove"</code>. 해당 노드는 Remove ID list에 추가됨. 반복 접속을 막으려면 <code>"Reject"</code>에 체크, 해제하려면 목록에서 ID 삭제</li>
+<li><b>음소거</b>: 그룹 창에서 노드를 오른쪽 클릭 → <code>"Mute"</code>. 해제하려면 Mute ID list에서 ID 삭제</li>
+<li><b>룸 로그 저장</b>: <code>"File"</code> → <code>"Settings"</code> → <code>"Log file settings"</code></li>
+</ul>
+</section>
+
+<section class="sec" id="s16">
+<h2>16. GM(그룹 모니터) 기능</h2>
+<h3>GM 기능이란</h3>
+<p>같은 주파수에서 GM 기능을 쓰는 무선국이 교신권 안에 있는지 자동으로 확인하는 기능입니다. 자주 교신하는 무선국을 그룹으로 저장해 두면 메시지·사진 송수신, 회원의 교신권 진입 알림, 위치 정보 활용이 편리합니다.</p>
+<p>WIRES-X 디지털 노드에서도 GM을 쓸 수 있습니다. 노드가 그룹 회원이면 이동국에서 노드 운용 상태(WIRES-X 사용 가능 여부)를 확인할 수 있고, GM 노드끼리 WIRES-X로 연결되면 교신권과 관계없이 그룹 회원과 통신할 수 있습니다.</p>
+<p>GM 지원 기종: FTM-510D/500D/400XD/400D/310D/300D/200D/100D, FT5D, FT3D, FT2D, FT1XD/FT1D, FT-70D, FTX-1</p>
+<h3>운용 전 준비</h3>
+<ul>
+<li>노드용 무전기는 HRI-200 모드 호환 C4FM 기종(FTM-510D/500D/400XD/400D/310D/300D/200D/100D, 2026년 2월 기준)</li>
+<li><b>무전기 1대만</b> 사용 — GM 운용 중에는 프리셋 서치 채널을 쓸 수 없으므로 RADIO 1에만 연결</li>
+<li>넓은 범위의 회원과 통신하려면 GM 전용 룸을 준비. 회원이 될 노드가 룸을 열고 이동국·고정국·노드를 회원으로 등록</li>
+</ul>
+<h3>GM 노드로 운용 시작</h3>
+<ol>
+<li>WIRES-X 소프트웨어 실행</li>
+<li>메인 화면 오른쪽 아래 <kbd>[GM]</kbd> 클릭 → <code>"GM (Group Monitor) Guide"</code> 창</li>
+<li><kbd>[Transceiver]</kbd> 클릭</li>
+<li><code>"Voice CH"</code>에서 <code>"RX:DIGITAL - TX:DIGITAL"</code> 선택</li>
+<li><kbd>[OK]</kbd></li>
+<li><kbd>[Node Operation]</kbd> 클릭 → <code>"User ID Change"</code> 창</li>
+<li><code>"Style"</code>에서 <code>"GM"</code> 선택</li>
+<li><kbd>[Apply]</kbd> → <kbd>[OK]</kbd></li>
+<li><kbd>[Close]</kbd> → GM 노드로 동작 시작</li>
+</ol>
+<h3>GM 룸에 접속·회원 추가</h3>
+<ol>
+<li><kbd>[GM]</kbd> 클릭 → GM Guide 창</li>
+<li><kbd>[GM Room select]</kbd> 클릭 → <code>"GM Room list"</code> 창 (<code>"View"</code> → <code>"Node-Info"</code> → <kbd>[Select change]</kbd>로도 열림)</li>
+<li>GM Group List 영역을 클릭해 추가 시작</li>
+<li><code>"Room ID"</code>에 접속할 GM 룸 ID 입력 → 서버에서 DTMF ID와 룸 이름을 자동으로 불러옴</li>
+<li><code>"Group Name"</code>에 원하는 이름 입력</li>
+<li><kbd>[Replace]</kbd> 클릭 → 목록에 추가 (여러 개면 4~6 반복, <code>"Comment"</code>에 메모 가능)</li>
+<li>목록에서 접속할 GM 룸 선택</li>
+<li><kbd>[Select]</kbd> 클릭 → 접속 시작</li>
+<li><kbd>[Mobile User list]</kbd> 클릭</li>
+<li>회원으로 넣을 이동국 선택</li>
+<li><kbd>[Add GM member]</kbd> 클릭 → 현재 접속 중인 GM 룸의 회원으로 추가</li>
+<li><kbd>[Close]</kbd></li>
+</ol>
+<div class="tip"><b>참고</b><code>"Connect"</code> 메뉴의 <code>"GM Auto connect"</code>(기본값: 체크)가 켜져 있으면 룸 선택 시와 다음 실행 시 자동 접속합니다. 선택한 GM 룸이 운용 중이 아니면 접속되지 않습니다. 회원 추가는 GM 룸에 접속해 있는 동안에만 가능합니다.</div>
+<h4>GM 룸 접속 해제</h4>
+<p><code>"Connect"</code> 메뉴에서 <code>"GM Auto connect"</code> 체크를 해제합니다. 다시 체크하면 이전 룸에 재접속합니다. 다른 GM 룸은 <code>"GM Room List"</code>에서 선택 후 체크합니다.</p>
+<h3>내 노드에서 GM 룸 개설·관리</h3>
+<ol>
+<li><kbd>[GM]</kbd> 클릭 → GM Guide 창</li>
+<li><kbd>[Room Operation]</kbd> 클릭 → <code>"Room Open"</code> 창</li>
+<li><code>"Room Active"</code>에 체크</li>
+<li><code>"Style"</code>에서 <code>"GM"</code> 선택</li>
+<li><kbd>[Room Activation]</kbd> 클릭</li>
+<li><kbd>[OK]</kbd></li>
+<li><kbd>[My Room Information]</kbd> 클릭</li>
+<li><kbd>[Add New Member]</kbd> 클릭 → <code>"Input ID"</code> 창</li>
+<li>노드 ID 또는 이동국 호출부호 입력</li>
+<li><kbd>[OK]</kbd> → GM Member list에 추가</li>
+<li><kbd>[Close]</kbd></li>
+<li><kbd>[Mobile User list]</kbd> 클릭</li>
+<li>회원으로 넣을 이동국 선택</li>
+<li><kbd>[MyRoom member]</kbd> 클릭</li>
+<li><kbd>[Close]</kbd></li>
+</ol>
+<h3>GM 운용 종료</h3>
+<ol>
+<li><kbd>[GM]</kbd> 클릭 → GM Guide 창</li>
+<li><kbd>[Node Operation]</kbd> 클릭</li>
+<li><code>"Style"</code>에서 <code>"Open"</code> 선택</li>
+<li><kbd>[OK]</kbd></li>
+<li><kbd>[Room Operation]</kbd> 클릭</li>
+<li><code>"Style"</code>에서 <code>"Open"</code> 또는 <code>"Closed"</code> 선택</li>
+<li><kbd>[Room Activation]</kbd> 클릭</li>
+<li><kbd>[OK]</kbd></li>
+<li><kbd>[Close]</kbd> → 일반 노드·일반 룸으로 복귀</li>
+</ol>
+<div class="tip"><b>참고</b>GM 룸 운영만 끝내려면 6단계에서 <code>"Room Active"</code> 체크를 해제합니다. 다음에 일반 룸을 열 때 다시 체크하고 Open 또는 Closed를 선택합니다.</div>
+</section>
+
+<section class="sec" id="s17">
+<h2>17. 원격 운용 (리모트 모니터)</h2>
+<p>다른 PC에서 인터넷을 통해 WIRES-X 소프트웨어를 조작할 수 있습니다.</p>
+<h3>할 수 있는 일</h3>
+<ul>
+<li><b>음성 모니터</b>: 노드가 접속 중일 때 중계되는 음성 청취</li>
+<li><b>PTT 제어</b>: 노드 송수신 정지(ON-AIR LOCK)와 해제(UNLOCK)</li>
+<li><b>소프트웨어 재시작</b></li>
+<li><b>웹 모니터</b>: 웹 브라우저로 운용 상태와 설정 확인</li>
+</ul>
+<h3>준비</h3>
+<ul>
+<li>노드 PC와 별도로 인터넷에 연결된 원격 조작용 PC (노드 PC와 동등한 사양 권장)</li>
+<li>전용 소프트웨어 내려받기: <a href="https://www.yaesu.com/jp/en/wires-x/contact/owner.php" target="_blank" rel="noopener">WIRES-X 오너 페이지</a>에서 <code>"Download WIRES-X Remote Control software"</code> 클릭 후 화면 안내에 따름</li>
+</ul>
+<div class="warn"><b>주의</b>WIRES-X 소프트웨어 Ver. 2.000 전용 원격 소프트웨어가 필요합니다. Ver. 1.570 이전용이나 WiRES-II용 "WIRESMON.exe"는 쓸 수 없습니다.</div>
+<h3>사전 설정</h3>
+<h4>① 포트 개방</h4>
+<p>웹 모니터 기능은 TCP 포트 <code>46190</code>으로 노드 PC와 통신합니다. 공유기의 "NAT" 또는 "포트 매핑"에 TCP 46190을 등록하고 LAN 쪽 주소는 노드 PC의 고정 IP로 지정합니다.</p>
+<h4>② 소프트웨어 설정</h4>
+<ol>
+<li>WIRES-X 소프트웨어 실행</li>
+<li><code>"File"</code> → <code>"Settings"</code></li>
+<li><code>"Property"</code> 아래 <code>"General settings"</code> 클릭</li>
+<li><code>"Remote control"</code>에 체크</li>
+<li><code>"Password"</code>에 새 비밀번호 입력</li>
+<li><kbd>[OK]</kbd></li>
+</ol>
+<h4>③ 전용 플러그인 등록 (웹 모니터용)</h4>
+<ol>
+<li><code>"Tool"</code> 메뉴 → <code>"Plugin set"</code></li>
+<li><kbd>[Add Module]</kbd> 클릭</li>
+<li><code>"WiresWeb.dll"</code> 선택 후 <kbd>[Open]</kbd> → 목록에 "WIRES WebServer" 표시</li>
+<li><kbd>[Close]</kbd></li>
+<li><code>"Tool"</code> 메뉴 → <code>"WIRES WebServer"</code></li>
+<li>비밀번호와 포트 번호 확인 (비밀번호는 ②에서 등록한 값이 자동 입력됨)</li>
+<li><kbd>[OK]</kbd></li>
+</ol>
+<h3>원격 조작 실행</h3>
+<ol>
+<li>노드 기기 전원 ON</li>
+<li>WIRES-X 소프트웨어 실행</li>
+<li>원격 조작용 PC 부팅</li>
+<li>원격 모니터 소프트웨어 <code>"WIRESMON-X.exe"</code> 실행</li>
+</ol>
+<p>사용법은 원격 모니터 소프트웨어의 온라인 도움말을 참조합니다.</p>
+</section>
+
+<section class="sec" id="s18">
+<h2>18. 아날로그 음량 세부 조정</h2>
+<p>보통은 Preset Volume(<a href="#s12">12장</a>)으로 충분하며, 필요하면 아래처럼 세밀하게 조정합니다. <b>아날로그 모드에서만</b> 가능하고, 디지털 노드 간 음성과 뉴스 기능 재생음은 조정할 수 없습니다.</p>
+<h3>노드를 아날로그 모드로</h3>
+<ol>
+<li>WIRES-X 소프트웨어 실행</li>
+<li><code>"File"</code> 메뉴 → <code>"Transceiver"</code></li>
+<li><code>"Operation mode"</code>에서 <code>"Analog"</code> 선택</li>
+<li><kbd>[OK]</kbd></li>
+</ol>
+<h3>파형 모니터 보는 법</h3>
+<p><code>"View"</code> → <code>"Audio adjustment"</code> 창의 "Audio" 영역에 음성이 파형으로 표시됩니다.</p>
+<ul>
+<li><b>실선</b>: HRI-200이 받을 수 있는 최대·최소 음량</li>
+<li><b>점선</b>: 이상적인 최대·최소 음량 범위</li>
+<li>"Volume" 영역의 색 막대: 현재 입력·출력 음량</li>
+</ul>
+<h3>입력 음량 조정 (MIC LEVEL)</h3>
+<ol>
+<li><code>"View"</code> → <code>"Audio adjustment"</code></li>
+<li><code>"Graph select"</code>의 <kbd>[Start]</kbd> 클릭 (→ <kbd>[Displaying]</kbd>으로 바뀜)</li>
+<li>레벨이 맞춰진 다른 FM 무전기(FT3D, FT5D 등)에서 FM 모드로 DTMF <code>#1</code> 음을 송신</li>
+<li><code>"MIC LEVEL"</code>의 <kbd>[◄]</kbd>/<kbd>[►]</kbd>(또는 슬라이더)로 파형 진폭이 <b>점선 안</b>에 들어오게 조정</li>
+</ol>
+<h3>출력 음량 조정 (SP LEVEL)</h3>
+<ol>
+<li><code>"View"</code> → <code>"Audio adjustment"</code></li>
+<li><code>"Graph select"</code>의 <kbd>[Start]</kbd> 클릭</li>
+<li>다른 FM 무전기에서 DTMF <code>#1</code> 음 송신</li>
+<li>노드 무전기에서 입력음 크기를 확인</li>
+<li><code>"Test tone"</code>의 <kbd>[Start]</kbd> 클릭 → 노드 무전기에서 테스트 톤 송신 (→ <kbd>[Transmitting]</kbd>)</li>
+<li><code>"SP LEVEL"</code>의 <kbd>[◄]</kbd>/<kbd>[►]</kbd>로 4단계에서 확인한 음량과 비슷하게, 찌그러짐·이상음이 없게 조정</li>
+<li><kbd>[Transmitting]</kbd> 클릭 → 송신 정지</li>
+</ol>
+</section>
+
+<section class="sec" id="s19">
+<h2>19. 뉴스 기능</h2>
+<h3>개념</h3>
+<p>문자·사진·음성 데이터를 노드 PC에 저장해 두고, 접속한 디지털국과 다른 노드가 읽거나 올릴 수 있게 하는 기능입니다. 비상시에는 그룹 회원에게 음성 메시지를 전달할 수 있습니다. WIRES-X 서버에도 YAESU가 제공하는 뉴스(INT NEWS)가 있습니다.</p>
+<div class="tw"><table>
+<tr><th>종류</th><th>설명</th></tr>
+<tr><td>LOCAL NEWS</td><td>내 노드·룸이 저장·공개하는 데이터. 접근 범위를 업·다운로드 / 다운로드만 / 접근 금지 중 선택</td></tr>
+<tr><td>NEWS STATION</td><td>인터넷상의 다른 노드·룸이 공개하는 데이터. 공개자 설정에 따라 업·다운로드 또는 다운로드만</td></tr>
+<tr><td>INT NEWS</td><td>YAESU가 제공하는 데이터. 다운로드 전용</td></tr>
+</table></div>
+<div class="tw"><table>
+<tr><th>데이터</th><th>규격</th></tr>
+<tr><td>Text</td><td>TXT 형식, 최대 80자</td></tr>
+<tr><td>Picture</td><td>JPEG 형식, 해상도 320×240 이하, 40kB 이하</td></tr>
+<tr><td>Voice / EMG Voice</td><td>WAV 형식. 16비트 모노, 1분 미만, 1MB 미만 권장. EMG Voice는 16비트 8kHz 모노 WAV만 등록 가능</td></tr>
+</table></div>
+<div class="warn"><b>EMG Voice(비상 음성)</b>일반 음성과 별도로 저장됩니다. 업로드 후 2시간 동안 접속 중인 노드·룸을 통해 5분마다 자동 송출되고, 2시간이 지나면 자동 삭제됩니다.</div>
+<h3>내 뉴스 확인</h3>
+<ol>
+<li>메인 화면 오른쪽 아래 <kbd>[News]</kbd> 클릭 → <code>"News list"</code> 창 (<code>"View"</code> → <code>"News"</code>로도 열림)</li>
+<li>트리에서 <code>"Local News"</code> 클릭</li>
+<li>목록에서 항목을 더블클릭 → 내용 표시 (오른쪽 클릭 → <code>"Display details"</code>도 가능)</li>
+<li><kbd>[Close]</kbd></li>
+</ol>
+<div class="warn"><b>주의</b>음성 데이터에서 <kbd>[Play]</kbd>를 누르면 노드 무전기로 <b>실제 송신</b>됩니다. <kbd>[Stop]</kbd>으로 중지합니다.</div>
+<div class="tip"><b>참고</b><code>"View select"</code> 영역에서 표시할 데이터 종류를 고를 수 있고, 열 제목(Date/Time, Type, From 등)을 클릭하면 정렬 순서가 바뀝니다.</div>
+<h3>뉴스 등록</h3>
+<h4>문자</h4>
+<ol>
+<li><code>"News list"</code> 창에서 <kbd>[Input]</kbd> 클릭 → <code>"News Entry"</code> 창</li>
+<li><code>"Output"</code>에서 <code>"Node"</code> 또는 <code>"Room"</code> 선택</li>
+<li><code>"Type"</code>에서 <code>"Text"</code> 선택</li>
+<li>내용 입력 (최대 80자)</li>
+<li><kbd>[Set]</kbd> 클릭 → Local News로 저장 (앞 16자가 제목으로 표시)</li>
+</ol>
+<h4>사진</h4>
+<ol>
+<li>JPEG 파일 준비 (320×240 이하, 40kB 이하)</li>
+<li><kbd>[Input]</kbd> → <code>"Output"</code> 선택 → <code>"Type"</code>에서 <code>"Picture"</code></li>
+<li><code>"Subject"</code>에 제목 입력 (최대 16자)</li>
+<li><kbd>[…]</kbd>로 파일 지정 후 <kbd>[Open]</kbd></li>
+<li><kbd>[Set]</kbd></li>
+</ol>
+<h4>음성</h4>
+<ol>
+<li>WAV 파일 준비</li>
+<li><kbd>[Input]</kbd> → <code>"Output"</code> 선택 → <code>"Type"</code>에서 <code>"Voice"</code> 또는 <code>"EMG Voice"</code></li>
+<li><code>"Subject"</code>에 제목 입력 (최대 16자)</li>
+<li><kbd>[…]</kbd>로 파일 지정 후 <kbd>[Open]</kbd></li>
+<li><kbd>[Set]</kbd></li>
+</ol>
+<div class="tip"><b>참고</b>노드와 룸을 합쳐 최대 5,000건까지 등록할 수 있습니다.</div>
+<h3>삭제·번호 정리·백업</h3>
+<ul>
+<li><b>삭제</b>: Local News 목록에서 항목을 오른쪽 클릭 → <code>"Delete"</code></li>
+<li><b>번호 재부여(Renumber)</b>: 관리 번호는 60,000까지 자동 부여되며 삭제된 번호는 재사용되지 않습니다. 목록 오른쪽 끝 "No." 열의 최대값이 50,000을 넘으면 News list 창의 <code>"File"</code> → <code>"Renumber"</code> → <kbd>[OK]</kbd> → 소프트웨어 재시작으로 번호를 다시 매깁니다</li>
+<li><b>Backup</b>: 뉴스 데이터 전체를 PC의 원하는 위치에 저장 (PC 교체 시 유용)</li>
+<li><b>Restore</b>: 백업본 불러오기. 백업 파일의 DTMF ID가 노드와 다르면 복원 불가</li>
+<li><b>All delete</b>: Local News 목록 전체 삭제</li>
+</ul>
+<h3>다른 노드·룸의 뉴스 보기</h3>
+<ol>
+<li><kbd>[News]</kbd> 클릭 → <code>"News List"</code> 창</li>
+<li>트리에서 <code>"Download News"</code> 더블클릭 → 뉴스를 본 적 있는 노드·룸 ID 표시</li>
+<li>보려는 노드·룸 ID 클릭</li>
+<li><kbd>[Refresh]</kbd> 클릭 → 상대가 온라인이면 최신 목록으로 갱신 (오프라인이면 갱신 안 됨)</li>
+<li>항목 더블클릭 → 내용 표시 (받은 적 없는 데이터는 상대가 온라인일 때 내려받아 표시)</li>
+</ol>
+<p>트리의 노드/룸을 오른쪽 클릭 → Delete → OK 하면 해당 다운로드 이력이 삭제됩니다.</p>
+<h3>WIRES-X 서버 뉴스 보기</h3>
+<ol>
+<li><kbd>[News]</kbd> 클릭</li>
+<li>트리에서 <code>"INT News"</code> 클릭</li>
+<li><kbd>[Refresh]</kbd> 클릭</li>
+<li>항목 더블클릭</li>
+</ol>
+</section>
+
+<section class="sec" id="s20">
+<h2>20. QSL 카드 이미지</h2>
+<p>인터넷상의 노드·룸에 접속하면 <code>"View QSL"</code> 팝업이 떠서 상대의 ID, 호출부호, 설정된 문구, 접속 일시를 확인할 수 있습니다. 양쪽 모두 이미지 표시를 설정했다면 상대가 보낸 이미지가 표시되고, 내 이미지도 상대 화면에 표시됩니다.</p>
+<div class="tw"><table>
+<tr><th>버튼</th><th>동작</th></tr>
+<tr><td>[HardCopy]</td><td>팝업 창을 이미지로 클립보드에 복사. 이미지 편집 프로그램에 붙여 넣어 저장</td></tr>
+<tr><td>[Save]</td><td>QSL 카드 이미지를 비트맵으로 저장. ID·호출부호 등은 같은 이름의 TXT로 함께 저장</td></tr>
+<tr><td>[Close]</td><td>팝업 닫기 (접속은 유지)</td></tr>
+</table></div>
+<h3>상대의 QSL 카드 표시하기</h3>
+<ul>
+<li><b>노드</b>: <code>"File"</code> → <code>"Settings"</code> → <code>"Personal settings"</code> - <code>"WIRES ID information"</code> → <code>"QSL exchange"</code> 체크 → <kbd>[OK]</kbd></li>
+<li><b>룸</b>: <code>"File"</code> → <code>"Settings"</code> → <code>"Round QSO room settings"</code> → <code>"QSL exchange"</code> 체크 → <kbd>[OK]</kbd></li>
+</ul>
+<h3>내 QSL 카드 보내기</h3>
+<ol>
+<li><code>"Settings"</code> 창에서 <code>"WIRES ID information"</code>(노드) 또는 <code>"Round QSO room settings"</code>(룸) 화면 표시</li>
+<li><code>"QSL exchange"</code> 오른쪽 아래의 <kbd>[…]</kbd> 클릭</li>
+<li>파일 선택 후 <kbd>[Open]</kbd> (경로 직접 입력도 가능)</li>
+<li><kbd>[OK]</kbd> → 이후 상대가 접속할 때마다 지정한 이미지 전송</li>
+</ol>
+<div class="tip"><b>이미지 조건</b>형식: 비트맵(.bmp) / 해상도: 320×240</div>
+</section>
+
+<section class="sec" id="s21">
+<h2>21. 메인 화면 상세</h2>
+<h3>액티브 리스트 (왼쪽 3개 창)</h3>
+<p>그룹·노드·룸 목록은 주기적으로 자동 갱신됩니다. 즉시 갱신하려면 <code>"File"</code> → <code>"Refresh list"</code>. 창 경계를 드래그하면 크기를 바꿀 수 있고, 창 안에서 오른쪽 클릭 → <code>"Window default"</code>를 선택하면 세 창 높이가 같아집니다.</p>
+<h4>그룹 창</h4>
+<p><code>"View"</code> → <code>"Group window"</code>에서 선택한 목록이 표시됩니다.</p>
+<div class="tw"><table>
+<tr><th>선택</th><th>표시 내용</th></tr>
+<tr><td>Bookmark list</td><td>미리 북마크한 노드·룸. 설정에 따라 오프라인 노드·닫힌 룸도 표시</td></tr>
+<tr><td>Connecting Node list</td><td>접속 중 음성이 전달되는 노드. 노드 접속 시 그 노드만, 룸 접속 시 룸의 모든 노드</td></tr>
+<tr><td>MyRoom access list</td><td>내 룸에 접속한 모든 노드. 오른쪽 클릭으로 <code>"Remove"</code>(접속 해제), <code>"Mute"</code>(음성 중계 중지)</td></tr>
+</table></div>
+<h4>액티브 노드 창 — 아이콘 의미</h4>
+<p>각 행 왼쪽 아이콘으로 운용 모드와 접속 상태를 구분합니다: 디지털 노드 / 포터블 디지털 노드 / 아날로그 노드 / GM 노드 각각의 대기·접속 중 상태, 오프라인 노드(북마크 목록에서만), 음소거 노드(MyRoom access list에서만).</p>
+<h4>액티브 노드 창 — 정보 항목</h4>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>A.UserID</td><td>노드 User ID(영문·숫자 최대 10자). 디지털 운용 접속 코드</td></tr>
+<tr><td>DTMF</td><td>노드 DTMF ID(5자리). 아날로그 운용 접속 코드</td></tr>
+<tr><td>Callsign</td><td>노드 호출부호</td></tr>
+<tr><td>City / State·Province / Country·Region</td><td>노드 소재지</td></tr>
+<tr><td>Freq(MHz)</td><td>노드 운용 주파수(음성 채널)</td></tr>
+<tr><td>SQL</td><td>운용 주파수의 스켈치 설정(DG-ID 번호, 톤 주파수, DCS 코드)</td></tr>
+<tr><td>Lat, Lon</td><td>노드 위치(위도·경도)</td></tr>
+<tr><td>IP</td><td>IPv4 / +IPv4(구버전 호환 룸 운영 중) / IPv6 / 공란(Ver. 1.570 이하로 운용)</td></tr>
+<tr><td>Comment</td><td>노드 소유자가 설정한 정보</td></tr>
+</table></div>
+<div class="tip"><b>참고</b>
+<ul>
+<li>열 제목을 클릭하면 정렬됩니다 ("+" 오름차순, "-" 내림차순)</li>
+<li>노드의 DSQ가 OFF이면 "DG-ID 00", DSQ 001~099는 "DG-ID 01"~"DG-ID 99"로 표시됩니다. 무전기 DG-ID를 표시된 번호와 같게 맞추면 접속할 수 있습니다</li>
+<li>최신 펌웨어의 C4FM 무전기는 DSQ 100~126으로 설정된 노드에 접속할 수 없습니다. 노드는 DG-ID 00~99로 설정합니다</li>
+</ul></div>
+<h4>액티브 노드 창 — 오른쪽 클릭 명령</h4>
+<div class="tw"><table>
+<tr><th>명령</th><th>동작</th></tr>
+<tr><td>Connect</td><td>선택한 노드에 접속 (상대가 다른 곳에 접속 중이면 안 될 수 있음)</td></tr>
+<tr><td>Get Info</td><td>ID·호출부호 등 정보 팝업 표시. 이전에 받은 QSL 카드 이미지가 있으면 함께 표시</td></tr>
+<tr><td>Window default</td><td>왼쪽 세 창을 같은 크기로</td></tr>
+<tr><td>Add Bookmark list</td><td>북마크에 추가</td></tr>
+<tr><td>Node Reject</td><td>접속 거부 목록에 등록 (해당 노드의 접속 요청 거부)</td></tr>
+<tr><td>MyRoom Reject</td><td>오픈 룸 운영 시 표시. 내 룸 접속 거부 목록에 추가</td></tr>
+<tr><td>MyRoom member</td><td>클로즈드·GM 룸 운영 시 표시. 내 룸 회원 목록에 추가</td></tr>
+<tr><td>Add GM member</td><td>GM 노드로 GM 룸 접속 중일 때 표시. 접속 중인 GM 룸의 회원으로 추가</td></tr>
+</table></div>
+<h4>액티브 룸 창</h4>
+<p>아이콘은 오픈 룸 / 오픈 룸(디지털 전용) / 클로즈드 룸 / GM 룸 각각의 "접속 노드 없음·있음" 상태를 나타냅니다.</p>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Room ID</td><td>룸 User ID(영문·숫자 최대 16자). 디지털 접속 코드</td></tr>
+<tr><td>DTMF</td><td>룸 DTMF ID(5자리). 아날로그 접속 코드</td></tr>
+<tr><td>Act</td><td>액티비티 수(접속 노드 수)</td></tr>
+<tr><td>Room name</td><td>소유자가 정한 룸 이름</td></tr>
+<tr><td>City / State·Province / Country·Region</td><td>룸 소재지</td></tr>
+<tr><td>IP</td><td>IPv4 / +IPv4 / IPv6</td></tr>
+<tr><td>Comment</td><td>소유자가 설정한 정보</td></tr>
+</table></div>
+<p>오른쪽 클릭 명령: Connect, Get Info, Window default, Add Bookmark list, Node Reject, 그리고 GM 노드로 GM 룸 접속 중일 때 나타나는 <code>"Add GM Room list"</code>(GM 룸 목록에 추가. <kbd>[GM]</kbd> → <kbd>[GM Room select]</kbd>에서 확인).</p>
+<h3>상태 표시 (오른쪽 위 아이콘)</h3>
+<div class="tw"><table>
+<tr><th>표시</th><th>의미</th></tr>
+<tr><td>운용 상태</td><td>운용 모드(디지털/아날로그/GM)와 다른 노드 접속 여부</td></tr>
+<tr><td>접속 상대 ID</td><td>접속 중인 노드·룸의 User ID</td></tr>
+<tr><td>송신 상태 (ON-AIR)</td><td>노드의 송신 여부. 위쪽 아이콘을 클릭하면 송신 정지(일시 정지 표시), 다시 클릭하면 재개. 접속 중에 클릭하면 접속이 해제되고 송신 정지</td></tr>
+<tr><td>수신 상태 (LOCAL)</td><td>수신 없음 / 아날로그 신호 또는 설정과 다른 SQL 신호 수신 / 설정과 맞는 SQL 신호 수신(중계 안 함) / 수신해 인터넷으로 중계 중</td></tr>
+<tr><td>기기 연결 상태</td><td>아날로그 무전기 정상 / 디지털 무전기 정상 / 디지털 2대 정상 / HRI-200 미연결·이상</td></tr>
+<tr><td>DTMF 검출</td><td>HRI-200의 DTMF 신호 검출 여부 (아날로그 운용 시에만 표시)</td></tr>
+<tr><td>송신 타임아웃 타이머</td><td>자동 정지까지 남은 시간(3분 기준). 시간이 다 되면 "0:00" 점멸</td></tr>
+</table></div>
+<div class="tip"><b>참고</b>DW 운용이나 2대 운용 시 송신·수신 아이콘이 2개씩 나오며, 위쪽이 음성 채널, 아래쪽이 프리셋 서치 채널입니다. 위쪽 송신 아이콘을 클릭하면 두 채널 모두 정지합니다. HRI-200을 쓰지 않는 구성에서는 운용 모드(포터블 HRI / 포터블 디지털 노드 / 풀스펙 노드)와 무전기 모델명이 표시됩니다.</div>
+<div class="warn"><b>주의</b>디지털 무전기를 연결했는데 아날로그 무전기 아이콘이 나오면 무전기–HRI-200 연결을 다시 확인합니다. HRI-200 미연결·이상 아이콘이 나오면 소프트웨어를 닫고 연결을 확인한 뒤 다시 실행합니다.</div>
+<h3>사용자 모니터 창</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>User</td><td>송신국(디지털국)의 호출부호, 신호 종류(DN/VW/DW), 무전기 정보. 아날로그 변환 없이 중계하면 "-Direct" 표시</td></tr>
+<tr><td>Uplink / Downlink</td><td>업링크·다운링크 노드의 호출부호와 DTMF ID (WIRES-X 접속 시에만)</td></tr>
+<tr><td>Room</td><td>중계 룸의 DTMF ID (룸 경유 시에만)</td></tr>
+<tr><td>Position</td><td>송신국의 위도·경도 (신호에 위치 정보가 있을 때)</td></tr>
+<tr><td>Distance</td><td>내 노드에서 디지털 이동국까지의 거리와 방향 (Show position data가 켜져 있을 때)</td></tr>
+</table></div>
+<h3>로그 창</h3>
+<p><code>"View"</code> → <code>"Log"</code>에서 선택: <b>Node</b>(내 노드의 접속 상황), <b>Room</b>(내 룸에 대한 접속 상황), <b>News</b>(뉴스 데이터 업·다운로드 접근 기록).</p>
+<h3>채팅 창·기능 창</h3>
+<ul>
+<li>채팅은 접속 중인 노드·룸에만 전송되며, 룸 접속 시에는 룸의 모든 노드에 전달됩니다. 기록에는 송수신 일시, 발신·수신 호스트, 내용이 표시됩니다</li>
+<li><kbd>[SEND]</kbd> 전송 / <kbd>[CLR]</kbd> 기록 전체 삭제</li>
+<li>기능 창의 <kbd>[News]</kbd>는 뉴스 목록(<a href="#s19">19장</a>), <kbd>[GM]</kbd>은 GM 가이드 창(<a href="#s16">16장</a>)을 엽니다</li>
+</ul>
+</section>
+
+<section class="sec" id="s22">
+<h2>22. 메뉴 레퍼런스</h2>
+<p>WIRES-X 소프트웨어에는 File, View, Connect, Tool, Help 5개 메뉴가 있습니다.</p>
+
+<h3>File 메뉴 — 설정 내보내기·가져오기</h3>
+<p>설정을 파일로 저장했다가 한꺼번에 불러올 수 있어 노드 PC 교체 시 유용합니다.</p>
+<ul>
+<li><b>Export settings</b>: 저장 위치와 파일명을 지정해 <kbd>[Save]</kbd> → 확장자 <code>.wsv</code> 파일 저장</li>
+<li><b>Import settings</b>: <code>.wsv</code> 파일 선택 → <kbd>[Open]</kbd> → 소프트웨어 재시작. 파일의 HRI-200 시리얼 번호·DTMF ID가 현재 등록 정보와 다르면 가져올 수 없음</li>
+</ul>
+<h3>File 메뉴 — 초기화·재인증</h3>
+<ul>
+<li><b>Set default</b>: 설정 초기화. <kbd>[OK]</kbd>를 누르면 설정이 덮어써지고 소프트웨어가 종료됨</li>
+<li><b>Retry activation</b>: 사용자 정보 재인증. <kbd>[OK]</kbd> → 설정 삭제 후 종료 → 재시작하면 <code>"WIRES ID Activation"</code> 창이 떠서 <a href="#s09">9장</a>의 절차로 다시 설정</li>
+</ul>
+<div class="tip"><b>참고</b>소재지 등 서버에 등록한 사용자 정보가 바뀌면 WIRES-X 웹사이트에서 변경 신청을 한 뒤 재인증합니다.</div>
+<h3>File 메뉴 — 기타</h3>
+<ul>
+<li><b>Refresh list</b>: 왼쪽 3개 창을 서버의 최신 정보로 갱신 (짧은 간격으로 반복하면 바뀌지 않을 수 있음)</li>
+<li><b>IP Spec</b> / <b>Room Compatible</b>: <a href="#s12">12장</a>, <a href="#s15">15장</a> 참조</li>
+<li><b>Exit</b>: 종료 (<a href="#s13">13장</a>)</li>
+<li><b>Settings</b>: 왼쪽 트리에서 항목을 고르면 오른쪽에 설정 화면 표시. <kbd>[OK]</kbd> 저장 후 닫기 / <kbd>[Cancel]</kbd> 저장하지 않고 닫기. WIRES ID information·Location settings는 <a href="#s12">12장</a>, Round QSO room settings는 <a href="#s15">15장</a>, Transceiver는 <a href="#s11">11장</a> 참조</li>
+</ul>
+
+<h3>Settings — HRI-200 setup</h3>
+<p>CH1(음성 채널)의 아날로그 회로 동작을 설정합니다. 화면에서 바꾼 값은 <kbd>[Write]</kbd>를 눌러야 HRI-200(EEPROM)에 기록됩니다. <kbd>[HRI-200 Information]</kbd>은 기록된 값을 읽어 표시합니다.</p>
+<div class="warn"><b>주의</b>10핀 DATA 단자 기종(FTM-510D~100D, FTM-6000)은 <b>기본값을 바꾸지 마세요</b>. 일부 FM 아날로그 기종에서만 변경이 필요할 수 있습니다. 아래 음성 관련 항목은 디지털국 간 통신에는 영향이 없습니다.</div>
+<div class="tw"><table>
+<tr><th>항목</th><th>기본값</th><th>설명</th></tr>
+<tr><td>SQL Active</td><td>High</td><td>SQL 입력 논리. High: 신호 있으면 High / Low: 신호 있으면 Low. 무전기 스켈치가 닫혀 있는데 "LOCAL" 표시가 켜지면 이 값을 바꿔 회색이 되게 함</td></tr>
+<tr><td>RXin Select</td><td>RX12</td><td>RADIO 1의 수신 음성 입력 회로(RX12/RX96). 디지털 운용 시 RX96 선택 금지</td></tr>
+<tr><td>RX12 Input / RX96 Input</td><td>High</td><td>각 수신 입력 회로의 감도(Low/High)</td></tr>
+<tr><td>PTT Active</td><td>Low</td><td>PTT 출력 논리. Low: 송신 시 Low / High: 송신 시 High. 송신하지 않는데 "ON-AIR"가 녹색이면 이 값을 바꿔 회색이 되게 함</td></tr>
+<tr><td>TXout Gain</td><td>TX12</td><td>송신 음성 출력 레벨(TX12/TX96)</td></tr>
+<tr><td>De-emphasis</td><td>해제</td><td>체크 시 수신음을 디엠퍼시스 회로로 통과</td></tr>
+<tr><td>RX Filter</td><td>해제</td><td>체크 시 수신음을 필터 회로로 통과</td></tr>
+<tr><td>Audio Mute SW (SQL)</td><td>해제</td><td>체크 시 수신 음성 입력 회로의 ON/OFF를 SQL 신호와 연동</td></tr>
+<tr><td>MIC BOOST (MAMP)</td><td>해제</td><td>체크 시 수신 음성 입력에 증폭 회로 삽입. FM 무전기의 입력 레벨이 매우 낮을 때 유효하나 찌그러질 수 있어 파형 모니터로 확인하며 조정</td></tr>
+<tr><td>Pre-emphasis</td><td>해제</td><td>체크 시 송신음을 프리엠퍼시스 회로로 통과</td></tr>
+<tr><td>Tx Filter</td><td>해제</td><td>체크 시 송신음을 필터 회로로 통과</td></tr>
+</table></div>
+<h4>DTMF 관련</h4>
+<div class="tw"><table>
+<tr><th>항목</th><th>기본값</th><th>설명</th></tr>
+<tr><td>Mute mode</td><td>OFF</td><td>OFF: DTMF 검출 중에도 그대로 중계 / Audio mute: DTMF 검출 중 아날로그 음성을 묵음으로 중계(송신 상태는 유지)</td></tr>
+<tr><td>DTMF detect Gain</td><td>Low</td><td>내장 DTMF 디코더 입력 게인(Low/High)</td></tr>
+<tr><td>DTMF Call cancel</td><td>전체 선택</td><td>HRI-200이 받아들일 DTMF 버튼 지정. 선택하지 않은 버튼의 신호는 무시</td></tr>
+</table></div>
+
+<h3>Settings — Call settings</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>기본값</th><th>설명</th></tr>
+<tr><td>Round QSO Room connection</td><td>ON</td><td>룸 접속 요청을 받았을 때 ON: 허용 / OFF: 거부</td></tr>
+<tr><td>Accept calls while in Round QSO Rooms</td><td>OFF</td><td>룸 접속 중 다른 노드의 접속 요청이 오면 ON: 룸 접속을 끊고 그 노드와 접속 / OFF: 요청 거부(룸 유지). 룸에서 교신이 진행 중이면 설정과 무관하게 거부</td></tr>
+<tr><td>Back to Round QSO after disconnect</td><td>OFF</td><td>위 기능으로 받은 노드와의 접속이 끝난 뒤 ON: 원래 룸에 재접속 / OFF: 미접속 상태 유지</td></tr>
+<tr><td>Return to Room</td><td>OFF</td><td>ON: 소프트웨어 시작 때마다 <code>"Room ID"</code>에 지정한 룸에 상시 접속</td></tr>
+<tr><td>Room ID</td><td>—</td><td>상시 접속할 룸의 User ID 또는 DTMF ID (Return to Room이 ON일 때 입력 가능)</td></tr>
+<tr><td>DTMF #55555</td><td>OFF</td><td>ON: DTMF #55555 명령 수락 / OFF: 무시</td></tr>
+</table></div>
+<div class="tip"><b>Return to Room이 ON일 때</b>접속 유지 시간대는 24시간이며, 끊긴 상태가 30초 이상 이어지면 자동으로 재접속합니다. 이 룸에 대해서는 General settings의 TOT 설정이 무시되고, <code>"Round QSO Room connection"</code> 설정과 무관하게 자동 접속합니다. #55555 명령으로도 이 설정을 전환할 수 있습니다.</div>
+
+<h3>Settings — General settings</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Unlimited TOT</td><td>접속 시간 제한 타이머(TOT). ON: 타이머 해제(무제한) / OFF(기본값): 타이머 동작</td></tr>
+<tr><td>TOT</td><td>접속 유지 시간. 시간이 지나면 자동 해제. 교신 중이면 교신 종료 후 20초까지 유지. Unlimited TOT가 OFF일 때 유효</td></tr>
+<tr><td>Connect request message</td><td>접속 중 다른 노드의 접속 요청이 오면 "Connect request from *****" 안내 송출</td></tr>
+<tr><td>Room IN/OUT</td><td>접속 중인 룸에 다른 노드가 들어오거나 나가면 "***** IN / OUT" 안내 송출</td></tr>
+<tr><td>Room logon node info</td><td>룸 접속 안내에 접속 노드 수 포함 여부. #66666 응답과 VOICE ID 내용에도 적용</td></tr>
+<tr><td>DTMF #66666</td><td>ON: #66666 명령에 ID 안내로 응답</td></tr>
+<tr><td>DTMF #55555</td><td>ON: #55555 명령에 응답 안내 송출 (OFF여도 Call settings의 DTMF #55555가 ON이면 명령 자체는 실행)</td></tr>
+<tr><td>DTMF * Disconnect</td><td>ON: * 명령을 #99999와 같이 받아 접속 해제 / OFF: 무시</td></tr>
+<tr><td>Remote control</td><td>ON: 원격 모니터 소프트웨어 "WIRESMON-X.exe"의 접근 허용 / OFF: 금지</td></tr>
+<tr><td>Password</td><td>원격 접근 인증 비밀번호 (Remote control이 ON일 때 입력 가능)</td></tr>
+</table></div>
+<div class="warn"><b>주의</b>안내 방송(Announcement)과 DTMF 명령은 <b>아날로그 운용에서만</b> 동작합니다. 같은 안내는 약 20초 동안 다시 송출되지 않습니다.</div>
+
+<h3>Settings — Sound settings (아날로그 운용 시에만 표시)</h3>
+<p><b>Connect response</b>(접속 수락·접속 시 응답음)와 <b>ID</b>(주기적으로 송출하는 ID 음성)의 형식을 고릅니다.</p>
+<div class="tw"><table>
+<tr><th>선택</th><th>설명</th></tr>
+<tr><td>OFF</td><td>소리 없음</td></tr>
+<tr><td>WAVE FILE</td><td>지정한 WAV 파일 재생. <kbd>[…]</kbd>로 파일 선택</td></tr>
+<tr><td>CW</td><td>입력한 문구를 모스 부호로 송출. 영문·숫자·공백과 일부 기호 사용 가능. <b>자격이 있는 사용자만</b> CW 송출 가능</td></tr>
+<tr><td>VOICE</td><td>합성 음성으로 송출. 접속 시 "This is (호출부호) WIRES-X. Connected to *****.", 미접속 시 "… Not connected." 등</td></tr>
+</table></div>
+<ul>
+<li><kbd>[Test]</kbd> 시험 송출 / <kbd>[Stop]</kbd> 중지 (다른 노드·룸에 접속 중에는 시험 송출 불가)</li>
+<li><b>Interval time</b>: ID 송출 간격 5~60분(1분 단위). 운용 주파수에서 다른 무선국에 방해가 되지 않게 설정</li>
+<li><b>Calibrate – CW</b>: Speed(기본 30 WPM), Volume(기본 50), Pitch(기본 700Hz)</li>
+<li><b>Calibrate – Voice</b>: Voice(음성 종류, OS에 따라 다름), Speed(기본 0), Volume(기본 90)</li>
+</ul>
+
+<h3>Settings — Digital ID settings (디지털 운용 시에만 표시)</h3>
+<p>Voice CH와 Preset Search CH 각각에 대해 설정합니다.</p>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>ID TX</td><td>ON: 디지털 ID를 주기적으로 송출</td></tr>
+<tr><td>Interval Time</td><td>송출 간격 1~60분(1분 단위). ID TX가 ON일 때 설정 가능</td></tr>
+<tr><td>[TEST]</td><td>해당 채널로 디지털 ID를 1회 송출 (접속 중에는 불가)</td></tr>
+</table></div>
+
+<h3>Settings — Make list file</h3>
+<p>목록을 파일로 출력합니다. 탭: <b>Group window</b>(그룹 창 목록), <b>Active ID</b>(액티브 노드), <b>Room ID</b>(액티브 룸), <b>MyRoom logon ID</b>(내 룸 접속 노드, 룸 운영 중일 때만).</p>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Enable list out</td><td>ON: 파일 출력 기능 사용</td></tr>
+<tr><td>XML Style</td><td>ON: XML(UTF-8) / OFF: HTML(탭 구분 또는 표 형식)</td></tr>
+<tr><td>HTML/XML File name</td><td>출력 파일명(.html 또는 .xml). 다른 탭과 같은 이름 금지</td></tr>
+<tr><td>HTML/XML Header / Footer</td><td>출력 데이터 앞·뒤에 붙일 내용(HTML 태그, XML 스타일시트 선언 등). 샘플 xsl: Group.xsl, Active.xsl, Room.xsl, MyRoom.xsl</td></tr>
+<tr><td>Table layout</td><td>HTML 출력 형식 — ON: 표 형식 / OFF: 탭 구분 (XML Style이 ON이면 무효)</td></tr>
+<tr><td>Save CSV format</td><td>ON: 같은 이름의 .csv(탭 구분 텍스트)도 함께 출력</td></tr>
+<tr><td>Notify window title</td><td>출력 파일 갱신을 다른 프로그램에 알릴 때 사용. 보통 비워 둠</td></tr>
+</table></div>
+
+<h3>Settings — Log file settings</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>Node log-file save</td><td>체크 시 노드 운용 이력 전체 저장 (채팅 기록 포함)</td></tr>
+<tr><td>News log-file save</td><td>체크 시 뉴스 기능 접근 이력 저장 (노드·룸 뉴스가 한 파일에 기록)</td></tr>
+<tr><td>Room log-file save</td><td>체크 시 룸 운용 이력 전체 저장</td></tr>
+<tr><td>[Open log folder]</td><td>로그 파일 저장 폴더 열기</td></tr>
+</table></div>
+<p>각 항목 오른쪽 <kbd>[…]</kbd>로 저장 위치를 지정합니다.</p>
+
+<h3>View 메뉴</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>기능</th></tr>
+<tr><td>Font – Select / Reset</td><td>액티브 리스트의 글꼴·스타일·크기 변경 / 기본값 복원(복원 후 재시작)</td></tr>
+<tr><td>Status Bar</td><td>하단 상태 바 표시·숨김</td></tr>
+<tr><td>Connect ID window</td><td>룸 접속 팝업 다시 열기 (룸 접속 중에만. GM 모드에서는 "Display GM members"로 바뀜)</td></tr>
+<tr><td>Group window</td><td>그룹 창 표시 내용 선택: Bookmark list / Connecting Node list / MyRoom access list</td></tr>
+<tr><td>Bookmark-Info</td><td>북마크 관리 (<a href="#s13">13장</a>)</td></tr>
+<tr><td>Node-Info</td><td>"My Node information" 창 — 내 노드 상태와 접속 거부 목록 관리, GM 노드일 때는 접속 GM 룸 정보</td></tr>
+<tr><td>Room-Info</td><td>"MyRoom information" 창 — 내 룸 회원·차단·음소거 관리 (<a href="#s15">15장</a>)</td></tr>
+<tr><td>Log</td><td>로그 창 표시 내용 선택: Node / Room / News</td></tr>
+<tr><td>Audio adjustment</td><td>입출력 음량 조정 (<a href="#s12">12장</a>, <a href="#s18">18장</a>)</td></tr>
+<tr><td>News</td><td>뉴스 목록 창 (<a href="#s19">19장</a>)</td></tr>
+<tr><td>Mobile Users list</td><td>내 노드·룸을 이용한 무선국 목록</td></tr>
+</table></div>
+<h4>My Node information — 접속 거부 등록</h4>
+<ol>
+<li><code>"View"</code> → <code>"Node-Info"</code></li>
+<li><kbd>[Add]</kbd> 클릭 → <code>"Input ID"</code> 창</li>
+<li>차단할 상대의 ID 입력 (이동국·고정국은 호출부호, 노드·룸은 User ID 또는 DTMF ID)</li>
+<li><kbd>[OK]</kbd> → Reject list에 추가. <kbd>[Delete]</kbd>로 해제</li>
+</ol>
+<p>액티브 노드·룸 창에서 오른쪽 클릭 → <code>"Node Reject"</code>, 또는 Mobile Users list에서 <kbd>[Node reject]</kbd>로도 추가할 수 있습니다.</p>
+<h4>Mobile Users list — 항목과 버튼</h4>
+<div class="tw"><table>
+<tr><th>항목</th><th>설명</th></tr>
+<tr><td>CallSign / Radio ID</td><td>이용 무선국의 호출부호 / 식별 코드</td></tr>
+<tr><td>Last received time</td><td>마지막으로 접속한 일시</td></tr>
+<tr><td>Recv CH</td><td>수신 경로 — V-CH: 음성 채널 / P-CH1: 프리셋 서치 채널(듀얼 수신) / P-CH2: 프리셋 서치 채널(RADIO 2 무전기) / Net: 노드 경유 / Room: 룸 경유</td></tr>
+<tr><td>Last position</td><td>수신 신호에 담긴 위치 정보 (최신값으로 갱신)</td></tr>
+<tr><td>[MyRoom reject]</td><td>오픈 룸: 선택한 무선국의 내 룸 접속 차단</td></tr>
+<tr><td>[MyRoom member]</td><td>클로즈드·GM 룸: 선택한 무선국을 내 룸 회원으로 추가</td></tr>
+<tr><td>[Add GM member]</td><td>GM 노드로 GM 룸 접속 중: 접속 중인 GM 룸의 회원으로 추가</td></tr>
+<tr><td>[Node reject]</td><td>선택한 무선국의 내 노드 접속 차단</td></tr>
+<tr><td>[Export]</td><td>표시된 목록을 TXT로 저장</td></tr>
+</table></div>
+
+<h3>Connect 메뉴</h3>
+<div class="tw"><table>
+<tr><th>항목</th><th>기능</th></tr>
+<tr><td>Connect</td><td>액티브 리스트에서 선택한 노드·룸에 접속</td></tr>
+<tr><td>Connect To</td><td>ID를 직접 입력해 접속 — <code>"Input ID"</code> 창에 DTMF ID 또는 User ID 입력 후 <kbd>[OK]</kbd></td></tr>
+<tr><td>Disconnect</td><td>접속 해제 (접속 중에만 선택 가능)</td></tr>
+<tr><td>GM Auto connect</td><td>체크 시 소프트웨어 시작과 동시에 지정한 GM 룸에 접속, 해제 시 GM 룸 접속 종료 (GM 노드로 운용하고 GM Room list에 접속 대상이 지정돼 있을 때만)</td></tr>
+</table></div>
+
+<h3>Tool 메뉴</h3>
+<ul>
+<li><b>Port check</b>: 서버 통신에 쓰는 인터넷 포트 상태 점검 (<a href="#s08">8장</a>)</li>
+<li><b>Plugin set</b>: 플러그인 관리. <kbd>[Add Module]</kbd>로 <code>.dll</code> 파일 추가, 목록에서 선택 후 <kbd>[Delete Module]</kbd>로 제거, <kbd>[OK]</kbd>로 닫기</li>
+</ul>
+
+<h3>Help 메뉴</h3>
+<ul>
+<li><b>Help Topics</b>: 온라인 도움말 표시</li>
+<li><b>WIRES Web Site</b>: 웹 브라우저로 WIRES-X 웹사이트 열기</li>
+<li><b>About</b>: 소프트웨어 구성 정보 확인</li>
+</ul>
+</section>
+
+<section class="sec" id="s23">
+<h2>23. 소프트웨어 제거</h2>
+<div class="tip"><b>참고</b>자동 시작을 선택해 설치했다면, 먼저 작업 표시줄의 WIRES-X 아이콘을 오른쪽 클릭해 <code>"Quit"</code>을 선택해 자동 재실행을 막습니다.</div>
+<ol>
+<li>WIRES-X 소프트웨어 종료</li>
+<li>Windows <kbd>[Start]</kbd> → <kbd>[Settings]</kbd></li>
+<li><kbd>[Apps]</kbd> → <kbd>[Installed apps]</kbd></li>
+<li>목록에서 WIRES-X를 찾아 <kbd>[…]</kbd> 클릭</li>
+<li><kbd>[Uninstall]</kbd> 클릭</li>
+<li>다시 <kbd>[Uninstall]</kbd> 클릭</li>
+<li><code>"Automatically close applications and attempt to restart them after setup is complete"</code> 선택</li>
+<li><kbd>[OK]</kbd> → 제거 시작</li>
+<li>완료되면 설치된 앱 목록에서 WIRES-X가 사라짐</li>
+</ol>
+</section>
+
+<section class="sec" id="s24">
+<h2>24. DTMF 명령 목록</h2>
+<div class="warn"><b>주의</b>DTMF 명령은 무전기를 <b>아날로그 운용</b>으로 설정했을 때만 쓸 수 있습니다.</div>
+<div class="tw"><table>
+<tr><th>명령</th><th>기능</th><th>동작과 조건</th></tr>
+<tr><td>#55555</td><td>지정 룸 상시 접속 전환</td><td>미접속 상태에서 받으면 지정 룸 상시 접속 기능이 켜지고, 다시 받으면 꺼짐. 접속 중이거나 송신 정지(ON-AIR LOCK) 상태에서는 반응하지 않음. <code>"Call settings"</code>의 <code>"DTMF #55555"</code>가 체크돼 있어야 수락. 응답 안내를 내려면 <code>"General settings"</code>의 <code>"DTMF #55555"</code>도 체크</td></tr>
+<tr><td>#66666</td><td>노드 운용 상태 조회</td><td>호출부호와 상태("Not connected" 또는 "Connected to (상대 DTMF ID)")를 음성으로 응답. <code>"General settings"</code>의 <code>"DTMF #66666"</code> 체크 필요</td></tr>
+<tr><td>#99999 / *</td><td>접속 해제</td><td>다른 노드·룸에 접속 중일 때 받으면 접속을 끊음. <code>*</code> 명령을 받게 하려면 <code>"General settings"</code>의 <code>"DTMF * Disconnect"</code> 체크</td></tr>
+</table></div>
+</section>
+
+<section class="sec" id="s25">
+<h2>25. HRI-200 사양</h2>
+<div class="tw"><table>
+<tr><th>항목</th><th>사양</th></tr>
+<tr><td>전원</td><td>DC +5.0V ±5%, 마이너스 접지 (USB 버스 파워)</td></tr>
+<tr><td>소비 전류</td><td>약 100mA ±30mA</td></tr>
+<tr><td>사용 온도</td><td>0℃ ~ +50℃</td></tr>
+<tr><td>외형 치수</td><td>폭 111 × 높이 25.4 × 깊이 133mm (돌출부 제외)</td></tr>
+<tr><td>무게</td><td>약 340g</td></tr>
+<tr><td>미니 DIN 10핀 (RADIO 1, RADIO 2)</td><td>PTT 출력/SQL 입력 DC +3.3V, 마이너스 접지 · 음성 입력(수신) 100mVrms @10kΩ (RADIO 1) · 음성 출력(송신) 100mVrms @600Ω (RADIO 1) · 시리얼 입출력 RS-232C 레벨</td></tr>
+<tr><td>3.5mm 오디오 (MONITOR)</td><td>100mVrms @600Ω (표준 출력)</td></tr>
+<tr><td>USB Type B</td><td>USB 2.0 (Full Speed), 버스 파워</td></tr>
+</table></div>
+</section>
+
+<section class="sec" id="s26">
+<h2>26. 문의처·원문 안내</h2>
+<h3>YAESU 문의</h3>
+<ol>
+<li><a href="https://www.yaesu.com/jp/en/wires-x/contact/owner.php" target="_blank" rel="noopener">WIRES-X 오너 페이지</a> 접속</li>
+<li>페이지 왼쪽 아래 <code>"Contact us"</code> 클릭</li>
+<li>필요 항목 입력</li>
+<li><code>"Proceed to the confirmation screen"</code> 클릭 → 내용 확인 후 <kbd>[Send]</kbd></li>
+</ol>
+<p>문의 내용에 따라 답변에 시간이 걸릴 수 있습니다.</p>
+<h3>이 안내서에 대하여</h3>
+<p>이 문서는 YAESU MUSEN의 "WIRES-X Connection Kit HRI-200 Instruction Manual"(2603-Q, 2026년)을 바탕으로 운용자가 참고하기 쉽게 한글로 요약·재구성한 <b>비공식 안내서</b>입니다. 그림·화면 캡처는 싣지 않았으며, 정확한 내용과 최신 정보는 YAESU의 공식 매뉴얼을 기준으로 합니다. WIRES, WIRES-X는 YAESU MUSEN의 상표입니다.</p>
+</section>
+
+  <div class="none" id="none">검색 결과가 없습니다. 다른 검색어를 입력해 보세요.</div>
+  </main>
+</div>
+
+<footer class="foot">
+  <span>HRI-200 WIRES-X 한글 사용 안내서 (비공식 요약) · 원문: YAESU HRI-200 Instruction Manual 2603-Q</span>
+  <span id="verFoot"></span>
+</footer>
+
+<button type="button" class="top-btn" id="btnTop" title="맨 위로" aria-label="맨 위로">▲</button>
+
+<script>
+(function(){
+  'use strict';
+  var APP_VERSION = 'v1.0';
+  var APP_DATE = '2026-11-19';
+
+  var body = document.body;
+  var $ = function(id){ return document.getElementById(id); };
+  $('verTop').textContent = APP_VERSION;
+  $('verFoot').textContent = APP_VERSION + ' · ' + APP_DATE;
+
+  /* ---------- 화면 모드 (초기값: 모바일) ---------- */
+  function setMode(mode){
+    body.classList.toggle('m-pc', mode === 'pc');
+    body.classList.toggle('m-mobile', mode !== 'pc');
+    body.classList.remove('toc-open');
+    $('btnPc').classList.toggle('on', mode === 'pc');
+    $('btnMobile').classList.toggle('on', mode !== 'pc');
+  }
+  $('btnPc').addEventListener('click', function(){ setMode('pc'); });
+  $('btnMobile').addEventListener('click', function(){ setMode('mobile'); });
+
+  /* ---------- 목차 생성 ---------- */
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.sec'));
+  var tocList = $('tocList');
+  var tocLinks = [];   // {a, sec}
+  sections.forEach(function(sec){
+    var h2 = sec.querySelector('h2');
+    var a = document.createElement('a');
+    a.className = 'g';
+    a.href = '#' + sec.id;
+    a.textContent = h2.textContent;
+    tocList.appendChild(a);
+    tocLinks.push({a:a, sec:sec});
+    var subs = sec.querySelectorAll('h3');
+    for (var i = 0; i < subs.length; i++){
+      var h3 = subs[i];
+      h3.id = sec.id + '-' + (i + 1);
+      var s = document.createElement('a');
+      s.className = 's';
+      s.href = '#' + h3.id;
+      s.textContent = h3.textContent;
+      tocList.appendChild(s);
+      tocLinks.push({a:s, sec:sec});
+    }
+  });
+
+  function closeToc(){ body.classList.remove('toc-open'); }
+  $('btnMenu').addEventListener('click', function(){ body.classList.toggle('toc-open'); });
+  $('btnTocClose').addEventListener('click', closeToc);
+  $('dim').addEventListener('click', closeToc);
+  tocList.addEventListener('click', function(e){
+    if (e.target && e.target.tagName === 'A') closeToc();
+  });
+  $('btnTop').addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  /* ---------- 검색 ---------- */
+  var originals = sections.map(function(sec){ return sec.innerHTML; });
+  var q = $('q'), sinfo = $('sinfo'), none = $('none');
+  var marks = [], cur = -1, timer = null;
+
+  function escapeReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function restore(){
+    sections.forEach(function(sec, i){
+      if (sec.getAttribute('data-hl') === '1'){
+        sec.innerHTML = originals[i];
+        sec.removeAttribute('data-hl');
+      }
+      sec.classList.remove('off');
+    });
+    marks = []; cur = -1;
+  }
+
+  function highlight(sec, re){
+    var walker = document.createTreeWalker(sec, NodeFilter.SHOW_TEXT, null);
+    var nodes = [], n;
+    while ((n = walker.nextNode())) nodes.push(n);
+    var count = 0;
+    nodes.forEach(function(node){
+      var text = node.nodeValue;
+      re.lastIndex = 0;
+      if (!re.test(text)) return;
+      re.lastIndex = 0;
+      var frag = document.createDocumentFragment();
+      var last = 0, m;
+      while ((m = re.exec(text))){
+        if (m[0].length === 0){ re.lastIndex++; continue; }
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var mk = document.createElement('mark');
+        mk.textContent = m[0];
+        frag.appendChild(mk);
+        last = m.index + m[0].length;
+        count++;
+      }
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+    return count;
+  }
+
+  function relinkToc(){
+    // 검색으로 innerHTML이 바뀌어도 h3 id는 원본에 포함되어 유지됨
+    var term = q.value.trim();
+    tocLinks.forEach(function(t){
+      var hidden = t.sec.classList.contains('off');
+      t.a.classList.toggle('off', hidden);
+      t.a.classList.toggle('hit', !!term && !hidden && t.a.className.indexOf('g') === 0);
+    });
+  }
+
+  function doSearch(){
+    restore();
+    var term = q.value.trim();
+    if (!term){
+      sinfo.textContent = '';
+      none.style.display = 'none';
+      relinkToc();
+      return;
+    }
+    var re = new RegExp(escapeReg(term), 'gi');
+    var total = 0, secCount = 0;
+    sections.forEach(function(sec){
+      var c = highlight(sec, re);
+      if (c > 0){ sec.setAttribute('data-hl', '1'); total += c; secCount++; }
+      else { sec.classList.add('off'); }
+    });
+    marks = Array.prototype.slice.call(document.querySelectorAll('main mark'));
+    none.style.display = total ? 'none' : 'block';
+    sinfo.textContent = total
+      ? '"' + term + '" — ' + secCount + '개 단락에서 ' + total + '건 (▲▼ 또는 Enter로 이동)'
+      : '"' + term + '" — 결과 없음';
+    relinkToc();
+    if (total){ cur = -1; }
+  }
+
+  function go(step){
+    if (!marks.length) return;
+    if (cur >= 0 && marks[cur]) marks[cur].classList.remove('cur');
+    cur = (cur + step + marks.length) % marks.length;
+    var m = marks[cur];
+    m.classList.add('cur');
+    var y = m.getBoundingClientRect().top + window.pageYOffset - 140;
+    window.scrollTo({top: y < 0 ? 0 : y, behavior:'smooth'});
+    sinfo.textContent = '"' + q.value.trim() + '" — ' + (cur + 1) + ' / ' + marks.length + '건';
+  }
+
+  // h3 id 를 원본 HTML에 반영 (검색 복원 시에도 유지되도록 목차 생성 후 저장)
+  originals = sections.map(function(sec){ return sec.innerHTML; });
+
+  q.addEventListener('input', function(){
+    clearTimeout(timer);
+    timer = setTimeout(function(){ timer = null; doSearch(); }, 180);
+  });
+  q.addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){
+      e.preventDefault();
+      if (timer){ clearTimeout(timer); timer = null; doSearch(); }
+      go(e.shiftKey ? -1 : 1);
+    }
+  });
+  $('btnNext').addEventListener('click', function(){ go(1); });
+  $('btnPrev').addEventListener('click', function(){ go(-1); });
+  $('btnClear').addEventListener('click', function(){
+    q.value = '';
+    clearTimeout(timer);
+    doSearch();
+    q.focus();
+  });
+
+  setMode('mobile');
+})();
+</script>
+</body>
+</html>
