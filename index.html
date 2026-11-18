@@ -389,6 +389,11 @@ body.vm .subnav-inner{max-width:430px;} body.vpc .subnav-inner{max-width:1100px;
 .fsnip mark{background:#FFE58A;color:#1B2433;padding:0 2px;border-radius:3px;}
 .facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;}
 .fbody{margin-top:8px;background:var(--ground);border-radius:9px;padding:9px 11px;}
+/* 활동사진 날짜 묶음 */
+.phg{padding:10px 0;border-bottom:1px solid var(--line);} .phg:last-child{border-bottom:0;}
+.phg-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px;font-size:13.5px;color:var(--ink);}
+.phg-h span{font-size:12px;color:var(--ink-3);} .phg-h .tlink{margin-left:auto;}
+.phg-e{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;} .phg-e .inp{flex:1 1 150px;}
 /* 화면 선택 (모바일 / PC) */
 .vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
 .vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
@@ -475,7 +480,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v5.1</span>
+        <span class="vtag">v5.2</span>
       </div>
     </div>
   </div>
@@ -551,14 +556,14 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     <div class="row-gap">
       <div class="grid2">
         <div class="f"><label class="lbl" for="phCap">설 명</label><input class="inp" id="phCap" type="text" placeholder="예) 구호물품 전달"></div>
-        <div class="f"><label class="lbl" for="phDate">활동 날짜</label><input class="inp" id="phDate" type="date"></div>
+        <div class="f"><label class="lbl" for="phDate">실제 활동 날짜 (비우면 오늘)</label><input class="inp" id="phDate" type="date"></div>
       </div>
       <input type="file" id="phFile" accept="image/*" multiple hidden>
       <button class="btn btn-main" type="button" id="phBtn">사진 선택해서 올리기</button>
       <div class="gate-note" style="margin-top:0">카톡에서 저장한 사진을 여러 장 한 번에 고를 수 있습니다. 사진은 자동으로 줄여서 저장됩니다.</div>
     </div>
   </div>
-  <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">활동 사진 <span id="phCount"></span></span></div><div class="pgrid" id="phGrid"></div></div>
+  <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">활동 사진 <span id="phCount"></span></span></div><div class="months" id="phYears" style="flex-wrap:wrap"></div><div id="phGrid"></div></div>
 </section>
 
 <!-- 위임장 -->
@@ -951,8 +956,13 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
     <div class="box-top"><b id="lbCap">활동 사진</b><button class="x" type="button" id="lbX" aria-label="닫기">✕</button></div>
     <div style="background:#111;text-align:center"><img id="lbImg" src="" alt="" style="max-height:70vh;display:block;margin:0 auto"></div>
     <div class="box-bar"><span id="lbMeta" style="font-size:12px;color:var(--ink-3);flex:1;align-self:center"></span>
+      <button class="btn btn-s" type="button" id="lbEditBtn" hidden>수정</button>
       <button class="btn btn-s" type="button" id="lbDel" hidden>삭제</button>
       <button class="btn btn-s" type="button" id="lbClose">닫기</button></div>
+    <div class="box-bar" id="lbEdit" style="flex-wrap:wrap;gap:6px" hidden>
+      <input class="inp" id="lbDate" type="date" aria-label="실제 활동 날짜" style="flex:1 1 140px">
+      <input class="inp" id="lbCapIn" type="text" placeholder="설명" aria-label="설명" style="flex:2 1 180px">
+      <button class="btn btn-s pri" type="button" id="lbSave">저장</button></div>
   </div>
 </div>
 
@@ -2071,9 +2081,83 @@ function openPhoto(id){
   $("lbMeta").textContent=[p.date,p.byName?p.byName+" ("+p.by+")":p.by].filter(Boolean).join(" · ");
   $("lbDel").hidden=!(canEdit()||p.by===meCall);
   $("lbDel").textContent="삭제";
+  $("lbEditBtn").hidden=!(canEdit()||p.by===meCall); $("lbEdit").hidden=true;
+  $("lbDate").value=phDay(p); $("lbCapIn").value=p.cap||"";
   $("lb").hidden=false;
 }
 function closePhoto(){ $("lb").hidden=true; lbId=""; armKey=""; }
+
+/* ───── v5.2 활동사진: 활동 날짜별 묶음 · 연도 선택 · 날짜 수정 ───── */
+var phYear="",phgEdit="";
+function phUpDay(p){ var d=new Date(p.at||""); return isNaN(d.getTime())?"":ymd(d); }   /* 올린 날(이 기기 시간 기준) */
+function phDay(p){ return p.date||phUpDay(p); }      /* 실제 활동 날짜(없으면 올린 날) */
+function phMine(p){ return canEdit()||p.by===meCall; }
+function renderPhotoList(ps){
+  $("phCount").textContent=ps.length?ps.length+"장":"";
+  if(!ps.length){ $("phYears").innerHTML=""; $("phGrid").innerHTML='<div class="none">아직 올라온 사진이 없습니다. 위에서 첫 사진을 올려 보세요.</div>'; return; }
+  var cnt={}; ps.forEach(function(p){ var y=phDay(p).slice(0,4)||"기타"; cnt[y]=(cnt[y]||0)+1; });
+  var years=Object.keys(cnt).sort().reverse();
+  if(phYear!=="all"&&years.indexOf(phYear)<0)phYear=years[0];
+  $("phYears").innerHTML=years.map(function(y){
+    return '<button class="mchip" type="button" data-phy="'+escA(y)+'" aria-pressed="'+(phYear===y?"true":"false")+'">'+esc(y)+(y==="기타"?"":"년")+' '+cnt[y]+'</button>';
+  }).join("")+'<button class="mchip" type="button" data-phy="all" aria-pressed="'+(phYear==="all"?"true":"false")+'">전체 '+ps.length+'</button>';
+  var groups={},order=[];
+  ps.forEach(function(p){
+    var d=phDay(p); if(phYear!=="all"&&(d.slice(0,4)||"기타")!==phYear)return;
+    if(!groups[d]){ groups[d]=[]; order.push(d); } groups[d].push(p);
+  });
+  order.sort().reverse();
+  $("phGrid").innerHTML=order.map(function(d){
+    var g=groups[d].slice().sort(function(a,b){ return String(a.at||"").localeCompare(String(b.at||"")); });
+    var caps=[]; g.forEach(function(p){ if(p.cap&&caps.indexOf(p.cap)<0)caps.push(p.cap); });
+    var ups=[]; g.forEach(function(p){ var u=phUpDay(p); if(u&&u!==d&&ups.indexOf(u)<0)ups.push(u); });
+    var can=g.some(phMine);
+    return '<div class="phg"><div class="phg-h"><b>'+esc(dateLabel(d)||"날짜 없음")+'</b><span>'+g.length+'장</span>'
+      +(can?'<button class="tlink" type="button" data-phgdate="'+escA(d)+'">날짜 변경</button>':'')+'</div>'
+      +((caps.length||ups.length)?'<div class="pmeta" style="margin:0 0 6px">'+[esc(caps.slice(0,3).join(", ")),ups.length?"올린 날 "+esc(ups.sort().map(function(u){ return u.slice(5).replace("-","."); }).join(", ")):""].filter(Boolean).join(" · ")+'</div>':'')
+      +(phgEdit===d?'<div class="phg-e"><input class="inp" type="date" id="phgDate" value="'+escA(d)+'" aria-label="실제 활동 날짜"><button class="btn btn-s pri" type="button" id="phgSave">이 묶음 날짜 바꾸기</button><button class="btn btn-s" type="button" id="phgCancel">취소</button></div>':'')
+      +'<div class="pgrid">'+g.map(photoFig).join("")+'</div></div>';
+  }).join("")||'<div class="none">이 연도에는 사진이 없습니다.</div>';
+}
+async function phUpdate(p,patch){
+  var rec={}; for(var k in p){ if(k!=="id")rec[k]=p[k]; }
+  for(var k2 in patch)rec[k2]=patch[k2];
+  rec.editBy=meCall; rec.editAt=new Date().toISOString();
+  await db.collection("photos").doc(p.id).set(rec);
+  rec.id=p.id; D.photos=D.photos.map(function(x){ return x.id===p.id?rec:x; });
+}
+$("phYears").addEventListener("click",function(e){ var b=e.target.closest("[data-phy]"); if(!b)return; phYear=b.dataset.phy; phgEdit=""; renderPhotoList(photoSorted()); });
+$("phGrid").addEventListener("click",async function(e){
+  var t=e.target.closest("[data-phgdate]");
+  if(t){ phgEdit=(phgEdit===t.dataset.phgdate)?"":t.dataset.phgdate; renderPhotoList(photoSorted()); return; }
+  if(e.target.id==="phgCancel"){ phgEdit=""; renderPhotoList(photoSorted()); return; }
+  if(e.target.id!=="phgSave")return;
+  var from=phgEdit,to=$("phgDate").value;
+  if(!to){ toast("날짜를 선택해 주세요"); return; }
+  if(to===from){ phgEdit=""; renderPhotoList(photoSorted()); return; }
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  var list=D.photos.filter(function(p){ return phDay(p)===from&&phMine(p); }),n=0;
+  e.target.disabled=true;
+  try{ for(var i=0;i<list.length;i++){ await phUpdate(list[i],{date:to}); n++; } }
+  catch(err){ console.error(err); }
+  phgEdit=""; if(phYear!=="all")phYear=to.slice(0,4);
+  renderPortal();
+  toast(n===list.length?"사진 "+n+"장의 활동 날짜를 바꿨습니다":"사진 "+n+"장만 바뀌고 나머지는 실패했습니다");
+});
+$("lbEditBtn").addEventListener("click",function(){ $("lbEdit").hidden=!$("lbEdit").hidden; });
+$("lbSave").addEventListener("click",async function(){
+  var p=D.photos.filter(function(x){ return x.id===lbId; })[0]; if(!p)return;
+  if(!phMine(p)){ toast("수정 권한이 없습니다"); return; }
+  var d=$("lbDate").value; if(!d){ toast("날짜를 선택해 주세요"); return; }
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  this.disabled=true;
+  try{
+    await phUpdate(p,{date:d,cap:$("lbCapIn").value.trim()});
+    if(phYear!=="all")phYear=d.slice(0,4);
+    closePhoto(); renderPortal(); toast("사진 정보를 수정했습니다");
+  }catch(err){ console.error(err); toast("수정에 실패했습니다"); }
+  finally{ this.disabled=false; }
+});
 $("lbX").addEventListener("click",closePhoto);
 $("lbClose").addEventListener("click",closePhoto);
 $("lb").addEventListener("click",function(e){ if(e.target===this)closePhoto(); });
@@ -2238,9 +2322,7 @@ function renderPortal(){
     +(past.length?'<div class="lbl" style="margin-top:12px">지난 활동</div>'+past.map(function(p){ return planRow(p,ed,true); }).join(""):'');
 
   /* 활동사진 */
-  $("phCount").textContent=ps.length?ps.length+"장":"";
-  $("phGrid").innerHTML=ps.length?ps.map(photoFig).join("")
-    :'<div class="none">아직 올라온 사진이 없습니다. 위에서 첫 사진을 올려 보세요.</div>';
+  renderPhotoList(ps);
 
   /* 앱·링크 */
   $("lkList").innerHTML=((!lkQ||qHit("위임장 월례회 불참자 의결권 위임"))?'<div class="lrow"><div class="lbody"><span class="lname">위임장</span>'
