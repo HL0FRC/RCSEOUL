@@ -394,6 +394,21 @@ body.vm .subnav-inner{max-width:430px;} body.vpc .subnav-inner{max-width:1100px;
 .phg-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px;font-size:13.5px;color:var(--ink);}
 .phg-h span{font-size:12px;color:var(--ink-3);} .phg-h .tlink{margin-left:auto;}
 .phg-e{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;} .phg-e .inp{flex:1 1 150px;}
+/* 게시판 */
+.bpost{padding:10px 0;border-top:1px solid var(--line);}
+.bpost.ntc2{background:var(--red-wash);border:1px solid var(--red-line);border-radius:10px;padding:10px 11px;margin-bottom:8px;}
+.bpost.ntc2+.bpost{border-top:0;}
+.bhead{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;font-size:12.5px;color:var(--ink);}
+.bhead span:last-child{font-size:11.5px;color:var(--ink-3);}
+.btext{margin-top:4px;font-size:13.5px;}
+.bacts{margin-top:3px;display:flex;gap:4px;}
+.bcmts{margin-top:7px;padding-left:10px;border-left:2px solid var(--line);}
+.bclab{font-size:11.5px;font-weight:700;color:var(--ink-3);margin-bottom:3px;}
+.bcmt{padding:4px 0;font-size:12.5px;}
+.bcmt>div:first-child{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;}
+.bcmt span{font-size:11px;color:var(--ink-3);}
+.bcmt .pre{font-size:12.5px;line-height:1.55;}
+.bcin{display:flex;gap:6px;margin-top:5px;} .bcin .inp{flex:1;min-width:0;padding-block:7px;font-size:13px;}
 /* 화면 선택 (모바일 / PC) */
 .vsel{margin-left:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper);flex:0 0 auto;}
 .vsel button{font-family:var(--sans);font-size:11.5px;font-weight:600;padding:4px 11px;border:0;background:none;color:var(--ink-3);cursor:pointer;}
@@ -480,7 +495,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v5.2</span>
+        <span class="vtag">v5.3</span>
       </div>
     </div>
   </div>
@@ -496,6 +511,17 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
 <!-- 현황 -->
 <section id="p-dash">
   <div class="stats4" id="dStats"></div>
+  <div class="card" id="boardCard"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">게시판 <span id="bdCount" style="font-weight:500"></span></span></div>
+    <div class="row-gap">
+      <textarea class="inp ta" id="bdText" rows="2" maxlength="500" placeholder="누구나 자유롭게 한마디 남겨 주세요" aria-label="글 내용"></textarea>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <label class="gate-keep" id="bdNoticeWrap" style="margin:0" hidden><input type="checkbox" id="bdNotice"> 공지로 올리기</label>
+        <button class="btn btn-main" type="button" id="bdSave" style="flex:1;min-width:120px">글 남기기</button>
+        <button class="btn btn-s" type="button" id="bdCancel" hidden>수정 취소</button>
+      </div>
+    </div>
+    <div id="bdList" style="margin-top:8px"></div>
+  </div>
   <div class="card" id="dNoticeCard" hidden><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">회의 공지</span></div><div id="dNotice"></div></div>
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">다가오는 활동</span></div><div id="dPlans"></div></div>
   <div class="card"><div class="card-head"><span class="mark"><svg width="12" height="12" viewBox="0 0 15 15"><rect x="5" width="5" height="15" fill="#fff"/><rect y="5" width="15" height="5" fill="#fff"/></svg></span><span class="card-title">최근 활동 사진</span></div><div class="pgrid" id="dPhotos"></div></div>
@@ -1741,7 +1767,7 @@ $("btnRetry").addEventListener("click",function(){ connect(); });
 
 /* ═════════ 포털: 현황·활동계획·사진·링크·연락처·접속기록 ═════════ */
 var EDIT_ROLES=["회장","총무","기술팀장","구호팀장","드론팀장"];
-var D={plans:[],photos:[],links:[],infos:[],logs:[],meets:[],nets:[],edus:[],files:[]},unsubP={};
+var D={plans:[],photos:[],links:[],infos:[],logs:[],meets:[],nets:[],edus:[],files:[],posts:[],comments:[]},unsubP={};
 /* 고정 일정: 매주 화요일 21시 화요정기교신 (코드에 들어 있어 삭제되지 않는다) */
 var FIXED_PLANS=[{id:"fixed-tue-net",date:"2026-01-06",time:"21:00",title:"화요정기교신",rep:"weekly",until:"",place:"",memo:"매주 화요일 21시",fixed:true}];
 function allPlans(){ return FIXED_PLANS.concat(D.plans); }
@@ -2354,7 +2380,7 @@ function renderPortal(){
   $("infoEdit").hidden=!ed;
 
   renderLogs();
-  renderMeet(); renderNet(); renderEdu(); renderFiles(); renderManuals(); showGroup();
+  renderMeet(); renderNet(); renderEdu(); renderFiles(); renderManuals(); renderBoard(); showGroup();
 }
 
 
@@ -3220,6 +3246,121 @@ $("mnList").addEventListener("click",async function(e){
       if(mnEditId===id)resetManualForm();
       renderManuals(); toast("삭제했습니다");
     }catch(err2){ console.error(err2); toast("삭제에 실패했습니다"); }
+  }
+});
+
+
+/* ═════ v5.3 게시판: 한 줄 글 · 공지 · 댓글 ═════
+   posts(글) · comments(댓글, post=글 id). 누구나 쓰고, 공지 표시는 임원만 한다 */
+var bdEditId="",bdShow=10,bdArm="",bdDraft={},bdSig="";
+function bdWho(x){ return (x.byName||nameOf(x.by)||"")+(x.by?" ("+x.by+")":""); }
+function bdWhen(iso){
+  var d=new Date(iso||""); if(isNaN(d.getTime()))return "";
+  var t=pad2(d.getHours())+":"+pad2(d.getMinutes()),day=ymd(d),today=ymd(new Date());
+  return day===today?"오늘 "+t:(day.slice(0,4)===today.slice(0,4)?day.slice(5).replace("-","."):day.replace(/-/g,"."))+" "+t;
+}
+function bdMine(x){ return canEdit()||x.by===meCall; }
+function renderBoard(force){
+  var ed=canEdit();
+  $("bdNoticeWrap").hidden=!ed;
+  var posts=D.posts.slice().sort(function(a,b){ return ((b.notice?1:0)-(a.notice?1:0))||String(b.at||"").localeCompare(String(a.at||"")); });
+  var byPost={}; D.comments.forEach(function(c){ (byPost[c.post]||(byPost[c.post]=[])).push(c); });
+  /* 바뀐 것이 없으면 다시 그리지 않는다 (쓰던 댓글이 지워지지 않게) */
+  var sig=JSON.stringify([meCall,ed,bdShow,bdArm,posts.map(function(p){ return [p.id,p.text,p.notice,p.editAt||""]; }),D.comments.map(function(c){ return [c.id,c.post,c.text]; }).sort()]);
+  if(!force&&sig===bdSig)return;
+  bdSig=sig;
+  var act=document.activeElement,focusId=(act&&act.dataset&&act.dataset.bdc)||"";
+  $("bdCount").textContent=posts.length?"("+posts.length+")":"";
+  $("bdList").innerHTML=posts.length?posts.slice(0,bdShow).map(function(p){
+    var cs=(byPost[p.id]||[]).slice().sort(function(a,b){ return String(a.at||"").localeCompare(String(b.at||"")); });
+    return '<div class="bpost'+(p.notice?" ntc2":"")+'">'
+      +'<div class="bhead">'+(p.notice?'<span class="badge" style="margin-left:0">공지</span> ':'')+'<b>'+esc(bdWho(p))+'</b><span>'+esc(bdWhen(p.at))+(p.editAt?" · 수정됨":"")+'</span></div>'
+      +'<div class="pre btext">'+esc(p.text||"")+'</div>'
+      +(bdMine(p)?'<div class="bacts"><button class="tlink" type="button" data-bdedit="'+escA(p.id)+'">수정</button><button class="tlink" type="button" data-bddel="'+escA(p.id)+'">'+(bdArm==="p:"+p.id?"삭제 확인":"삭제")+'</button></div>':'')
+      +'<div class="bcmts">'
+      +(cs.length?'<div class="bclab">댓글 '+cs.length+'</div>'+cs.map(function(c){
+          return '<div class="bcmt"><div><b>'+esc(bdWho(c))+'</b><span>'+esc(bdWhen(c.at))+'</span>'
+            +(bdMine(c)?'<button class="tlink" type="button" data-bdcdel="'+escA(c.id)+'">'+(bdArm==="c:"+c.id?"삭제 확인":"삭제")+'</button>':'')+'</div>'
+            +'<div class="pre">'+esc(c.text||"")+'</div></div>';
+        }).join(""):'')
+      +'<div class="bcin"><input class="inp" type="text" maxlength="300" placeholder="댓글 달기" aria-label="댓글" data-bdc="'+escA(p.id)+'" value="'+escA(bdDraft[p.id]||"")+'">'
+      +'<button class="btn btn-s" type="button" data-bdcadd="'+escA(p.id)+'">등록</button></div>'
+      +'</div></div>';
+  }).join("")+(posts.length>bdShow?'<button class="btn btn-ghost" type="button" id="bdMore" style="margin:8px 0 0">이전 글 더 보기 ('+(posts.length-bdShow)+')</button>':'')
+  :'<div class="none">아직 글이 없습니다. 첫 글을 남겨 보세요.</div>';
+  if(focusId){ var el=$("bdList").querySelector('[data-bdc="'+focusId+'"]'); if(el){ el.focus(); try{ el.setSelectionRange(el.value.length,el.value.length); }catch(e){} } }
+}
+function resetBoardForm(){
+  bdEditId=""; $("bdText").value=""; $("bdNotice").checked=false; $("bdSave").textContent="글 남기기"; $("bdCancel").hidden=true;
+}
+$("bdCancel").addEventListener("click",resetBoardForm);
+$("bdSave").addEventListener("click",async function(){
+  if(!meCall){ toast("로그인 후 이용해 주세요"); return; }
+  var text=$("bdText").value.trim();
+  if(!text){ toast("내용을 입력해 주세요"); $("bdText").focus(); return; }
+  var old=bdEditId?D.posts.filter(function(x){ return x.id===bdEditId; })[0]:null;
+  if(bdEditId&&!old){ resetBoardForm(); toast("수정할 글을 찾지 못했습니다"); return; }
+  if(old&&!bdMine(old)){ toast("수정 권한이 없습니다"); return; }
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  var now=new Date().toISOString();
+  var rec={text:text,notice:canEdit()?$("bdNotice").checked:(old?!!old.notice:false),by:old?old.by:meCall,byName:old?old.byName||"":meName||"",at:old?old.at:now};
+  if(old){ rec.editBy=meCall; rec.editAt=now; }
+  this.disabled=true;
+  try{
+    if(old){ await db.collection("posts").doc(old.id).set(rec); rec.id=old.id; D.posts=D.posts.map(function(x){ return x.id===rec.id?rec:x; }); }
+    else{ var ref=await db.collection("posts").add(rec); rec.id=(ref&&ref.id)||("local"+Date.now()); if(!D.posts.some(function(x){ return x.id===rec.id; }))D.posts.push(rec); }
+    resetBoardForm(); renderBoard(true); toast(old?"글을 수정했습니다":"글을 남겼습니다");
+  }catch(e){ console.error(e); toast("저장에 실패했습니다"); }
+  finally{ this.disabled=false; }
+});
+async function bdAddComment(pid){
+  var el=$("bdList").querySelector('[data-bdc="'+pid+'"]'),text=(el?el.value:"").trim();
+  if(!text){ toast("댓글 내용을 입력해 주세요"); if(el)el.focus(); return; }
+  if(!meCall){ toast("로그인 후 이용해 주세요"); return; }
+  if(!db){ toast("연결 중입니다. 잠시 후 다시 눌러 주세요"); connect(); return; }
+  var rec={post:pid,text:text,by:meCall,byName:meName||"",at:new Date().toISOString()};
+  try{
+    var ref=await db.collection("comments").add(rec); rec.id=(ref&&ref.id)||("local"+Date.now());
+    if(!D.comments.some(function(x){ return x.id===rec.id; }))D.comments.push(rec);
+    delete bdDraft[pid]; renderBoard(true);
+  }catch(e){ console.error(e); toast("댓글 저장에 실패했습니다"); }
+}
+$("bdList").addEventListener("input",function(e){ var t=e.target; if(t.dataset&&t.dataset.bdc)bdDraft[t.dataset.bdc]=t.value; });
+$("bdList").addEventListener("keydown",function(e){
+  var t=e.target; if(e.key==="Enter"&&!e.isComposing&&t.dataset&&t.dataset.bdc){ e.preventDefault(); bdAddComment(t.dataset.bdc); }
+});
+function bdArmSet(k){ bdArm=k; renderBoard(true); setTimeout(function(){ if(bdArm===k){ bdArm=""; renderBoard(true); } },5000); }
+$("bdList").addEventListener("click",async function(e){
+  var b=e.target.closest("button"); if(!b)return;
+  if(b.id==="bdMore"){ bdShow+=10; renderBoard(true); return; }
+  if(b.dataset.bdcadd){ bdAddComment(b.dataset.bdcadd); return; }
+  if(b.dataset.bdedit){
+    var p=D.posts.filter(function(x){ return x.id===b.dataset.bdedit; })[0]; if(!p)return;
+    bdEditId=p.id; $("bdText").value=p.text||""; $("bdNotice").checked=!!p.notice; $("bdSave").textContent="수정 저장"; $("bdCancel").hidden=false;
+    $("bdText").focus(); $("boardCard").scrollIntoView({block:"start",behavior:"smooth"}); return;
+  }
+  if(b.dataset.bddel){
+    var id=b.dataset.bddel,po=D.posts.filter(function(x){ return x.id===id; })[0]; if(!po)return;
+    if(!bdMine(po)){ toast("삭제 권한이 없습니다"); return; }
+    if(bdArm!=="p:"+id){ bdArmSet("p:"+id); return; }
+    bdArm="";
+    try{
+      var cs=D.comments.filter(function(c){ return c.post===id; });
+      for(var i=0;i<cs.length;i++){ try{ await db.collection("comments").doc(cs[i].id).delete(); }catch(e2){ console.error(e2); } }
+      await db.collection("posts").doc(id).delete();
+      D.posts=D.posts.filter(function(x){ return x.id!==id; }); D.comments=D.comments.filter(function(c){ return c.post!==id; });
+      if(bdEditId===id)resetBoardForm();
+      renderBoard(true); toast("삭제했습니다");
+    }catch(err){ console.error(err); renderBoard(true); toast("삭제에 실패했습니다"); }
+    return;
+  }
+  if(b.dataset.bdcdel){
+    var cid=b.dataset.bdcdel,c=D.comments.filter(function(x){ return x.id===cid; })[0]; if(!c)return;
+    if(!bdMine(c)){ toast("삭제 권한이 없습니다"); return; }
+    if(bdArm!=="c:"+cid){ bdArmSet("c:"+cid); return; }
+    bdArm="";
+    try{ await db.collection("comments").doc(cid).delete(); D.comments=D.comments.filter(function(x){ return x.id!==cid; }); renderBoard(true); toast("댓글을 삭제했습니다"); }
+    catch(err2){ console.error(err2); renderBoard(true); toast("삭제에 실패했습니다"); }
   }
 });
 
