@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>RCNet WIRES-X 룸 설정 · 노드 비교</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* RCNet WIRES-X 룸 설정 · 노드 비교 v1.0 (2026-11-22) */
+:root{
+  --navy:#1f3350; --navy2:#2c4a73; --ink:#26303c; --sub:#4d5b6b; --line:#d5dbe3;
+  --bg:#eef1f5; --card:#ffffff; --soft:#f4f6f9; --head:#e3ecf6;
+  --tip-bg:#eaf2f9; --tip-bd:#9dbcd6; --warn-bg:#fbf1e3; --warn-bd:#d9a860; --warn-ink:#6a4208;
+  --main-bg:#e8f0fa; --maxw:480px;
+}
+*{box-sizing:border-box}
+html{font-size:14px}
+@media (min-width:768px){html{font-size:16px}}
+body{margin:0;font-family:'Noto Sans KR',sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-text-size-adjust:100%}
+body.m-pc{--maxw:1100px}
+button{font-family:inherit;font-size:1rem;color:inherit}
+
+/* 헤더 */
+.nav{position:sticky;top:0;z-index:30;background:var(--navy);color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.brand{flex:1;min-width:0}
+.brand b{display:block;font-size:1.05rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{display:block;font-size:.78rem;color:#c9d6e6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ver{font-size:.8rem;background:#fff;color:var(--navy);border-radius:10px;padding:1px 8px;font-weight:700;white-space:nowrap}
+.seg{display:flex;border:1px solid #8ea5c2;border-radius:6px;overflow:hidden;flex:none}
+.seg button{background:transparent;color:#e6edf6;border:0;padding:5px 10px;cursor:pointer;font-size:.86rem}
+.seg button.on{background:#fff;color:var(--navy);font-weight:700}
+
+/* 목차 */
+.toc{background:#fff;border-bottom:1px solid var(--line)}
+.toc-inner{max-width:var(--maxw);margin:0 auto;padding:6px 12px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.toc-inner::-webkit-scrollbar{display:none}
+.toc a{flex:none;font-size:.86rem;color:var(--navy);text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:3px 10px;background:var(--soft);white-space:nowrap}
+.toc a:active,.toc a:hover{background:var(--head)}
+
+/* 본문 */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:8px 12px 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 8px;scroll-margin-top:96px}
+.card h2{font-size:1.07rem;color:var(--navy);margin:0 0 6px;padding-left:8px;border-left:4px solid var(--navy)}
+.card p{margin:4px 0}
+.path{background:var(--tip-bg);border:1px solid var(--tip-bd);border-radius:6px;padding:6px 10px;margin:4px 0;font-size:.93rem}
+.note{font-size:.88rem;color:var(--sub);margin:4px 0}
+code{font-family:inherit;font-weight:700;color:var(--navy);background:#eef2f7;border-radius:3px;padding:0 4px;white-space:nowrap}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:middle}
+th{background:var(--head);color:var(--navy);font-weight:700;white-space:nowrap}
+td.k{font-weight:500;white-space:nowrap}
+.ok{color:var(--navy);font-weight:700}
+.off{color:var(--sub)}
+.cmp{min-width:640px}
+.cmp th.main,.cmp td.main{background:var(--main-bg)}
+.cmp td{text-align:center}
+.cmp td.k{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
+.cmp th.k{position:sticky;left:0;z-index:2}
+.badge{display:inline-block;font-size:.74rem;font-weight:700;color:#fff;background:var(--navy2);border-radius:8px;padding:0 6px;margin-left:3px;vertical-align:1px}
+.diag{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0}
+.diag .room{background:var(--navy);color:#fff;border-radius:8px;padding:6px 12px;text-align:center;font-weight:700}
+.diag .room small{display:block;font-weight:400;color:#c9d6e6;font-size:.78rem}
+.diag .nodes{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;width:100%}
+body.m-pc .diag .nodes{grid-template-columns:repeat(4,1fr)}
+.diag .node{border:1px solid var(--tip-bd);background:var(--tip-bg);border-radius:6px;padding:5px;text-align:center;font-weight:700;color:var(--navy);font-size:.92rem}
+.diag .node small{display:block;font-weight:400;color:var(--sub);font-size:.76rem}
+.diag .arrow{color:var(--sub);font-size:.85rem}
+ul.pts{margin:4px 0;padding-left:18px}
+ul.pts li{margin:3px 0}
+.warn{background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn-ink);border-radius:6px;padding:6px 10px;margin:4px 0;font-size:.92rem}
+.foot{text-align:center;font-size:.8rem;color:var(--sub);padding:6px 0 4px}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <b>RCNet 룸 설정 · 노드 비교</b>
+      <span>대한적십자사 서울특별시지사 재난대응봉사회</span>
+    </div>
+    <span class="ver" id="ver">v1.0</span>
+    <div class="seg" role="group" aria-label="화면 선택">
+      <button type="button" data-mode="m" class="on">모바일</button>
+      <button type="button" data-mode="pc">PC</button>
+    </div>
+  </div>
+</header>
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#s1">운용 구성</a>
+    <a href="#s2">룸 초기 설정</a>
+    <a href="#s3">필수 설정</a>
+    <a href="#s4">5국 비교</a>
+    <a href="#s5">참여 노드 주의</a>
+    <a href="#s6">정상 확인</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section class="card" id="s1">
+    <h2>1. 운용 구성</h2>
+    <p>5국 모두 HRI-200을 설치한 노드입니다. 룸은 <b>DS0ARC 한 곳에서만</b> 열고, 나머지 4국은 DS0ARC 룸에 접속해 머무릅니다.</p>
+    <div class="diag">
+      <div class="room">RCNet-Disaster 룸<small>DS0ARC-ROOM2 · DTMF 48182 · 룸 개설국 DS0ARC</small></div>
+      <div class="arrow">▲ 접속 · 자동 복귀(Return to Room)</div>
+      <div class="nodes">
+        <div class="node">HL0FRC<small>참여 노드</small></div>
+        <div class="node">HL1LFC<small>참여 노드</small></div>
+        <div class="node">HL2TLS<small>참여 노드</small></div>
+        <div class="node">6K2JPO<small>참여 노드</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="s2">
+    <h2>2. 룸 초기 설정 (DS0ARC)</h2>
+    <div class="path">경로: <code>File(F)</code> → <code>Settings(P)</code> → <code>Personal settings</code> → <code>Round QSO room settings</code></div>
+    <p class="note">※ 하위 메뉴가 안 보이면 <code>Personal settings</code> 왼쪽의 <code>+</code>를 눌러 펼칩니다.</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>항목</th><th>DS0ARC 설정값</th></tr>
+      <tr><td class="k">Room ID</td><td><code>DS0ARC-ROOM2</code></td></tr>
+      <tr><td class="k">DTMF ID</td><td><code>48182</code> (노드 ID <code>38182</code>와 다름)</td></tr>
+      <tr><td class="k">Room Name</td><td><code>RCNet-Disaster</code></td></tr>
+      <tr><td class="k">Comment</td><td>Korea Red Cross Seoul NDRT Disaster Response Network</td></tr>
+      <tr><td class="k">Room information</td><td>Korea Red Cross Seoul Branch Disaster Response Network. HL0FRC/DS0ARC/NDRT</td></tr>
+      <tr><td class="k">Confidential ID</td><td>체크 해제 (공개)</td></tr>
+    </table></div>
+    <p class="note">입력 후 <code>Apply</code> → <code>OK</code></p>
+  </section>
+
+  <section class="card" id="s3">
+    <h2>3. 필수 설정 (DS0ARC)</h2>
+    <div class="tbl-wrap"><table>
+      <tr><th>설정 화면</th><th>항목</th><th>값</th></tr>
+      <tr><td class="k">Room Open</td><td>Room Active</td><td class="ok">☑ 체크 (필수)</td></tr>
+      <tr><td class="k">Room Open</td><td>Style</td><td><code>Open</code> — 아날로그 포함 모든 노드 접속 허용</td></tr>
+      <tr><td class="k">Room Open</td><td>News setting</td><td><code>ALL OK</code> — 음성·문자·이미지 모두 허용</td></tr>
+      <tr><td class="k">Call settings</td><td>Round QSO Room connection</td><td class="ok">☑ 체크</td></tr>
+      <tr><td class="k">Call settings</td><td>Return to Room</td><td class="ok">☑ 체크, Room ID <code>48182</code></td></tr>
+      <tr><td class="k">Call settings</td><td>Accept calls while in Round QSO Rooms</td><td class="off">해제</td></tr>
+      <tr><td class="k">General settings</td><td>Unlimited TOT</td><td class="ok">☑ 체크</td></tr>
+    </table></div>
+    <p class="note">Room Open 화면에서 위 값을 확인한 뒤 <code>Room Activation</code> 버튼을 누릅니다. Room Open 화면의 메뉴 위치(<code>Connect(C)</code> → <code>Room Open</code>)는 소프트웨어 화면에서 확인하십시오.</p>
+  </section>
+
+  <section class="card" id="s4">
+    <h2>4. 5국 설정 비교</h2>
+    <p class="note">표가 화면보다 넓으면 좌우로 밀어서 보십시오. 파란 칸이 메인국(DS0ARC)입니다.</p>
+    <div class="tbl-wrap"><table class="cmp">
+      <tr>
+        <th class="k">설정 항목</th>
+        <th class="main">DS0ARC<span class="badge">메인</span></th>
+        <th>HL0FRC</th><th>HL1LFC</th><th>HL2TLS</th><th>6K2JPO</th>
+      </tr>
+      <tr><td class="k">장비 구성</td><td class="main">HRI-200</td><td>HRI-200</td><td>HRI-200</td><td>HRI-200</td><td>HRI-200</td></tr>
+      <tr><td class="k">역할</td><td class="main ok">룸 개설</td><td>룸 참여</td><td>룸 참여</td><td>룸 참여</td><td>룸 참여</td></tr>
+      <tr><td class="k">Node settings<br>(Serial·DTMF ID·CallSign)</td><td class="main">5H980033 · 38182 · DS0ARC</td><td colspan="4">국마다 각자의 고유값 (다른 국 값 복사 금지)</td></tr>
+      <tr><td class="k">Round QSO room settings</td><td class="main">2번 항목 값 입력</td><td colspan="4" class="off">입력하지 않음 (기본값 유지)</td></tr>
+      <tr><td class="k">Room Active / Activation</td><td class="main ok">☑ 활성화</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td></tr>
+      <tr><td class="k">Round QSO Room connection</td><td class="main ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td></tr>
+      <tr><td class="k">Return to Room</td><td class="main ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td></tr>
+      <tr><td class="k">Accept calls while in Rooms</td><td class="main off">해제</td><td class="off">해제</td><td class="off">해제</td><td class="off">해제</td><td class="off">해제</td></tr>
+      <tr><td class="k">Unlimited TOT</td><td class="main ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td></tr>
+      <tr><td class="k">운용 주파수</td><td class="main">145.620 MHz</td><td colspan="4">국별 지정 — 서로 전파가 닿는 국끼리 중복 금지</td></tr>
+    </table></div>
+  </section>
+
+  <section class="card" id="s5">
+    <h2>5. 참여 노드 주의사항</h2>
+    <ul class="pts">
+      <li><b>ID 신규 등록:</b> HRI-200의 WIRES-X ID는 본체 Serial 번호 기준으로 발급됩니다. PDN 때 받은 Node ID는 쓸 수 없으므로, HRI-200 Serial로 새로 등록해 받은 Node ID·Room ID를 사용합니다.</li>
+      <li><b>주파수 분리:</b> 같은 룸 음성을 여러 노드가 같은 주파수로 송출하면 혼신이 생기거나 신호가 되돌아 돕니다. 서로 전파가 닿는 국은 다른 주파수를 쓰십시오.</li>
+      <li><b>룸 중복 개설 금지:</b> 참여 노드가 자기 룸을 켜 두면 접속처가 나뉘어 혼선이 생깁니다. 평소에는 DS0ARC 룸만 켜 둡니다.</li>
+    </ul>
+    <div class="warn"><b>예비 룸 운용:</b> 룸은 DS0ARC PC와 소프트웨어가 켜져 있어야 존재합니다. DS0ARC가 멈추면 미리 정한 예비국 1곳이 자기 Room ID로 룸을 켜고, 나머지 국은 그 룸으로 접속합니다. 예비국과 그 Room ID는 봉사원에게 미리 공지해 두십시오.</div>
+  </section>
+
+  <section class="card" id="s6">
+    <h2>6. 정상 상태 확인</h2>
+    <ul class="pts">
+      <li>WIRES-X 소프트웨어 상단에 <b>ONLINE</b> 표시 (5국 공통)</li>
+      <li>DS0ARC: 룸 활성화 상태, FTM-510D 화면 <code>HRI-200 · 145.620 · DN</code></li>
+      <li>참여 4국: 접속처가 <code>DS0ARC-ROOM2</code>로 표시</li>
+    </ul>
+  </section>
+
+  <div class="foot">대한적십자사 서울특별시지사 재난대응봉사회 · RCNet 룸 설정 · 노드 비교 <span id="ver2">v1.0</span> · 2026.11.22</div>
+</main>
+
+<script>
+(function(){
+  var VERSION = 'v1.0';
+  document.getElementById('ver').textContent = VERSION;
+  document.getElementById('ver2').textContent = VERSION;
+  var btns = document.querySelectorAll('.seg button');
+  function setMode(mode){
+    document.body.classList.toggle('m-pc', mode === 'pc');
+    btns.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-mode') === mode); });
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){ setMode(b.getAttribute('data-mode')); });
+  });
+  setMode('m');
+})();
+</script>
+</body>
+</html>
