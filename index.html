@@ -498,7 +498,7 @@ body.vpc .nav-inner,body.vpc .banner-inner,body.vpc .wire,body.vpc .wrap{max-wid
           <span class="who-name" id="whoName"></span>
           <button class="btn-out" type="button" id="btnOut">로그아웃</button>
         </span>
-        <span class="vtag">v5.5</span>
+        <span class="vtag">v5.6</span>
       </div>
     </div>
   </div>
@@ -3534,7 +3534,7 @@ $("recDown").addEventListener("click",function(){
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(url); },60000);
   });
 });
-function recReset(){ if(recOn)recStop(); recSegs=[]; aiSumArm=false; $("mtRaw").value=""; $("mtKakao").value=""; kkArm=false; $("recErr").textContent=""; $("aiSum").textContent="AI 정리 → 회의록에 넣기"; recStatus(); }
+function recReset(){ if(recOn)recStop(); recSegs=[]; aiSumArm=false; $("mtRaw").value=""; $("mtKakao").value=""; kkLabels(); $("recErr").textContent=""; $("aiSum").textContent="AI 정리 → 회의록에 넣기"; recStatus(); }
 $("aiSum").addEventListener("click",async function(){
   var raw=$("mtRaw").value.trim();
   if(!raw){ toast("먼저 녹음을 텍스트로 변환하거나, 녹음 내용 칸에 글을 넣어 주세요"); $("mtRaw").focus(); return; }
@@ -3567,7 +3567,8 @@ recStatus();
    [자동 정리]는 AI 없이 규칙으로 정리하고, [AI로 정리]는 AI가 켜져 있을 때 쓴다 */
 var KK_SKIP=/^(사진|동영상|이모티콘|사진 \d+장|파일: .*|삭제된 메시지입니다\.?|메시지가 삭제되었습니다\.?|샵검색: .*|투표.*|지도: .*|음성메시지.*|보이스톡.*|페이스톡.*)$/;
 var KK_SYS=/(님이 들어왔습니다|님이 나갔습니다|님을 초대했습니다|님을 내보냈습니다|채팅방 관리자가|운영정책을 위반한)/;
-var kkArm=false;
+var kkArm="",KK_LAB={kkAuto:"자동 정리 → 회의록에 넣기",kkAi:"AI로 정리 → 회의록에 넣기"};
+function kkLabels(){ kkArm=""; Object.keys(KK_LAB).forEach(function(k){ $(k).textContent=KK_LAB[k]; }); }
 function kkName(raw){
   var s=String(raw||"").trim(); if(!s)return "";
   var cs=callsIn(s); if(cs.length&&nameOf(cs[0]))return nameOf(cs[0]);
@@ -3648,20 +3649,19 @@ function kkApply(min,p){
   renderMeet();
   return added;
 }
-function kkNeedArm(btn,label){
-  if($("mtMin").value.trim()&&!kkArm){
-    kkArm=true; btn.textContent="회의록 칸 내용을 바꿉니다 · 한 번 더 누르기";
-    setTimeout(function(){ if(kkArm){ kkArm=false; btn.textContent=label; } },6000); return true;
+function kkNeedArm(btn){
+  if($("mtMin").value.trim()&&kkArm!==btn.id){
+    kkLabels(); kkArm=btn.id; btn.textContent="회의록 칸 내용을 바꿉니다 · 한 번 더 누르기";
+    setTimeout(function(){ if(kkArm===btn.id)kkLabels(); },6000); return true;
   }
-  kkArm=false; return false;
+  kkLabels(); return false;
 }
 $("kkAuto").addEventListener("click",function(){
   var raw=$("mtKakao").value.trim();
   if(!raw){ toast("카톡 내용을 먼저 붙여넣어 주세요"); $("mtKakao").focus(); return; }
   var p=kkParse(raw);
   if(!p.msgs.length){ toast("정리할 내용을 찾지 못했습니다"); return; }
-  if(kkNeedArm(this,"자동 정리 → 회의록에 넣기"))return;
-  this.textContent="자동 정리 → 회의록에 넣기";
+  if(kkNeedArm(this))return;
   var added=kkApply(kkMinutes(p),p);
   toast("회의록을 정리했습니다"+(added?" · 참석자 "+added+"명 추가":"")+". 확인 후 [회의 저장]을 눌러 주세요");
   $("mtMin").scrollIntoView({block:"center",behavior:"smooth"});
@@ -3669,7 +3669,7 @@ $("kkAuto").addEventListener("click",function(){
 $("kkAi").addEventListener("click",async function(){
   var raw=$("mtKakao").value.trim();
   if(!raw){ toast("카톡 내용을 먼저 붙여넣어 주세요"); $("mtKakao").focus(); return; }
-  if(kkNeedArm(this,"AI로 정리 → 회의록에 넣기"))return;
+  if(kkNeedArm(this))return;
   var p=kkParse(raw),att=kkAttendees(p),type=($("mtType").value==="기타"?($("mtTypeEtc").value.trim()||"기타"):$("mtType").value);
   this.disabled=true; this.textContent="AI가 정리하는 중…";
   var prompt="아래는 대한적십자사 서울특별지사 재난대응봉사회 회의와 관련해 카카오톡 단체방에 올라온 글입니다. 이것으로 회의록을 작성하세요.\n\n"
