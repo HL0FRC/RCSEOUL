@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
-/* RCNet WIRES-X 룸 설정 · 노드 비교 v1.0 (2026-11-22) */
+/* RCNet WIRES-X 룸 설정 · 노드 비교 v1.1 (2026-11-22) — 6국(DS0ARC/M 추가)·주파수 분리 반영 */
 :root{
   --navy:#1f3350; --navy2:#2c4a73; --ink:#26303c; --sub:#4d5b6b; --line:#d5dbe3;
   --bg:#eef1f5; --card:#ffffff; --soft:#f4f6f9; --head:#e3ecf6;
@@ -59,7 +59,7 @@ th{background:var(--head);color:var(--navy);font-weight:700;white-space:nowrap}
 td.k{font-weight:500;white-space:nowrap}
 .ok{color:var(--navy);font-weight:700}
 .off{color:var(--sub)}
-.cmp{min-width:640px}
+.cmp{min-width:760px}
 .cmp th.main,.cmp td.main{background:var(--main-bg)}
 .cmp td{text-align:center}
 .cmp td.k{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
@@ -69,7 +69,7 @@ td.k{font-weight:500;white-space:nowrap}
 .diag .room{background:var(--navy);color:#fff;border-radius:8px;padding:6px 12px;text-align:center;font-weight:700}
 .diag .room small{display:block;font-weight:400;color:#c9d6e6;font-size:.78rem}
 .diag .nodes{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;width:100%}
-body.m-pc .diag .nodes{grid-template-columns:repeat(4,1fr)}
+body.m-pc .diag .nodes{grid-template-columns:repeat(5,1fr)}
 .diag .node{border:1px solid var(--tip-bd);background:var(--tip-bg);border-radius:6px;padding:5px;text-align:center;font-weight:700;color:var(--navy);font-size:.92rem}
 .diag .node small{display:block;font-weight:400;color:var(--sub);font-size:.76rem}
 .diag .arrow{color:var(--sub);font-size:.85rem}
@@ -86,7 +86,7 @@ ul.pts li{margin:3px 0}
       <b>RCNet 룸 설정 · 노드 비교</b>
       <span>대한적십자사 서울특별시지사 재난대응봉사회</span>
     </div>
-    <span class="ver" id="ver">v1.0</span>
+    <span class="ver" id="ver">v1.1</span>
     <div class="seg" role="group" aria-label="화면 선택">
       <button type="button" data-mode="m" class="on">모바일</button>
       <button type="button" data-mode="pc">PC</button>
@@ -98,8 +98,8 @@ ul.pts li{margin:3px 0}
     <a href="#s1">운용 구성</a>
     <a href="#s2">룸 초기 설정</a>
     <a href="#s3">필수 설정</a>
-    <a href="#s4">5국 비교</a>
-    <a href="#s5">참여 노드 주의</a>
+    <a href="#s4">6국 비교</a>
+    <a href="#s5">주파수·주의</a>
     <a href="#s6">정상 확인</a>
   </div>
 </nav>
@@ -107,7 +107,7 @@ ul.pts li{margin:3px 0}
 <main class="wrap">
   <section class="card" id="s1">
     <h2>1. 운용 구성</h2>
-    <p>5국 모두 HRI-200을 설치한 노드입니다. 룸은 <b>DS0ARC 한 곳에서만</b> 열고, 나머지 4국은 DS0ARC 룸에 접속해 머무릅니다.</p>
+    <p>6국 모두 HRI-200을 설치한 노드입니다(고정 5국 + 차량 이동국 DS0ARC/M). 룸은 <b>DS0ARC 한 곳에서만</b> 열고, 나머지 5국은 DS0ARC 룸에 접속해 머무릅니다.</p>
     <div class="diag">
       <div class="room">RCNet-Disaster 룸<small>DS0ARC-ROOM2 · DTMF 48182 · 룸 개설국 DS0ARC</small></div>
       <div class="arrow">▲ 접속 · 자동 복귀(Return to Room)</div>
@@ -116,6 +116,7 @@ ul.pts li{margin:3px 0}
         <div class="node">HL1LFC<small>참여 노드</small></div>
         <div class="node">HL2TLS<small>참여 노드</small></div>
         <div class="node">6K2JPO<small>참여 노드</small></div>
+        <div class="node">DS0ARC/M<small>차량 이동 노드</small></div>
       </div>
     </div>
   </section>
@@ -152,52 +153,66 @@ ul.pts li{margin:3px 0}
   </section>
 
   <section class="card" id="s4">
-    <h2>4. 5국 설정 비교</h2>
+    <h2>4. 6국 설정 비교</h2>
     <p class="note">표가 화면보다 넓으면 좌우로 밀어서 보십시오. 파란 칸이 메인국(DS0ARC)입니다.</p>
     <div class="tbl-wrap"><table class="cmp">
       <tr>
         <th class="k">설정 항목</th>
         <th class="main">DS0ARC<span class="badge">메인</span></th>
-        <th>HL0FRC</th><th>HL1LFC</th><th>HL2TLS</th><th>6K2JPO</th>
+        <th>HL0FRC</th><th>HL1LFC</th><th>HL2TLS</th><th>6K2JPO</th><th>DS0ARC/M</th>
       </tr>
-      <tr><td class="k">장비 구성</td><td class="main">HRI-200</td><td>HRI-200</td><td>HRI-200</td><td>HRI-200</td><td>HRI-200</td></tr>
-      <tr><td class="k">역할</td><td class="main ok">룸 개설</td><td>룸 참여</td><td>룸 참여</td><td>룸 참여</td><td>룸 참여</td></tr>
-      <tr><td class="k">Node settings<br>(Serial·DTMF ID·CallSign)</td><td class="main">5H980033 · 38182 · DS0ARC</td><td colspan="4">국마다 각자의 고유값 (다른 국 값 복사 금지)</td></tr>
-      <tr><td class="k">Round QSO room settings</td><td class="main">2번 항목 값 입력</td><td colspan="4" class="off">입력하지 않음 (기본값 유지)</td></tr>
-      <tr><td class="k">Room Active / Activation</td><td class="main ok">☑ 활성화</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td></tr>
-      <tr><td class="k">Round QSO Room connection</td><td class="main ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td></tr>
-      <tr><td class="k">Return to Room</td><td class="main ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td></tr>
-      <tr><td class="k">Accept calls while in Rooms</td><td class="main off">해제</td><td class="off">해제</td><td class="off">해제</td><td class="off">해제</td><td class="off">해제</td></tr>
-      <tr><td class="k">Unlimited TOT</td><td class="main ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td></tr>
-      <tr><td class="k">운용 주파수</td><td class="main">145.620 MHz</td><td colspan="4">국별 지정 — 서로 전파가 닿는 국끼리 중복 금지</td></tr>
+      <tr><td class="k">장비 구성</td><td class="main">HRI-200</td><td>HRI-200</td><td>HRI-200</td><td>HRI-200</td><td>HRI-200</td><td>HRI-200</td></tr>
+      <tr><td class="k">설치 형태</td><td class="main">고정</td><td>고정</td><td>고정</td><td>고정</td><td>고정</td><td>차량 이동</td></tr>
+      <tr><td class="k">역할</td><td class="main ok">룸 개설</td><td>룸 참여</td><td>룸 참여</td><td>룸 참여</td><td>룸 참여</td><td>룸 참여<br>(현장 연결)</td></tr>
+      <tr><td class="k">Node settings<br>(Serial·DTMF ID·CallSign)</td><td class="main">5H980033 · 38182 · DS0ARC</td><td colspan="5">국마다 각자의 고유값 (다른 국 값 복사 금지)</td></tr>
+      <tr><td class="k">Round QSO room settings</td><td class="main">2번 항목 값 입력</td><td colspan="5" class="off">입력하지 않음 (기본값 유지)<br>예비국은 입력해 두고 평소 비활성</td></tr>
+      <tr><td class="k">Room Active / Activation</td><td class="main ok">☑ 활성화</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td><td class="off">활성화 안 함</td></tr>
+      <tr><td class="k">Round QSO Room connection</td><td class="main ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td></tr>
+      <tr><td class="k">Return to Room</td><td class="main ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td><td class="ok">☑ 48182</td></tr>
+      <tr><td class="k">Accept calls while in Rooms</td><td class="main off">해제</td><td class="off">해제</td><td class="off">해제</td><td class="off">해제</td><td class="off">해제</td><td class="off">해제</td></tr>
+      <tr><td class="k">Unlimited TOT</td><td class="main ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td><td class="ok">☑</td></tr>
+      <tr><td class="k">운용 주파수</td><td class="main">145.620 MHz</td><td>별도 A</td><td>별도 C</td><td>별도 B</td><td>별도 D</td><td>별도 E<br>(전 국과 다르게)</td></tr>
     </table></div>
   </section>
 
   <section class="card" id="s5">
-    <h2>5. 참여 노드 주의사항</h2>
+    <h2>5. 주파수 분리 · 주의사항</h2>
+    <p>DS0ARC·HL0FRC·HL2TLS·HL1LFC·6K2JPO는 서로 FM 직접 교신이 되는 거리입니다(신호가 약한 구간 포함). 따라서 <b>6국 모두 서로 다른 주파수</b>를 씁니다.</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>국</th><th>구분</th><th>주파수</th><th>직접 들리는 국</th></tr>
+      <tr><td class="k">DS0ARC</td><td>고정 · 메인 룸</td><td>145.620 MHz</td><td>TLS · LFC · FRC</td></tr>
+      <tr><td class="k">HL0FRC</td><td>고정</td><td>별도 A</td><td>ARC · JPO</td></tr>
+      <tr><td class="k">HL2TLS</td><td>고정</td><td>별도 B</td><td>ARC · LFC</td></tr>
+      <tr><td class="k">HL1LFC</td><td>고정</td><td>별도 C</td><td>ARC · TLS</td></tr>
+      <tr><td class="k">6K2JPO</td><td>고정</td><td>별도 D</td><td>FRC</td></tr>
+      <tr><td class="k">DS0ARC/M</td><td>차량 이동</td><td>별도 E</td><td>이동 위치에 따라 전 국</td></tr>
+      <tr><td class="k">비상 공통</td><td>인터넷 두절 시</td><td>별도 지정</td><td>직접 교신용</td></tr>
+    </table></div>
+    <p class="note">※ 주파수 값(A~E, 비상 공통)은 국내 2m 밴드 디지털 구간에서 봉사회가 정해 기입합니다. 인근 국끼리는 바로 옆 채널을 피하고 간격을 넉넉히 둡니다.</p>
     <ul class="pts">
-      <li><b>ID 신규 등록:</b> HRI-200의 WIRES-X ID는 본체 Serial 번호 기준으로 발급됩니다. PDN 때 받은 Node ID는 쓸 수 없으므로, HRI-200 Serial로 새로 등록해 받은 Node ID·Room ID를 사용합니다.</li>
-      <li><b>주파수 분리:</b> 같은 룸 음성을 여러 노드가 같은 주파수로 송출하면 혼신이 생기거나 신호가 되돌아 돕니다. 서로 전파가 닿는 국은 다른 주파수를 쓰십시오.</li>
-      <li><b>룸 중복 개설 금지:</b> 참여 노드가 자기 룸을 켜 두면 접속처가 나뉘어 혼선이 생깁니다. 평소에는 DS0ARC 룸만 켜 둡니다.</li>
+      <li><b>같은 주파수의 문제:</b> 룸 음성을 여러 노드가 동시에 송출해 겹치고, 봉사원 송신이 여러 노드를 통해 룸에 중복으로 올라가며, 노드끼리 서로 받아 되돌려 보내는 메아리가 생깁니다. 신호가 약해도 C4FM 디지털은 겹치면 음성이 깨집니다.</li>
+      <li><b>DS0ARC/M:</b> 이동하면서 어느 고정국 근처에든 갈 수 있으므로 고정 5국 누구와도 겹치지 않는 주파수를 씁니다. 현장에서는 봉사원 무전기를 받아 DS0ARC 룸으로 연결합니다.</li>
+      <li><b>ID 신규 등록:</b> HRI-200의 WIRES-X ID는 본체 Serial 번호 기준으로 발급됩니다. PDN 때 받은 Node ID는 쓸 수 없으므로 HRI-200 Serial로 새로 등록해 받은 Node ID·Room ID를 사용합니다.</li>
+      <li><b>룸 중복 개설 금지:</b> DS0ARC 외 노드가 룸을 켜 두면 접속처가 나뉘고 WIRES-X 공개 룸 목록에도 올라갑니다. 룸을 끄면 그 노드의 WIRES-X 화면 하단에 자기 룸이 표시되지 않는 것이 정상입니다.</li>
     </ul>
-    <div class="warn"><b>예비 룸 운용:</b> 룸은 DS0ARC PC와 소프트웨어가 켜져 있어야 존재합니다. DS0ARC가 멈추면 미리 정한 예비국 1곳이 자기 Room ID로 룸을 켜고, 나머지 국은 그 룸으로 접속합니다. 예비국과 그 Room ID는 봉사원에게 미리 공지해 두십시오.</div>
+    <div class="warn"><b>예비 룸 운용:</b> 룸은 DS0ARC PC와 소프트웨어가 켜져 있어야 존재합니다. 예비국 1곳은 룸 정보를 입력해 둔 채 평소 비활성으로 두고, DS0ARC가 멈추면 Room Active를 켜 룸을 엽니다. 나머지 국은 그 룸으로 접속합니다. 예비국과 그 Room ID는 봉사원에게 미리 공지해 두십시오.</div>
   </section>
 
   <section class="card" id="s6">
     <h2>6. 정상 상태 확인</h2>
     <ul class="pts">
-      <li>WIRES-X 소프트웨어 상단에 <b>ONLINE</b> 표시 (5국 공통)</li>
+      <li>WIRES-X 소프트웨어 상단에 <b>ONLINE</b> 표시 (6국 공통)</li>
       <li>DS0ARC: 룸 활성화 상태, FTM-510D 화면 <code>HRI-200 · 145.620 · DN</code></li>
-      <li>참여 4국: 접속처가 <code>DS0ARC-ROOM2</code>로 표시</li>
+      <li>참여 5국: 접속처가 <code>DS0ARC-ROOM2</code>로 표시, 화면 하단에 자기 룸 표시 없음</li>
     </ul>
   </section>
 
-  <div class="foot">대한적십자사 서울특별시지사 재난대응봉사회 · RCNet 룸 설정 · 노드 비교 <span id="ver2">v1.0</span> · 2026.11.22</div>
+  <div class="foot">대한적십자사 서울특별시지사 재난대응봉사회 · RCNet 룸 설정 · 노드 비교 <span id="ver2">v1.1</span> · 2026.11.22</div>
 </main>
 
 <script>
 (function(){
-  var VERSION = 'v1.0';
+  var VERSION = 'v1.1';
   document.getElementById('ver').textContent = VERSION;
   document.getElementById('ver2').textContent = VERSION;
   var btns = document.querySelectorAll('.seg button');
